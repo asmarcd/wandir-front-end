@@ -4,3 +4,16 @@
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
+
+.media-content {
+    background-color: white;
+    border-style: solid;
+    border-color: coral;
+    border-color: #00a6a4;
+    font-weight: bolder;
+    color: black;
+    
+}
+strong {
+    font-size: larger;
+}

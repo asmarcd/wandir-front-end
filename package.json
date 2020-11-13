@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
     "bulma": "^0.9.1",
+    "lightbox2": "^2.11.3",
     "react": "^17.0.1",
     "react-bulma-components": "^3.4.0",
     "react-dom": "^17.0.1",

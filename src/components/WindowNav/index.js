@@ -5,7 +5,7 @@ import "./style.css"
 export default function WindowNav() {
     return (
         <div>
-            <div class="columns" id="windowNav">
+            <div class="columns is-mobile" id="windowNav">
             <Link to="/" class="column nav-link" id="journalBtn">
                 Journal
               </Link>

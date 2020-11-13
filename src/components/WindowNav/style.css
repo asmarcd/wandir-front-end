@@ -1,0 +1,15 @@
+#windowNav{
+    margin:auto;
+}
+
+#journalBtn {
+    background-color: #efca08;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+#photoBtn {
+    background-color: #f49e09;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}

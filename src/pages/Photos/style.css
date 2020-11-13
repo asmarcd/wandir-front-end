@@ -4,3 +4,16 @@
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
+
+#gallery {
+    
+    padding:10px;
+    height: inherit;
+    overflow: auto;
+}
+
+#gallery img{
+    width:32%;
+    height: auto;
+    margin:2px;
+}

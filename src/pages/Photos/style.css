@@ -6,14 +6,29 @@
 }
 
 #gallery {
-    
     padding:10px;
     height: inherit;
-    overflow: auto;
+    overflow-y:auto; 
+    overflow-x: hidden;
 }
 
-#gallery img{
-    width:32%;
-    
-    margin:2px;
+ #gallery img{
+    /* width:32%;
+    padding-top: 0px;
+    overflow: hidden;
+    margin:2px; */
+    object-fit: cover;
+    object-position: bottom;
+    /* display: inline; */
 }
+
+
+ /* .thumbnail {
+     width: 32%;
+     height: 250px;
+     overflow: hidden;
+ }
+
+ .thumbnail img{
+     
+ } */

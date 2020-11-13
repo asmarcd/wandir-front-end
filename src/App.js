@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import "react-bulma-components/dist/react-bulma-components.min.css";
+import Hero from "./components/Hero";
+import WindowNav from "./components/WindowNav"
+import Map from "./pages/Map";
+import Journal from "./pages/Journal"
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Hero />
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <Map />
+          </div>
+          <div class="column">
+            {/* switch buttons */}
+            <WindowNav />
+            <div class="columns">
+              {/* Router buttons for map and journal */}
+              <div class="column">
+                <Journal />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 }

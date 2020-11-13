@@ -1,4 +1,6 @@
-.photoWindow{
+#photoWindow{
     background-color: #f49e09;
     height: 95vh;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
 }

@@ -4,11 +4,11 @@ import "./style.css"
 export default function Hero() {
   return (
     <div>
-      <section className="hero is-medium is-primary is-bold">
+      <section className="hero is-medium is-bold">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title">Wondir</h1>
-            <h2 className="subtitle">Subtitle Here!</h2>
+            <h1>Wondir</h1>
+            <h2>Subtitle Here!</h2>
           </div>
         </div>
       </section>

@@ -1,4 +1,14 @@
 .hero {
+    background-image: url(../../assets/hero_img.png);
+    background-position: bottom;
+    background-repeat: no-repeat;
     border-bottom: 5px solid #f49e09;
     margin-bottom: 3vh;
+}
+
+.hero h1{
+    color:white;
+    font-size: 24px;
+    margin: 0;
+    padding-top: 0px;
 }

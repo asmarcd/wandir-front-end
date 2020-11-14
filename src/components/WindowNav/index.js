@@ -2,14 +2,12 @@ import React from 'react'
 import { Link } from "react-router-dom"
 import "./style.css"
 
-export default function WindowNav() {
+export default function WindowNav(props) {
     return (
         <div>
             <div class="columns is-mobile" id="windowNav">
-            <Link to="/" class="column nav-link" id="journalBtn">
-                Journal
-              </Link>
-              <Link to="/photos" class="column nav-link" id="photoBtn">Photos</Link>
+                <a class="column nav-link" id="journalBtn" onClick={e=>props.handleViewSwitch(e)}>Journal</a>
+                <a class="column nav-link" id="photoBtn" onClick={e=>props.handleViewSwitch(e)}>Photos</a>
             </div>
         </div>
     )

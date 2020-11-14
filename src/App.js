@@ -5,9 +5,9 @@ import "react-bulma-components/dist/react-bulma-components.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
-import Map from "./pages/Map";
-import Journal from "./pages/Journal";
-import Photos from "./pages/Photos";
+import Map from "./components/Map";
+import Journal from "./components/Journal";
+import Photos from "./components/Photos";
 import Footer from "./components/Footer";
 import API from "./components/utils/API";
 import GeoStateContext from "./contexts/GeoStateContext";
@@ -16,6 +16,7 @@ function App() {
   const [geoState, setGeoState] = useState([]);
   const [journalEntries, setJournalEntries] = useState([]);
   const [photos, setPhotos] = useState([]);
+  const [viewState, setViewState] = useState("journal")
   //
   const [userState, setUserState] = useState({
     id: 1,
@@ -43,6 +44,15 @@ function App() {
     });
   }, []);
 
+  const handleViewSwitch = (event) =>{
+    console.log(event)
+    if(event.target.id==="journalBtn"){
+      setViewState("journal")
+    }else if(event.target.id==="photoBtn"){
+      setViewState("button")
+    }
+  }
+
   return (
 
     <GeoStateContext.Provider value={{geoState,journalEntries,photos}}>
@@ -55,12 +65,13 @@ function App() {
             </div>
             <div class="column">
               <Router>
-                <WindowNav />
+                <WindowNav handleViewSwitch={handleViewSwitch}/>
                 <div class="columns">
                   {/* Router buttons for map and journal */}
                   <div class="column">
-                    <Route exact path="/" component={Journal} />
-                    <Route exact path="/photos" component={Photos} />
+                    {viewState==="journal"? <Journal /> : <Photos />}
+                    {/* <Route exact path="/Journal" component={Journal} />
+                    <Route exact path="/photos" component={Photos} /> */}
                   </div>
                 </div>
               </Router>

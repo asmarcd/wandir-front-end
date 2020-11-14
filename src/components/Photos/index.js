@@ -3,8 +3,8 @@ import "./style.css";
 import "lightbox2/dist/css/lightbox.min.css";
 import "lightbox2/dist/js/lightbox-plus-jquery.min.js";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import PhotoComponent from "../../components/PhotoComponent";
-import GeoStateContext from "../../contexts/GeoStateContext"
+import PhotoComponent from '../PhotoComponent'
+import GeoStateContext from '../../contexts/GeoStateContext'
 
 export default function Photos() {
   const {photos}=useContext(GeoStateContext)

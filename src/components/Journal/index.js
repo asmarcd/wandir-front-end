@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import "./style.css";
 import GeoStateContext from "../../contexts/GeoStateContext";
-import JournalComponent from "../../components/JournalComponent";
-import TextArea from "../../components/Textarea"
+import JournalComponent from "../JournalComponent";
+import TextArea from "../Textarea"
 
 export default function Journal() {
   const { journalEntries } = useContext(GeoStateContext);

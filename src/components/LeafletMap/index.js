@@ -5,7 +5,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Tooltip} from 're
 import './style.css'
 
 
-function Bucket (){
+function LeafletMap (props){
   const [editState, setEditState] = useState({
     active:false,
     title:null
@@ -14,30 +14,13 @@ function Bucket (){
     title: null,
     position:null,
   })
-  const [markersState, setMarkersState] =useState([
-    {
-      title: "Lake Padden",
-      position:{
-        lat: 48.703084,
-      lng: -122.453785,
-      },
-      posts:[],
-      photos:[]
-      
-
-    },
-    {
-      title: "Squalicum Park",
-      position:{
-        lat: 48.769541,
-        lng: -122.504768
-      },
-      posts:[],
-      photos:[]
-      
-
-    }
-  ])
+  const [markersState, setMarkersState] =useState([{
+    id: 1,
+    lat: 47.6804733,
+    lng: -122.3281708,
+    place: "Green Lake",
+    region: "seattle",
+  }])
   const [position, setPosition] = useState(null)
   
   const openPopup = (marker) => {
@@ -48,14 +31,10 @@ function Bucket (){
     }
     }
 
-  // useEffect(()=>{
-  //   // if(pendingMarkerState.title != null){
-  //   //   const currentMarkers= markersState
-  //   //   currentMarkers.push(pendingMarkerState)
-  //   //   setMarkersState(currentMarkers)
-  //   //   console.log(currentMarkers)
-  //   // }
-  // },[pendingMarkerState])
+  useEffect(()=>{
+    console.log(props.geo)
+    setMarkersState(props.geo)
+  },[])
   
   function HandleClick() { 
     const map = useMapEvents({
@@ -67,7 +46,7 @@ function Bucket (){
 
     if(editState.active && pendingMarkerState.position != null){
       return (
-      <Marker position={pendingMarkerState.position} ref={openPopup}>
+      <Marker className="pending-marker" position={pendingMarkerState.position} ref={openPopup}>
        <Popup>
         <p>{pendingMarkerState.title}</p>
          <button onClick={handleSave}>save</button>
@@ -96,20 +75,29 @@ function Bucket (){
         [name]: value
         }) 
 }
+const plotPoints = () =>{
+
+}
     
   return(
       <div>
-      <button onClick={e => setEditState({active:!editState.active})}>Edit</button>
+        <div>
+        <button onClick={e => setEditState({active:!editState.active})}>Edit</button>
       {editState.active? <input name="title" id="markerInput" value={pendingMarkerState.title} onChange={handleTextInput} />: null}
-      <MapContainer className={editState.active ? "leaflet-container edit-active" : "leaflet-container"} center={[48.743738,-122.464943]} zoom={11} scrollWheelZoom={false} >
+
+        </div>
+      <MapContainer className={editState.active ? "leaflet-container edit-active" : "leaflet-container"} center={[47.636131,-122.341518]} zoom={11} scrollWheelZoom={false} >
             <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {markersState.map((marker, idx) => 
-              <Marker key={`marker-${idx}`} position={marker.position}>
+            {props.geo.map((marker, idx) => 
+              <Marker key={`marker-${marker.id}`} position={{
+                lat: marker.lat,
+                lng: marker.lng
+              }}>
                 <Popup>
-                  <span>{marker.title}</span>
+                  <span>{marker.place}</span>
                 </Popup>
               </Marker>
             )}
@@ -120,4 +108,4 @@ function Bucket (){
         
     )
 }
-export default Bucket
+export default LeafletMap

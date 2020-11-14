@@ -48,7 +48,7 @@ function App() {
       <div class="container">
         <div class="columns">
           <div class="column">
-            <Map />
+            <Map geo={geoState}/>
           </div>
           <div class="column">
             <Router>

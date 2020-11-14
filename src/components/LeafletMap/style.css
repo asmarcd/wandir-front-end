@@ -1,0 +1,8 @@
+.leaflet-container {
+    width:50%;
+    height: 50vh;
+    cursor: grab;
+}
+.edit-active {
+    cursor: crosshair;
+}

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { MentionsInput, Mention } from "react-mentions";
+import GeoStateContext from "../../contexts/GeoStateContext";
 // import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Form, Button } from 'react-bulma-components'
 import './style.css';
@@ -8,8 +9,8 @@ const {Input, Field, Control, Label} = Form
  
 
 function TextArea (props) {
-    console.log(props.geo)
-    const newGeo = props.geo.map(e=>{
+  const { geoState } = useContext(GeoStateContext);
+    const newGeo = geoState.map(e=>{
         return {id:e.id,display:e.place}
     })
     const [inputState, setInputState] = useState({
@@ -81,7 +82,7 @@ function TextArea (props) {
                 trigger="@"
                 data={newGeo}
                 displayTransform= {(id, display) => `@${display}`}
-                onAdd = {(id, display) =>  handleGeoTags(id, display)}     
+                // onAdd = {(id, display) =>  handleGeoTags(id, display)}     
             />
         </MentionsInput>
         </div>

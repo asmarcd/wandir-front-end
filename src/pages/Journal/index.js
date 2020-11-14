@@ -1,10 +1,12 @@
 import React from 'react'
 import "./style.css"
+import Textarea from "../../components/Textarea"
 
-export default function Journal() {
+export default function Journal(props) {
     return (
+        
         <div id="journalWindow">
-            
+           <Textarea geo={props.geo}/> 
             <article className="media">
        
         <div className="media-content">

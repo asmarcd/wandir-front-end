@@ -1,0 +1,11 @@
+.mention{
+    background-color: yellow;
+    font-family: inherit; 
+    font-size: inherit; 
+    letter-spacing: inherit;
+}
+
+.journal-entry{
+    width: 100%;
+    height: 30vh;
+}

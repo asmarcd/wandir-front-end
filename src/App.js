@@ -41,6 +41,14 @@ function App() {
       setPhotoState(photos)
     })
   }, [])
+
+  const handleNewGeoTags = (name) => {
+    //jump to map view if on mobile
+    // start edit session
+    // fill in name slot with name parameter
+    //on save, add to geo state
+    //jump back to journal 
+  }
   
   return (
     <div className="App">
@@ -56,8 +64,19 @@ function App() {
               <div class="columns">
                 {/* Router buttons for map and journal */}
                 <div class="column">
-                  <Route exact path="/" component={Journal} />
-                  <Route exact path="/photos" component={Photos} />
+                <Switch>
+                    <Route exact path = {["/", "/search"]}>
+                      <Journal geo={geoState} handleNewGeoTags={handleNewGeoTags}/>
+                    </Route>
+                    <Route path="/Photos">
+                      <Photos />
+                    </Route>
+                    {/* <Route>
+                      <NoMatch />
+                    </Route> */}
+                </Switch>
+                  {/* <Route exact path="/" component={Journal} />
+                  <Route exact path="/photos" component={Photos} /> */}
                 </div>
               </div>
             </Router>

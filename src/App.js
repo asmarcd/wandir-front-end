@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import {useEffect, useState} from 'react'
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -8,8 +9,39 @@ import Map from "./pages/Map";
 import Journal from "./pages/Journal";
 import Photos from "./pages/Photos";
 import Footer from "./components/Footer";
+import API from "./components/utils/API";
 
 function App() {
+  const [geoState, setGeoState] = useState([])
+  const [entryState, setEntryState] = useState([])
+  const [photoState, setPhotoState] = useState([])
+  // 
+  const [userState, setUserState] = useState({
+    id:1,
+    username:"User1",
+    email:"user1@gmail.com",
+    token:"",
+    isLoggedIn:true
+  })
+
+  useEffect(() => {
+    // need to replace this hardcode with the return from the login/token stuff
+    API.getUserData(userState.id).then(userdata=>{
+      // cycle through both the geo and entry records for the included photos
+      let geoPhoto = userdata.geo.map(e=>e.Photos)
+      let entryPhoto = userdata.entry.map(e=>e.Photos)
+      // flatten the array of arrays to one array
+      geoPhoto=geoPhoto.flat()
+      entryPhoto=entryPhoto.flat()
+      // join the two arrays together
+      const photos = geoPhoto.concat(entryPhoto);
+      
+      setGeoState(userdata.geo)
+      setEntryState(userdata.geo)
+      setPhotoState(photos)
+    })
+  }, [])
+  
   return (
     <div className="App">
       <Hero />

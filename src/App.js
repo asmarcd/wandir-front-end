@@ -1,5 +1,5 @@
 import logo from "./logo.svg";
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -10,62 +10,66 @@ import Journal from "./pages/Journal";
 import Photos from "./pages/Photos";
 import Footer from "./components/Footer";
 import API from "./components/utils/API";
+import GeoStateContext from "./contexts/GeoStateContext";
 
 function App() {
-  const [geoState, setGeoState] = useState([])
-  const [entryState, setEntryState] = useState([])
-  const [photoState, setPhotoState] = useState([])
-  // 
+  const [geoState, setGeoState] = useState([]);
+  const [journalEntries, setJournalEntries] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  //
   const [userState, setUserState] = useState({
-    id:1,
-    username:"User1",
-    email:"user1@gmail.com",
-    token:"",
-    isLoggedIn:true
-  })
+    id: 1,
+    username: "User1",
+    email: "user1@gmail.com",
+    token: "",
+    isLoggedIn: true,
+  });
 
   useEffect(() => {
     // need to replace this hardcode with the return from the login/token stuff
-    API.getUserData(userState.id).then(userdata=>{
+    API.getUserData(userState.id).then((userdata) => {
       // cycle through both the geo and entry records for the included photos
-      let geoPhoto = userdata.geo.map(e=>e.Photos)
-      let entryPhoto = userdata.entry.map(e=>e.Photos)
+      let geoPhoto = userdata.geo.map((e) => e.Photos);
+      let entryPhoto = userdata.entry.map((e) => e.Photos);
       // flatten the array of arrays to one array
-      geoPhoto=geoPhoto.flat()
-      entryPhoto=entryPhoto.flat()
+      geoPhoto = geoPhoto.flat();
+      // entryPhoto = entryPhoto.flat();
       // join the two arrays together
-      const photos = geoPhoto.concat(entryPhoto);
-      
-      setGeoState(userdata.geo)
-      setEntryState(userdata.geo)
-      setPhotoState(photos)
-    })
-  }, [])
-  
+      const photos = geoPhoto//.concat(entryPhoto);
+
+      setGeoState(userdata.geo);
+      setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
+      setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <Hero />
-      <div class="container">
-        <div class="columns">
-          <div class="column">
-            <Map geo={geoState}/>
-          </div>
-          <div class="column">
-            <Router>
-              <WindowNav />
-              <div class="columns">
-                {/* Router buttons for map and journal */}
-                <div class="column">
-                  <Route exact path="/" component={Journal} />
-                  <Route exact path="/photos" component={Photos} />
+
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos}}>
+      <div className="App">
+        <Hero />
+        <div class="container">
+          <div class="columns">
+            <div class="column">
+              <Map />
+            </div>
+            <div class="column">
+              <Router>
+                <WindowNav />
+                <div class="columns">
+                  {/* Router buttons for map and journal */}
+                  <div class="column">
+                    <Route exact path="/" component={Journal} />
+                    <Route exact path="/photos" component={Photos} />
+                  </div>
                 </div>
-              </div>
-            </Router>
+              </Router>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </GeoStateContext.Provider>
   );
 }
 

@@ -1,0 +1,92 @@
+import React, { useState, useEffect } from "react";
+import { MentionsInput, Mention } from "react-mentions";
+// import 'react-bulma-components/dist/react-bulma-components.min.css';
+import { Form, Button } from 'react-bulma-components'
+import './style.css';
+const {Input, Field, Control, Label} = Form
+
+ 
+
+function TextArea (props) {
+    console.log(props.geo)
+    const newGeo = props.geo.map(e=>{
+        return {id:e.id,display:e.place}
+    })
+    const [inputState, setInputState] = useState({
+        title:"",
+        date:"",
+        body:"",
+    })
+    
+
+    // useEffect(()=>{
+    //     setGeoTagState(props.geo)
+    // })
+
+    const handleInputChange = (e) =>{
+        let name
+        // this conditional checks for an e.target.name
+        // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
+        if(e.target.name){
+            name = e.target.name 
+        }else(
+            name = "body"
+        )
+        const value = e.target.value
+        setInputState({
+            ...inputState,
+            [name]: value
+            })
+    }
+    
+    const handleFormSubmit = (event) =>{
+        event.preventDefault();
+        //parse through the input body and pull out any geotag names
+        //pass those geotag names
+    }
+    
+    return(
+        <div>
+            <form>
+            <Field>
+              <Label>Title</Label>
+              <Control>
+                <Input
+                onChange={handleInputChange}
+                value={inputState.title}
+                name="title"
+                placeholder="Title (required)"
+                />
+              </Control>
+            </Field>
+            <Field>
+              <Label>date</Label>
+              <Control>
+                <Input
+                onChange={handleInputChange}
+                value={inputState.date}
+                name="date"
+                type="date"
+                placeholder="Title (required)"
+                />
+              </Control>
+            </Field>
+            <Button color="primary" rounded outlined  onClick={handleFormSubmit}>
+              Submit
+            </Button>
+          </form>
+          <MentionsInput className={"journal-entry"} allowSpaceInQuery={true} value={inputState.body} onChange={handleInputChange}>
+            <Mention
+                className="mention"
+                trigger="@"
+                data={newGeo}
+                displayTransform= {(id, display) => `@${display}`}
+                onAdd = {(id, display) =>  handleGeoTags(id, display)}     
+            />
+        </MentionsInput>
+        </div>
+    )
+}
+
+export default TextArea
+// onKeyDown={handleGeoTag}

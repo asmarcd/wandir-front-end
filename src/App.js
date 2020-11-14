@@ -44,6 +44,7 @@ function App() {
   }, []);
 
   return (
+
     <GeoStateContext.Provider value={{geoState,journalEntries,photos}}>
       <div className="App">
         <Hero />

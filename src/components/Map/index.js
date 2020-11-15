@@ -65,6 +65,7 @@ export default function Map() {
     }
   }
   const handleSave = () => {
+    API.savePoint
     setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
     setEditState(!editState.active);
   };

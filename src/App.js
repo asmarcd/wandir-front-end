@@ -9,7 +9,7 @@ import Map from "./components/Map";
 import Journal from "./components/Journal";
 import Photos from "./components/Photos";
 import Footer from "./components/Footer";
-import API from "./components/utils/API";
+import API from "./utils/API";
 import GeoStateContext from "./contexts/GeoStateContext";
 
 function App() {

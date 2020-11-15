@@ -12,8 +12,9 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import API from "../../utils/API"
 
 export default function Map() {
-  const { geoState } = useContext(GeoStateContext);
-  const { userState } = useContext(GeoStateContext);
+  const { geoState, userState, updateGeoFnc } = useContext(GeoStateContext);
+  // const { userState } = useContext(GeoStateContext);
+  // const { updateGeo } =
   
   const [editState, setEditState] = useState(false);
 
@@ -69,7 +70,7 @@ export default function Map() {
   }
   const handleSave = () => {
     API.createPoint(pendingMarkerState).then(res=>{
-      console.log(res)
+      updateGeoFnc(res)
       setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
       setEditState(!editState.active);
     }

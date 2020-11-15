@@ -52,10 +52,14 @@ function App() {
       setViewState("button")
     }
   }
+  const updateGeoFnc =(newGeo) =>{
+    setGeoState(geoState => [...geoState, newGeo]);
+    console.log(newGeo)
+  }
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState}}>
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState,updateGeoFnc}}>
       <div className="App">
         <Hero />
         <div class="container">

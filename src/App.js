@@ -27,21 +27,8 @@ function App() {
   });
 
   useEffect(() => {
-    // need to replace this hardcode with the return from the login/token stuff
-    API.getUserData(userState.id).then((userdata) => {
-      // cycle through both the geo and entry records for the included photos
-      let geoPhoto = userdata.geo.map((e) => e.Photos);
-      let entryPhoto = userdata.entry.map((e) => e.Photos);
-      // flatten the array of arrays to one array
-      geoPhoto = geoPhoto.flat();
-      // entryPhoto = entryPhoto.flat();
-      // join the two arrays together
-      const photos = geoPhoto//.concat(entryPhoto);
-
-      setGeoState(userdata.geo);
-      setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
-      setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
-    });
+    handleFilterContent(0,"all")
+    
   }, []);
 
   const handleViewSwitch = (event) =>{
@@ -62,10 +49,40 @@ function App() {
     }
     
   }
+  
+  const handleFilterContent = (id, type) =>{
+    console.log(id,type)
+    if(type=="all"){
+      API.getUserData(userState.id).then((userdata) => {
+        // cycle through both the geo and entry records for the included photos
+        let geoPhoto = userdata.geo.map((e) => e.Photos);
+        let entryPhoto = userdata.entry.map((e) => e.Photos);
+        // flatten the array of arrays to one array
+        geoPhoto = geoPhoto.flat();
+        // entryPhoto = entryPhoto.flat();
+        // join the two arrays together
+        const photos = geoPhoto//.concat(entryPhoto);
+  
+        setGeoState(userdata.geo);
+        setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
+        setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+      });
+    }
+    if(type==="geo"){
+      API.filterByPoint(id).then((geodata) => {
+        // cycle through both the geo and entry records for the included photos
+        setGeoState(geodata);
+        // setJournalEntries (geodata.entry.map(({id,title,date,body})=>({id,title,date,body})));
+        // setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+      });
+    }
+    return null
+    
+  }
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState,updateGeoFnc}}>
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState,updateGeoFnc ,handleFilterContent}}>
       <div className="App">
         <Hero />
         <div class="container">

@@ -9,101 +9,122 @@ import {
   Tooltip,
 } from "react-leaflet";
 import GeoStateContext from "../../contexts/GeoStateContext";
-import API from "../../utils/API"
+import API from "../../utils/API";
 
 export default function Map() {
-  const markerRef = useRef(null)
-  
-  const eventHandlers = useMemo(
-    () => ({
-      dragend() {
-        const marker = markerRef.current
-        if (marker != null) {
-          const newPosition = marker.getLatLng()
-          setPendingMarkerState({
-          ...pendingMarkerState,
-          lat:newPosition.lat,
-          lng: newPosition.lng,
-          UserId:userState.id
-        });
-      }
-      },
-      add(){
-        const marker = markerRef.current
-        marker.openPopup()
-      }
-    }),
-    
-    [],
-  )
-  
-  const { geoState, userState, updateGeoFnc } = useContext(GeoStateContext);
-  // const { userState } = useContext(GeoStateContext);
-  // const { updateGeo } =
-  
+  // This reference stores infor for the pending marker on page so we can perform actions in pendingMarkerEventHandlers
+  const markerRef = useRef(null);
+
+  // Pull in the context data from app. geodata, user data(for id), and functions to send updated back up
+  const { geoState, userState, updateGeoFnc, handleFilterContent } = useContext(
+    GeoStateContext
+  );
+
+  // Turns on the functionality to be editing the map
   const [editState, setEditState] = useState(false);
 
+  //The state for the pending marker sent as data upon save
   const [pendingMarkerState, setPendingMarkerState] = useState({
-    place: "add a place name",
-    region:null,
-    lat:null,
-    lng:null,
+    place: "",
+    region: null,
+    lat: null,
+    lng: null,
   });
-  const [position, setPosition] = useState(null);
 
-  const openPopup = (marker) => {
-    console.log(marker)
-    if (marker) {
-      window.setTimeout(() => {
-        marker.openPopup();
-      });
-    }
-  };
-
-  useEffect(() => {
-    // setMarkersState(props.geo);
-  }, [pendingMarkerState, markerRef]);
-
+  // This is one of two click handlers in this component
+  // This one listens for just any old click on the map
   function HandleClick() {
+    // leaflet boilerplate to listen to the map events
     const map = useMapEvents({
       click(e) {
+        // upon the map click you get the target e which contains the info on the spot clicked
+        // so if the user is clicking around on the map, they are probably editing so set the pending marker
         setPendingMarkerState({
           ...pendingMarkerState,
-          lat:e.latlng.lat,
+          lat: e.latlng.lat,
           lng: e.latlng.lng,
-          UserId:userState.id
+          UserId: userState.id,
         });
+        // if a point on the map is clicked, we are probably trying to get back out of a marker clicked on
+        // so go ahead and send the call up to get all the data again
+        // TODO:Move this to popup on close?
+        handleFilterContent(0, "all");
       },
     });
-
+    // SO given the above, we need to check to see if the user actually had edit actived
+    // And if the pending marker state has data in it
     if (editState && pendingMarkerState.lat != null) {
+      // If those are true go ahead and add a leaflet marker
       return (
         <Marker
+          // makes the marker draggable
           draggable={true}
-          eventHandlers={eventHandlers}
+          // Setup the handler for the events to this ol gal
+          eventHandlers={pendingMarkerEventHandlers}
+          // Not being used, but maybe could style this off it?
           className="pending-marker"
+          // Set the position based on the pending marker state
           position={[pendingMarkerState.lat, pendingMarkerState.lng]}
+          // use the ref to keep this marker in mind for work in eventhandler
           ref={markerRef}
         >
+          {/* THe popup for this little gem */}
           <Popup>
+            {/* TODO: save button here? */}
             <p>{pendingMarkerState.place}</p>
-            
           </Popup>
         </Marker>
       );
     } else {
+      // so if the edit session isn't active everything above is skipped and no point is added
       return null;
     }
   }
+  // Events for the pending marker
+  const pendingMarkerEventHandlers = useMemo(
+    () => ({
+      // on drag
+      dragend() {
+        // grab the data of the marker from the ref
+        const marker = markerRef.current;
+        // check ot make sure that marker indeed exists
+        if (marker != null) {
+          // get the location of the point after drag
+          const newPosition = marker.getLatLng();
+          // update the pending marker state with new location
+          setPendingMarkerState({
+            ...pendingMarkerState,
+            lat: newPosition.lat,
+            lng: newPosition.lng,
+            UserId: userState.id,
+          });
+        }
+      },
+      // on add
+      add() {
+        // if the marker is added open the popup on default
+        const marker = markerRef.current;
+        marker.openPopup();
+      },
+    }),
+
+    []
+  );
+  // on click for the save button, currently in the head of the map
   const handleSave = () => {
-    API.createPoint(pendingMarkerState).then(res=>{
-      updateGeoFnc(res)
-      setPendingMarkerState({ place: "add a place", region:null, lat:null, lng:null, });
+    // create the pending marker into the DB
+    API.createPoint(pendingMarkerState).then((res) => {
+      // send the data we jsut put into the db to updateGEo function in app.js
+      // this is just to update the state so we don't ahve to do a brand new api call
+      updateGeoFnc(res);
+      // clear out the pending marker state
+      setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+      // get out of edit mode
       setEditState(!editState);
-    }
-    )
-    
+    });
   };
+  // handles the text state of the input fields for the pending marker
+  // TODO: would be sweet to move te inputs into the popup, but can't get it to not refresh
   const handleTextInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -112,71 +133,94 @@ export default function Map() {
       [name]: value,
     });
   };
-  function HandlePointClick(id) {
-    console.log("click",id)
-    return null
+
+  // Function that listens to an opening of a popup, and therefore a point click
+  const handlePointClick = (id) => {
+    //  iff a point is opened, send the id and type up to app to make an api call and update the state context
+    handleFilterContent(id, "geo");
   };
-  const handleDelete = (id) =>{
-    API.deletePoint(id).then(res=>{
-    updateGeoFnc({},id)
-    })
-  }
+
+  // listenes to the on click for the delete button in current markers
+  const handleDelete = (id) => {
+    // make the api call sending in the id
+    API.deletePoint(id).then((res) => {
+      // send in a request up to app to remove that geo from state and therefore the map
+      updateGeoFnc({}, id);
+    });
+  };
+  // render the map elements
   return (
+    // overall container
     <div id="mapWindow">
+      {/* top portion where the input and edit button is contained */}
       <div>
-          {!editState ? <button onClick={e=>setEditState(!editState)}>Add</button> : <button onClick={handleSave}>Save</button>}
+        {/* edit state controls if it is an add or save button */}
+        {!editState ? (
+          <button onClick={(e) => setEditState(!editState)}>Add</button>
+        ) : (
+          <button onClick={handleSave}>Save</button>
+        )}
+        {/* only show the input fields if in edit mode */}
         {editState ? (
           <span>
             <input
-            name="place"
-            id="markerInput"
-            value={pendingMarkerState.place}
-            onChange={handleTextInput}
-            label="Place"
-          />
-          <input
-            name="region"
-            id="markerInput"
-            value={pendingMarkerState.region}
-            onChange={handleTextInput}
-            label="Region"
-          />
+              name="place"
+              id="markerInput"
+              value={pendingMarkerState.place}
+              onChange={handleTextInput}
+              label="Place"
+            />
+            <input
+              name="region"
+              id="markerInput"
+              value={pendingMarkerState.region}
+              onChange={handleTextInput}
+              label="Region"
+            />
           </span>
-          
         ) : null}
       </div>
+      {/* the map itself */}
       <MapContainer
+        // not being used currently, but could style based on edit mode
         className={
-          editState
-            ? "leaflet-container edit-active"
-            : "leaflet-container"
+          editState ? "leaflet-container edit-active" : "leaflet-container"
         }
         center={[47.636131, -122.341518]}
         zoom={11}
         scrollWheelZoom={false}
       >
+        {/* background data for the map */}
         <TileLayer
           attribution='&copy;contributors <a href="https://www.mapbox.com/">Mapbox</a>'
           url="https://api.mapbox.com/styles/v1/clubkemp/ck8g7dryj03yx1ilfeku3lmf0/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2x1YmtlbXAiLCJhIjoiY2luNmtvOXg3MDB4OHVjbHl0YjQ1bjc2dyJ9.Bj-bF_xeXkbQmC8Zf87z2A"
         />
-        {geoState.map((marker, idx) => (
+        {/* map function that adds markers based on our geostate */}
+        {geoState.map((marker) => (
           <Marker
             key={`marker-${marker.id}`}
+            id={marker.id}
             position={{
               lat: marker.lat,
               lng: marker.lng,
             }}
           >
-            <Popup>
-              <HandlePointClick id={marker.id} />
+            {/* the popup for each marger, notice the listener that handles our click */}
+            {/* it exists here because an onclick doesn't seem to work on the marker */}
+            {/* TODO: add onclose that gets out of the slection */}
+            <Popup id={marker.id} onOpen={(e) => handlePointClick(marker.id)}>
+              {/* <HandlePointClick id={marker.id} /> */}
               <div>{marker.place}</div>
+              {/* if edit state is actie give update and delte functionality */}
               {editState ? (
-          <span>
-            <button onClick={e=>handleDelete(marker.id)}>Delete</button>
-            <button>Update</button>
-          </span>
-              )
-              : null}
+                <span>
+                  <button onClick={(e) => handleDelete(marker.id)}>
+                    Delete
+                  </button>
+                  {/* TODO: figure out how to handle a point update */}
+                  <button>Update</button>
+                </span>
+              ) : null}
             </Popup>
           </Marker>
         ))}

@@ -13,23 +13,14 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 export default function Map() {
   const { geoState } = useContext(GeoStateContext);
   
-  const [editState, setEditState] = useState({
-    active: false,
-    title: null,
-  });
+  const [editState, setEditState] = useState(false);
+
   const [pendingMarkerState, setPendingMarkerState] = useState({
-    title: null,
-    position: null,
+    place: null,
+    region:null,
+    lat:null,
+    lng:null,
   });
-  const [markersState, setMarkersState] = useState([
-    {
-      id: 1,
-      lat: 47.6804733,
-      lng: -122.3281708,
-      place: "Green Lake",
-      region: "seattle",
-    },
-  ]);
   const [position, setPosition] = useState(null);
 
   const openPopup = (marker) => {
@@ -42,27 +33,29 @@ export default function Map() {
 
   useEffect(() => {
     // setMarkersState(props.geo);
-  }, []);
+  }, [pendingMarkerState]);
 
   function HandleClick() {
     const map = useMapEvents({
       click(e) {
+        console.log(e)
         setPendingMarkerState({
           ...pendingMarkerState,
-          position: { lat: e.latlng.lat, lng: e.latlng.lng },
+          lat:e.latlng.lat,
+          lng: e.latlng.lng
         });
       },
     });
 
-    if (editState.active && pendingMarkerState.position != null) {
+    if (editState && pendingMarkerState.lat != null) {
       return (
         <Marker
           className="pending-marker"
-          position={pendingMarkerState.position}
+          position={[pendingMarkerState.lat, pendingMarkerState.lng]}
           ref={openPopup}
         >
           <Popup>
-            <p>{pendingMarkerState.title}</p>
+            <p>{pendingMarkerState.place}</p>
             <button onClick={handleSave}>save</button>
           </Popup>
         </Marker>
@@ -72,12 +65,8 @@ export default function Map() {
     }
   }
   const handleSave = () => {
-    console.log(pendingMarkerState);
-    const currentMarkers = markersState;
-    currentMarkers.push(pendingMarkerState);
-    setMarkersState(currentMarkers);
-    setPendingMarkerState({ title: null, position: null });
-    setEditState({ active: !editState.active });
+    setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
+    setEditState(!editState.active);
   };
   const handleTextInput = (e) => {
     const name = e.target.name;
@@ -87,25 +76,39 @@ export default function Map() {
       [name]: value,
     });
   };
-  const plotPoints = () => {};
+  function HandlePointClick(id) {
+    console.log("click",id)
+    return null
+  };
   return (
     <div id="mapWindow">
       <div>
-        <button onClick={(e) => setEditState({ active: !editState.active })}>
-          Edit
+        <button onClick={(e) => setEditState(!editState)}>
+          {!editState? "Add Location" :"Save"}
         </button>
-        {editState.active ? (
-          <input
-            name="title"
+        {editState ? (
+          <span>
+            <input
+            name="place"
             id="markerInput"
-            value={pendingMarkerState.title}
+            value={pendingMarkerState.place}
             onChange={handleTextInput}
+            label="Place"
           />
+          <input
+            name="region"
+            id="markerInput"
+            value={pendingMarkerState.region}
+            onChange={handleTextInput}
+            label="Region"
+          />
+          </span>
+          
         ) : null}
       </div>
       <MapContainer
         className={
-          editState.active
+          editState
             ? "leaflet-container edit-active"
             : "leaflet-container"
         }
@@ -126,6 +129,7 @@ export default function Map() {
             }}
           >
             <Popup>
+              <HandlePointClick id={marker.id} />
               <span>{marker.place}</span>
             </Popup>
           </Marker>

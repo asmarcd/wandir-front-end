@@ -30,7 +30,17 @@ const API = {
     //     return fetch(`${URL_PREFIX}/api/tanks/${tankId}`,{
     //     }).then(res=>res.json()).catch(err=>null)
     // },
-    // createFish:function(token,fishData){
+    createPoint:function(geoData){
+        console.log(geoData)
+        return fetch(`${URL_PREFIX}/api/geos`,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body:JSON.stringify(geoData)
+        }).then(res=> res.json()).catch(err=>null)
+    }
+    // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{
     //         method:"POST",
     //         headers: {

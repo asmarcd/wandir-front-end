@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "react-leaflet";
 import GeoStateContext from "../../contexts/GeoStateContext";
+import API from "../../utils/API"
 
 export default function Map() {
   const { geoState } = useContext(GeoStateContext);
@@ -65,9 +66,13 @@ export default function Map() {
     }
   }
   const handleSave = () => {
-    API.savePoint
-    setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
-    setEditState(!editState.active);
+    API.createPoint(pendingMarkerState).then(res=>{
+      console.log(res)
+      setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
+      setEditState(!editState.active);
+    }
+    )
+    
   };
   const handleTextInput = (e) => {
     const name = e.target.name;

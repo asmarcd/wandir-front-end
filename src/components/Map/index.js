@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import "./style.css";
 import {
   MapContainer,
@@ -12,6 +12,31 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import API from "../../utils/API"
 
 export default function Map() {
+  const markerRef = useRef(null)
+  
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          const newPosition = marker.getLatLng()
+          setPendingMarkerState({
+          ...pendingMarkerState,
+          lat:newPosition.lat,
+          lng: newPosition.lng,
+          UserId:userState.id
+        });
+      }
+      },
+      add(){
+        const marker = markerRef.current
+        marker.openPopup()
+      }
+    }),
+    
+    [],
+  )
+  
   const { geoState, userState, updateGeoFnc } = useContext(GeoStateContext);
   // const { userState } = useContext(GeoStateContext);
   // const { updateGeo } =
@@ -27,6 +52,7 @@ export default function Map() {
   const [position, setPosition] = useState(null);
 
   const openPopup = (marker) => {
+    console.log(marker)
     if (marker) {
       window.setTimeout(() => {
         marker.openPopup();
@@ -36,12 +62,11 @@ export default function Map() {
 
   useEffect(() => {
     // setMarkersState(props.geo);
-  }, [pendingMarkerState]);
+  }, [pendingMarkerState, markerRef]);
 
   function HandleClick() {
     const map = useMapEvents({
       click(e) {
-        console.log(e)
         setPendingMarkerState({
           ...pendingMarkerState,
           lat:e.latlng.lat,
@@ -54,9 +79,11 @@ export default function Map() {
     if (editState && pendingMarkerState.lat != null) {
       return (
         <Marker
+          draggable={true}
+          eventHandlers={eventHandlers}
           className="pending-marker"
           position={[pendingMarkerState.lat, pendingMarkerState.lng]}
-          ref={openPopup}
+          ref={markerRef}
         >
           <Popup>
             <p>{pendingMarkerState.place}</p>

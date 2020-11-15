@@ -1,13 +1,14 @@
 #mapWindow {
     position: relative;
     background-color: #00a6a4;
-    height: 100vh;
+    height: 800px;
     border-radius: 7px;
+    
 }
 .leaflet-container {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    /* position: absolute; */
+    margin:auto;
+    width: 98%;
     height:95%;
     cursor: grab;
 }

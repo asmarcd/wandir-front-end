@@ -9,7 +9,7 @@ import Map from "./components/Map";
 import Journal from "./components/Journal";
 import Photos from "./components/Photos";
 import Footer from "./components/Footer";
-import API from "./components/utils/API";
+import API from "./utils/API";
 import GeoStateContext from "./contexts/GeoStateContext";
 
 function App() {
@@ -52,10 +52,20 @@ function App() {
       setViewState("button")
     }
   }
+  const updateGeoFnc =(newGeo,id) =>{
+    if(id){
+      const geoPop = geoState.filter(e=>e.id!=id)
+      setGeoState(geoPop); 
+    }else{
+      setGeoState(geoState => [...geoState, newGeo]);
+      console.log(newGeo)
+    }
+    
+  }
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos}}>
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState,updateGeoFnc}}>
       <div className="App">
         <Hero />
         <div class="container">

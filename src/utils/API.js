@@ -23,14 +23,33 @@ const API = {
     //     }).then(res=>res.json()).catch(err=>null)
     // },
     getUserData:function(userId){
-        return fetch(`${URL_PREFIX}/api/users/`+userId,{
+        return fetch(`${URL_PREFIX}/api/users/${userId}`,{
         }).then(res=>res.json(res)).catch(err=>null)
     },
     // getOneTank:function(tankId){
     //     return fetch(`${URL_PREFIX}/api/tanks/${tankId}`,{
     //     }).then(res=>res.json()).catch(err=>null)
     // },
-    // createFish:function(token,fishData){
+    createPoint:function(geoData){
+        console.log(geoData)
+        return fetch(`${URL_PREFIX}/api/geos`,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body:JSON.stringify(geoData)
+        }).then(res=> res.json()).catch(err=>null)
+    },
+    deletePoint:function(id){
+        console.log("deleting", id)
+        return fetch(`${URL_PREFIX}/api/geos/${id}`,{
+            method:"DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+              }
+        }).then(res=> res.status(200).send("delete successful")).catch(err=>null)
+    }
+    // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{
     //         method:"POST",
     //         headers: {

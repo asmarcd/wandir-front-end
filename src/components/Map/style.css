@@ -12,8 +12,9 @@
     height:95%;
     cursor: grab;
 }
+/* sets the cursor to the point when edit is active */
 .edit-active {
-    cursor: crosshair;
+    cursor: url('https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png') 10 50, auto;
 }
 .pending-marker{
     border: 2px solid salmon;

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import "./style.css";
 import {
   MapContainer,
@@ -9,30 +9,50 @@ import {
   Tooltip,
 } from "react-leaflet";
 import GeoStateContext from "../../contexts/GeoStateContext";
+import API from "../../utils/API"
 
 export default function Map() {
-  const { geoState } = useContext(GeoStateContext);
+  const markerRef = useRef(null)
   
-  const [editState, setEditState] = useState({
-    active: false,
-    title: null,
-  });
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current
+        if (marker != null) {
+          const newPosition = marker.getLatLng()
+          setPendingMarkerState({
+          ...pendingMarkerState,
+          lat:newPosition.lat,
+          lng: newPosition.lng,
+          UserId:userState.id
+        });
+      }
+      },
+      add(){
+        const marker = markerRef.current
+        marker.openPopup()
+      }
+    }),
+    
+    [],
+  )
+  
+  const { geoState, userState, updateGeoFnc } = useContext(GeoStateContext);
+  // const { userState } = useContext(GeoStateContext);
+  // const { updateGeo } =
+  
+  const [editState, setEditState] = useState(false);
+
   const [pendingMarkerState, setPendingMarkerState] = useState({
-    title: null,
-    position: null,
+    place: "add a place name",
+    region:null,
+    lat:null,
+    lng:null,
   });
-  const [markersState, setMarkersState] = useState([
-    {
-      id: 1,
-      lat: 47.6804733,
-      lng: -122.3281708,
-      place: "Green Lake",
-      region: "seattle",
-    },
-  ]);
   const [position, setPosition] = useState(null);
 
   const openPopup = (marker) => {
+    console.log(marker)
     if (marker) {
       window.setTimeout(() => {
         marker.openPopup();
@@ -42,28 +62,32 @@ export default function Map() {
 
   useEffect(() => {
     // setMarkersState(props.geo);
-  }, []);
+  }, [pendingMarkerState, markerRef]);
 
   function HandleClick() {
     const map = useMapEvents({
       click(e) {
         setPendingMarkerState({
           ...pendingMarkerState,
-          position: { lat: e.latlng.lat, lng: e.latlng.lng },
+          lat:e.latlng.lat,
+          lng: e.latlng.lng,
+          UserId:userState.id
         });
       },
     });
 
-    if (editState.active && pendingMarkerState.position != null) {
+    if (editState && pendingMarkerState.lat != null) {
       return (
         <Marker
+          draggable={true}
+          eventHandlers={eventHandlers}
           className="pending-marker"
-          position={pendingMarkerState.position}
-          ref={openPopup}
+          position={[pendingMarkerState.lat, pendingMarkerState.lng]}
+          ref={markerRef}
         >
           <Popup>
-            <p>{pendingMarkerState.title}</p>
-            <button onClick={handleSave}>save</button>
+            <p>{pendingMarkerState.place}</p>
+            
           </Popup>
         </Marker>
       );
@@ -72,12 +96,13 @@ export default function Map() {
     }
   }
   const handleSave = () => {
-    console.log(pendingMarkerState);
-    const currentMarkers = markersState;
-    currentMarkers.push(pendingMarkerState);
-    setMarkersState(currentMarkers);
-    setPendingMarkerState({ title: null, position: null });
-    setEditState({ active: !editState.active });
+    API.createPoint(pendingMarkerState).then(res=>{
+      updateGeoFnc(res)
+      setPendingMarkerState({ place: "add a place", region:null, lat:null, lng:null, });
+      setEditState(!editState);
+    }
+    )
+    
   };
   const handleTextInput = (e) => {
     const name = e.target.name;
@@ -87,25 +112,42 @@ export default function Map() {
       [name]: value,
     });
   };
-  const plotPoints = () => {};
+  function HandlePointClick(id) {
+    console.log("click",id)
+    return null
+  };
+  const handleDelete = (id) =>{
+    API.deletePoint(id).then(res=>{
+    updateGeoFnc({},id)
+    })
+  }
   return (
     <div id="mapWindow">
       <div>
-        <button onClick={(e) => setEditState({ active: !editState.active })}>
-          Edit
-        </button>
-        {editState.active ? (
-          <input
-            name="title"
+          {!editState ? <button onClick={e=>setEditState(!editState)}>Add</button> : <button onClick={handleSave}>Save</button>}
+        {editState ? (
+          <span>
+            <input
+            name="place"
             id="markerInput"
-            value={pendingMarkerState.title}
+            value={pendingMarkerState.place}
             onChange={handleTextInput}
+            label="Place"
           />
+          <input
+            name="region"
+            id="markerInput"
+            value={pendingMarkerState.region}
+            onChange={handleTextInput}
+            label="Region"
+          />
+          </span>
+          
         ) : null}
       </div>
       <MapContainer
         className={
-          editState.active
+          editState
             ? "leaflet-container edit-active"
             : "leaflet-container"
         }
@@ -114,8 +156,8 @@ export default function Map() {
         scrollWheelZoom={false}
       >
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy;contributors <a href="https://www.mapbox.com/">Mapbox</a>'
+          url="https://api.mapbox.com/styles/v1/clubkemp/ck8g7dryj03yx1ilfeku3lmf0/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2x1YmtlbXAiLCJhIjoiY2luNmtvOXg3MDB4OHVjbHl0YjQ1bjc2dyJ9.Bj-bF_xeXkbQmC8Zf87z2A"
         />
         {geoState.map((marker, idx) => (
           <Marker
@@ -126,7 +168,15 @@ export default function Map() {
             }}
           >
             <Popup>
-              <span>{marker.place}</span>
+              <HandlePointClick id={marker.id} />
+              <div>{marker.place}</div>
+              {editState ? (
+          <span>
+            <button onClick={e=>handleDelete(marker.id)}>Delete</button>
+            <button>Update</button>
+          </span>
+              )
+              : null}
             </Popup>
           </Marker>
         ))}

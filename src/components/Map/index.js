@@ -44,7 +44,7 @@ export default function Map() {
   const [editState, setEditState] = useState(false);
 
   const [pendingMarkerState, setPendingMarkerState] = useState({
-    place: null,
+    place: "add a place name",
     region:null,
     lat:null,
     lng:null,
@@ -87,7 +87,7 @@ export default function Map() {
         >
           <Popup>
             <p>{pendingMarkerState.place}</p>
-            <button onClick={handleSave}>save</button>
+            
           </Popup>
         </Marker>
       );
@@ -98,8 +98,8 @@ export default function Map() {
   const handleSave = () => {
     API.createPoint(pendingMarkerState).then(res=>{
       updateGeoFnc(res)
-      setPendingMarkerState({ place: null, region:null, lat:null, lng:null, });
-      setEditState(!editState.active);
+      setPendingMarkerState({ place: "add a place", region:null, lat:null, lng:null, });
+      setEditState(!editState);
     }
     )
     
@@ -116,12 +116,15 @@ export default function Map() {
     console.log("click",id)
     return null
   };
+  const handleDelete = (id) =>{
+    API.deletePoint(id).then(res=>{
+    updateGeoFnc({},id)
+    })
+  }
   return (
     <div id="mapWindow">
       <div>
-        <button onClick={(e) => setEditState(!editState)}>
-          {!editState? "Add Location" :"Save"}
-        </button>
+          {!editState ? <button onClick={e=>setEditState(!editState)}>Add</button> : <button onClick={handleSave}>Save</button>}
         {editState ? (
           <span>
             <input
@@ -166,7 +169,14 @@ export default function Map() {
           >
             <Popup>
               <HandlePointClick id={marker.id} />
-              <span>{marker.place}</span>
+              <div>{marker.place}</div>
+              {editState ? (
+          <span>
+            <button onClick={e=>handleDelete(marker.id)}>Delete</button>
+            <button>Update</button>
+          </span>
+              )
+              : null}
             </Popup>
           </Marker>
         ))}

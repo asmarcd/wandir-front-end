@@ -52,9 +52,15 @@ function App() {
       setViewState("button")
     }
   }
-  const updateGeoFnc =(newGeo) =>{
-    setGeoState(geoState => [...geoState, newGeo]);
-    console.log(newGeo)
+  const updateGeoFnc =(newGeo,id) =>{
+    if(id){
+      const geoPop = geoState.filter(e=>e.id!=id)
+      setGeoState(geoPop); 
+    }else{
+      setGeoState(geoState => [...geoState, newGeo]);
+      console.log(newGeo)
+    }
+    
   }
 
   return (

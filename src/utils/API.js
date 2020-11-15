@@ -31,7 +31,6 @@ const API = {
     //     }).then(res=>res.json()).catch(err=>null)
     // },
     createPoint:function(geoData){
-        console.log(geoData)
         return fetch(`${URL_PREFIX}/api/geos`,{
             method:"POST",
             headers: {
@@ -50,7 +49,13 @@ const API = {
         }).then(res=> res.status(200).send("delete successful")).catch(err=>null)
     },
     createEntry:function(entryData){
-        console.log(entryData)
+       return fetch(`${URL_PREFIX}/api/entries`,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body:JSON.stringify(entryData)
+        }).then(res=> res.json()).catch(err=>null)
     }
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{

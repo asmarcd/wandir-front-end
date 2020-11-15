@@ -11,6 +11,7 @@ const {Input, Field, Control, Label} = Form
 
 function TextArea (props) {
   const { geoState } = useContext(GeoStateContext);
+  const {userState} = useContext(GeoStateContext);
     const newGeo = geoState.map(e=>{
         return {id:e.id,display:e.place}
     })
@@ -18,6 +19,7 @@ function TextArea (props) {
         title:"",
         date:"",
         body:"",
+        UserId:userState.id
     })
     const [geoTagState, setgeoTagState] = useState([
     ])
@@ -49,7 +51,9 @@ function TextArea (props) {
         const testString ="this is @[Green Lake](1) and also @[kirkland](12)"
         const filter = geoTagState.filter(e=>testString.includes(e.place))
         console.log(filter)
-        API
+        API.createEntry(inputState).then(res=>{
+          console.log(res)
+        })
         //pass those geotag names
     }
     

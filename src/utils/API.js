@@ -48,6 +48,9 @@ const API = {
                 'Content-Type': 'application/json',
               }
         }).then(res=> res.status(200).send("delete successful")).catch(err=>null)
+    },
+    createEntry:function(entryData){
+        console.log(entryData)
     }
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{

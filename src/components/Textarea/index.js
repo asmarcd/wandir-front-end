@@ -3,6 +3,7 @@ import { MentionsInput, Mention } from "react-mentions";
 import GeoStateContext from "../../contexts/GeoStateContext";
 // import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Form, Button } from 'react-bulma-components'
+import API from '../../utils/API'
 import './style.css';
 const {Input, Field, Control, Label} = Form
 
@@ -18,6 +19,8 @@ function TextArea (props) {
         date:"",
         body:"",
     })
+    const [geoTagState, setgeoTagState] = useState([
+    ])
     
 
     // useEffect(()=>{
@@ -43,6 +46,10 @@ function TextArea (props) {
     const handleFormSubmit = (event) =>{
         event.preventDefault();
         //parse through the input body and pull out any geotag names
+        const testString ="this is @[Green Lake](1) and also @[kirkland](12)"
+        const filter = geoTagState.filter(e=>testString.includes(e.place))
+        console.log(filter)
+        API
         //pass those geotag names
     }
     
@@ -82,7 +89,7 @@ function TextArea (props) {
                 trigger="@"
                 data={newGeo}
                 displayTransform= {(id, display) => `@${display}`}
-                // onAdd = {(id, display) =>  handleGeoTags(id, display)}     
+                onAdd = {(id, display) =>  setgeoTagState(geoTagState => [...geoTagState, {id:id,place:display}])}     
             />
         </MentionsInput>
         </div>

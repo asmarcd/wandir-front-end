@@ -16,7 +16,7 @@ export default function Journal() {
   }
   return (
     <div id="journalWindow">
-      <div>
+      <div id="postArea">
         {editState?<Button onClick={handleClick}>Cancel</Button>:<Button onClick={handleClick}>Add</Button>}
         {editState?<TextArea /> : journalEntries.map((entry,i)=>(<JournalComponent key={i} {...entry} />)) }
       </div>

@@ -1,8 +1,16 @@
 #journalWindow{
     background-color: #efca08;
-    height: 95vh;
+    height: 753px;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
+}
+
+#postArea{
+    width:98%;
+    
+    margin: auto;
+    overflow-y:auto;
+    overflow-x: hidden;
 }
 
 .media-content {
@@ -16,4 +24,13 @@
 }
 strong {
     font-size: larger;
+}
+
+.content {
+    padding: 0 18px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+    
 }

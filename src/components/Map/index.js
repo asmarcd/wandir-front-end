@@ -13,6 +13,7 @@ import API from "../../utils/API"
 
 export default function Map() {
   const { geoState } = useContext(GeoStateContext);
+  const { userState } = useContext(GeoStateContext);
   
   const [editState, setEditState] = useState(false);
 
@@ -43,7 +44,8 @@ export default function Map() {
         setPendingMarkerState({
           ...pendingMarkerState,
           lat:e.latlng.lat,
-          lng: e.latlng.lng
+          lng: e.latlng.lng,
+          UserId:userState.id
         });
       },
     });

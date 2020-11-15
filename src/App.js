@@ -55,7 +55,7 @@ function App() {
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos}}>
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState}}>
       <div className="App">
         <Hero />
         <div class="container">

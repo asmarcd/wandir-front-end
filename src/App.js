@@ -52,7 +52,6 @@ function App() {
   // }
   
   const handleFilterContent = (id, type) =>{
-    console.log(id,type)
     if(type=="all"){
       API.getUserData(userState.id).then((userdata) => {
         // cycle through both the geo and entry records for the included photos
@@ -73,7 +72,6 @@ function App() {
     if(type==="geo"){
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
-        console.log(geodata)
         setGeoState(geodata);
         if(geodata[0].Entries.length > 0){
          console.log("true")
@@ -92,7 +90,7 @@ function App() {
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState ,handleFilterContent}}>
+    <GeoStateContext.Provider value={{geoState, journalEntries,photos,userState ,handleFilterContent}}>
       <div className="App">
         <Hero />
         <div class="container">

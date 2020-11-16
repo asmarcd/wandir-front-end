@@ -39,9 +39,9 @@ const API = {
             body:JSON.stringify(geoData)
         }).then(res=> res.json()).catch(err=>null)
     },
-    createPoint:function(geoData){
-        return fetch(`${URL_PREFIX}/api/geos`,{
-            method:"POST",
+    updatePoint:function(geoData){
+        return fetch(`${URL_PREFIX}/api/geos/${geoData.id}`,{
+            method:"PUT",
             headers: {
                 'Content-Type': 'application/json',
               },

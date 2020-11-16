@@ -119,7 +119,15 @@ export default function Map() {
   // on click for the save button, currently in the head of the map
   const handleSave = () => {
     if(pendingMarkerState.id){
-      console.log("existing")
+      API.updatePoint(pendingMarkerState).then((res) => {
+        // send the data we jsut put into the db to updateGEo function in app.js
+        // this is just to update the state so we don't ahve to do a brand new api call
+        handleFilterContent(0,"all")
+        // clear out the pending marker state
+        setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+        // get out of edit mode
+        setEditState(!editState);
+      });
     }else{
       API.createPoint(pendingMarkerState).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js

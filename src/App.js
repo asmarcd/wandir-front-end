@@ -64,10 +64,11 @@ function App() {
         // TODO: Either remove the duplicates, or just do a cleaner API call on photos
         // join the two arrays together
         const photos = geoPhoto.concat(entryPhoto);
-  
         setGeoState(userdata.geo);
         setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
         setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+        console.log(userdata)
+
       });
     }
     if(type==="geo"){

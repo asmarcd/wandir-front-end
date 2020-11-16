@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./style.css";
 
-export default function JournalComponent({ id, title, date, body, ...rest }) {
+export default function JournalComponent({ id, title, date, body, deleteClick,...rest }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ export default function JournalComponent({ id, title, date, body, ...rest }) {
               {body}
               <div className="entryMenu">
                 <button className="entryEdit">Edit</button>
-                <button className="entryDelete">Delete</button>
+                <button className="entryDelete" onClick={e => deleteClick(id)}>Delete</button>
               </div>
             </p>
           </div>

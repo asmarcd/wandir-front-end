@@ -8,7 +8,9 @@ export default function JournalComponent({ id, title, date, body, ...rest }) {
     <article className="media" {...rest}>
       <div className="media-content">
         <button className="collapsible" onClick={() => setIsOpen(!isOpen)}>
-          <strong>{title}</strong> <small>{date}</small>
+          <br />
+          <strong>{title}</strong> 
+          <br /> <small>{date}</small>
         </button>
 
         {isOpen && (

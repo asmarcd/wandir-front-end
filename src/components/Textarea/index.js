@@ -3,6 +3,7 @@ import { MentionsInput, Mention } from "react-mentions";
 import GeoStateContext from "../../contexts/GeoStateContext";
 // import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Form, Button } from 'react-bulma-components'
+import API from '../../utils/API'
 import './style.css';
 const {Input, Field, Control, Label} = Form
 
@@ -10,6 +11,7 @@ const {Input, Field, Control, Label} = Form
 
 function TextArea (props) {
   const { geoState } = useContext(GeoStateContext);
+  const {userState} = useContext(GeoStateContext);
     const newGeo = geoState.map(e=>{
         return {id:e.id,display:e.place}
     })
@@ -17,7 +19,10 @@ function TextArea (props) {
         title:"",
         date:"",
         body:"",
+        UserId:userState.id
     })
+    const [geoTagState, setgeoTagState] = useState([
+    ])
     
 
     // useEffect(()=>{
@@ -43,6 +48,15 @@ function TextArea (props) {
     const handleFormSubmit = (event) =>{
         event.preventDefault();
         //parse through the input body and pull out any geotag names
+        const filter = geoTagState.filter(e=>inputState.body.includes(e.place))
+        console.log(filter)
+        const geoIds = filter.map(e=>e.id)
+        console.log(geoIds)
+        API.createEntry(inputState).then(res=>{
+          API.addGeotoEntry(geoIds, res.id).then(res=>{
+            console.log(res)
+          })
+        })
         //pass those geotag names
     }
     
@@ -82,7 +96,7 @@ function TextArea (props) {
                 trigger="@"
                 data={newGeo}
                 displayTransform= {(id, display) => `@${display}`}
-                // onAdd = {(id, display) =>  handleGeoTags(id, display)}     
+                onAdd = {(id, display) =>  setgeoTagState(geoTagState => [...geoTagState, {id:id,place:display}])}     
             />
         </MentionsInput>
         </div>

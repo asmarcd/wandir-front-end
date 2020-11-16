@@ -156,7 +156,7 @@ export default function Map() {
 
   // Function that listens to an opening of a popup, and therefore a point click
   const handlePointClick = (id) => {
-    //  iff a point is opened, send the id and type up to app to make an api call and update the state context
+    //  if a point is opened, send the id and type up to app to make an api call and update the state context
     handleFilterContent(id, "geo");
   };
 
@@ -235,7 +235,7 @@ export default function Map() {
               lng: marker.lng,
             }}
           >
-            {/* the popup for each marger, notice the listener that handles our click */}
+            {/* the popup for each marker, notice the listener that handles our click */}
             {/* it exists here because an onclick doesn't seem to work on the marker */}
             {/* TODO: add onclose that gets out of the slection */}
             <Popup id={marker.id} onClose={e=>handleFilterContent(0, "all")} onOpen={(e) => handlePointClick(marker.id)}>

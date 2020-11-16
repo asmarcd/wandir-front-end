@@ -65,7 +65,12 @@ const API = {
                },
              body:JSON.stringify(geos)
          }).then(res=> res.send("association Added")).catch(err=>null)
-     }
+     },
+    filterByPoint:function(geoId){
+        // console.log(geoId)
+        return fetch(`${URL_PREFIX}/api/geos/${geoId}`,{
+        }).then(res=>res.json(res)).catch(err=>null)
+    }
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{
     //         method:"POST",

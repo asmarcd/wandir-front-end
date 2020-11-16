@@ -1,0 +1,12 @@
+.thumbnail {
+  position: relative;
+  text-align: center;
+}
+
+.editText {
+  background-color: #028381;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+

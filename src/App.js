@@ -39,16 +39,17 @@ function App() {
       setViewState("button")
     }
   }
-  const updateGeoFnc =(newGeo,id) =>{
-    if(id){
-      const geoPop = geoState.filter(e=>e.id!=id)
-      setGeoState(geoPop); 
-    }else{
-      setGeoState(geoState => [...geoState, newGeo]);
-      console.log(newGeo)
-    }
+  // const updateGeoFnc =(newGeo,id) =>{
+  //   if(id){
+  //     console.log()
+  //     const geoPop = geoState.filter(e=>e.id!=id)
+  //     setGeoState(geoPop); 
+  //   }else{
+  //     setGeoState(geoState => [...geoState, newGeo]);
+  //     console.log(newGeo)
+  //   }
     
-  }
+  // }
   
   const handleFilterContent = (id, type) =>{
     console.log(id,type)
@@ -71,9 +72,15 @@ function App() {
     if(type==="geo"){
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
+        console.log(geodata)
         setGeoState(geodata);
-        // setJournalEntries (geodata.entry.map(({id,title,date,body})=>({id,title,date,body})));
-        // setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+        if(geodata.length > 1){
+          setJournalEntries (geodata.Entries.map(({id,title,date,body})=>({id,title,date,body})));
+        }
+        if(geodata.length > 1){
+          setPhotos(Photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+        }
+        
       });
     }
     return null
@@ -82,7 +89,7 @@ function App() {
 
   return (
 
-    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState,updateGeoFnc ,handleFilterContent}}>
+    <GeoStateContext.Provider value={{geoState,journalEntries,photos,userState ,handleFilterContent}}>
       <div className="App">
         <Hero />
         <div class="container">

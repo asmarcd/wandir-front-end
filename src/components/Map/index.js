@@ -16,9 +16,10 @@ export default function Map() {
   const markerRef = useRef(null);
 
   // Pull in the context data from app. geodata, user data(for id), and functions to send updated back up
-  const { geoState, userState, updateGeoFnc, handleFilterContent } = useContext(
+  const { geoState, userState, handleFilterContent } = useContext(
     GeoStateContext
   );
+  
 
   // Turns on the functionality to be editing the map
   const [editState, setEditState] = useState(false);
@@ -31,6 +32,10 @@ export default function Map() {
     lng: null,
   });
 
+  useEffect(() => {
+    handleFilterContent(0,"all")
+    
+  }, [pendingMarkerState]);
   // This is one of two click handlers in this component
   // This one listens for just any old click on the map
   function HandleClick() {
@@ -70,7 +75,7 @@ export default function Map() {
         >
           {/* THe popup for this little gem */}
           <Popup>
-            {/* TODO: save button here? */}
+            <button onClick={handleSave}></button>
             <p>{pendingMarkerState.place}</p>
           </Popup>
         </Marker>
@@ -116,7 +121,7 @@ export default function Map() {
     API.createPoint(pendingMarkerState).then((res) => {
       // send the data we jsut put into the db to updateGEo function in app.js
       // this is just to update the state so we don't ahve to do a brand new api call
-      updateGeoFnc(res);
+      handleFilterContent(0,"all")
       // clear out the pending marker state
       setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
       // get out of edit mode
@@ -145,7 +150,7 @@ export default function Map() {
     // make the api call sending in the id
     API.deletePoint(id).then((res) => {
       // send in a request up to app to remove that geo from state and therefore the map
-      updateGeoFnc({}, id);
+      handleFilterContent(0,"all")
     });
   };
   // render the map elements
@@ -158,7 +163,7 @@ export default function Map() {
         {!editState ? (
           <button onClick={(e) => setEditState(!editState)}>Add</button>
         ) : (
-          <button onClick={handleSave}>Save</button>
+          <button onClick={(e) => setEditState(!editState)}>Cancel</button>
         )}
         {/* only show the input fields if in edit mode */}
         {editState ? (
@@ -212,7 +217,6 @@ export default function Map() {
               {/* <HandlePointClick id={marker.id} /> */}
               <div>{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}
-              {editState ? (
                 <span>
                   <button onClick={(e) => handleDelete(marker.id)}>
                     Delete
@@ -220,7 +224,6 @@ export default function Map() {
                   {/* TODO: figure out how to handle a point update */}
                   <button>Update</button>
                 </span>
-              ) : null}
             </Popup>
           </Marker>
         ))}

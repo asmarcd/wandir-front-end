@@ -152,6 +152,10 @@ export default function Map() {
       handleFilterContent(0,"all")
     });
   };
+
+  const handleUpdate =(id) =>{
+    
+  }
   // render the map elements
   return (
     // overall container
@@ -221,7 +225,7 @@ export default function Map() {
                     Delete
                   </button>
                   {/* TODO: figure out how to handle a point update */}
-                  <button>Update</button>
+                  <button onclick={(e)=> handleUpdate(marker.id)}>Update</button>
                 </span>
             </Popup>
           </Marker>

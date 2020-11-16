@@ -1,4 +1,5 @@
 import React from "react";
+import PhotoModal from "../PhotoModal";
 import "./style.css";
 
 export default function PhotoComponent({ id, url, entryId, geoId, ...rest }) {
@@ -15,10 +16,8 @@ export default function PhotoComponent({ id, url, entryId, geoId, ...rest }) {
         </figure>
       </a>
 
-      
-      
-
-      <button className="editText">Edit</button>
+      {/* <button className="editText" >Edit</button> */}
+      <PhotoModal />
     </div>
   );
 }

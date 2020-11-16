@@ -7,7 +7,7 @@
 
 #postArea{
     width:98%;
-    
+    height: 98%;
     margin: auto;
     overflow-y:auto;
     overflow-x: hidden;
@@ -28,9 +28,12 @@ strong {
 
 .content {
     padding: 0 18px;
-  max-height: 0px;
+  /* max-height: 0px; */
   overflow: hidden;
   transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
-    
+}
+
+.content p {
+    margin: 10px 0;
 }

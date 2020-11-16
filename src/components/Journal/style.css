@@ -7,7 +7,7 @@
 
 #postArea{
     width:98%;
-    
+    height: 98%;
     margin: auto;
     overflow-y:auto;
     overflow-x: hidden;

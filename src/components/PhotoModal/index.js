@@ -17,7 +17,7 @@ const customStyles = {
   // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
   Modal.setAppElement('#root')
 
-export default function PhotoModal() {
+export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
     var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -34,8 +34,8 @@ export default function PhotoModal() {
   }
  
     return (
-      <div >
-        <button onClick={openModal}>Open Modal</button>
+      <div {...rest}>
+        <button onClick={openModal}>Edit</button>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
@@ -44,15 +44,12 @@ export default function PhotoModal() {
           contentLabel="Example Modal"
         >
  
-          <h2 ref={_subtitle => (subtitle = _subtitle)}>Hello</h2>
-          <button onClick={closeModal}>close</button>
-          <div>I am a modal</div>
+          <h2 ref={_subtitle => (subtitle = _subtitle)}>{geoId}</h2>
+          <img className="modalThumb" src={url} />
+          <p>Add geo tag</p>
           <form>
             <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
+            <button className="addGeo">Submit</button>
           </form>
         </Modal>
       </div>

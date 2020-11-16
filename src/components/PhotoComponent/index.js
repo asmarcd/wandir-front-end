@@ -8,7 +8,7 @@ export default function PhotoComponent({ id, url, entryId, geoId, ...rest }) {
       <a
         className="example-image-link"
         href={url}
-        data-lightbox="example-set"
+        data-lightbox={"example-set"}
         data-title="The next image in the set is preloaded as you're viewing."
       >
         <figure className="image is-square">
@@ -17,7 +17,12 @@ export default function PhotoComponent({ id, url, entryId, geoId, ...rest }) {
       </a>
 
       {/* <button className="editText" >Edit</button> */}
-      <PhotoModal />
+      <PhotoModal className="editText"
+      id={id}
+      url={url}
+      entryId={entryId}
+      geoId={geoId}
+      />
     </div>
   );
 }

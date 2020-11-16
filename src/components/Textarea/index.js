@@ -89,7 +89,7 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        <Button  onClick={handleFormSubmit}>
           Submit
         </Button>
       </form>

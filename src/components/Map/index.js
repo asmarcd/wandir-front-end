@@ -44,6 +44,7 @@ export default function Map() {
       click(e) {
         // upon the map click you get the target e which contains the info on the spot clicked
         // so if the user is clicking around on the map, they are probably editing so set the pending marker
+        
         setPendingMarkerState({
           ...pendingMarkerState,
           lat: e.latlng.lat,
@@ -85,23 +86,27 @@ export default function Map() {
     }
   }
   // Events for the pending marker
-  const pendingMarkerEventHandlers = useMemo(
-    () => ({
+  const pendingMarkerEventHandlers = {
       // on drag
       dragend() {
+        console.log("dragged")
+        console.log(pendingMarkerState)
         // grab the data of the marker from the ref
         const marker = markerRef.current;
+        console.log("marker",marker)
         // check ot make sure that marker indeed exists
         if (marker != null) {
           // get the location of the point after drag
           const newPosition = marker.getLatLng();
           // update the pending marker state with new location
+          console.log("before");
           setPendingMarkerState({
             ...pendingMarkerState,
             lat: newPosition.lat,
-            lng: newPosition.lng,
+            lng:newPosition.lng,
             UserId: userState.id,
           });
+          console.log("after")
         }
       },
       // on add
@@ -110,22 +115,33 @@ export default function Map() {
         const marker = markerRef.current;
         marker.openPopup();
       },
-    }),
-
-    []
-  );
+    }
   // on click for the save button, currently in the head of the map
   const handleSave = () => {
+    if(pendingMarkerState.id){
+      API.updatePoint(pendingMarkerState).then((res) => {
+        // send the data we jsut put into the db to updateGEo function in app.js
+        // this is just to update the state so we don't ahve to do a brand new api call
+        handleFilterContent(0,"all")
+        // clear out the pending marker state
+        setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+        // get out of edit mode
+        setEditState(!editState);
+      });
+    }else{
+      API.createPoint(pendingMarkerState).then((res) => {
+        // send the data we jsut put into the db to updateGEo function in app.js
+        // this is just to update the state so we don't ahve to do a brand new api call
+        handleFilterContent(0,"all")
+        // clear out the pending marker state
+        setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+        // get out of edit mode
+        setEditState(!editState);
+      });
+    }
+    console.log(pendingMarkerState)
     // create the pending marker into the DB
-    API.createPoint(pendingMarkerState).then((res) => {
-      // send the data we jsut put into the db to updateGEo function in app.js
-      // this is just to update the state so we don't ahve to do a brand new api call
-      handleFilterContent(0,"all")
-      // clear out the pending marker state
-      setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
-      // get out of edit mode
-      setEditState(!editState);
-    });
+    
   };
   // handles the text state of the input fields for the pending marker
   // TODO: would be sweet to move te inputs into the popup, but can't get it to not refresh
@@ -152,6 +168,15 @@ export default function Map() {
       handleFilterContent(0,"all")
     });
   };
+
+  const handleUpdate =(marker) =>{
+    setEditState(true)
+    setPendingMarkerState(marker);
+
+    //update pending marker with the marker info
+    // remove that point from geostate
+    // push the pending marker to db
+  }
   // render the map elements
   return (
     // overall container
@@ -202,6 +227,7 @@ export default function Map() {
         {/* map function that adds markers based on our geostate */}
         {geoState.map((marker) => (
           <Marker
+
             key={`marker-${marker.id}`}
             id={marker.id}
             position={{
@@ -221,7 +247,7 @@ export default function Map() {
                     Delete
                   </button>
                   {/* TODO: figure out how to handle a point update */}
-                  <button>Update</button>
+                  <button onClick={(e)=> handleUpdate(marker)}>Update</button>
                 </span>
             </Popup>
           </Marker>

@@ -39,7 +39,16 @@ const API = {
             body: JSON.stringify(geoData)
         }).then(res => res.json()).catch(err => null)
     },
-    deletePoint: function (id) {
+    updatePoint:function(geoData){
+        return fetch(`${URL_PREFIX}/api/geos/${geoData.id}`,{
+            method:"PUT",
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body:JSON.stringify(geoData)
+        }).then(res=> res.json()).catch(err=>null)
+    },
+    deletePoint:function(id){
         console.log("deleting", id)
         return fetch(`${URL_PREFIX}/api/geos/${id}`, {
             method: "DELETE",

@@ -48,11 +48,14 @@ function TextArea (props) {
     const handleFormSubmit = (event) =>{
         event.preventDefault();
         //parse through the input body and pull out any geotag names
-        const testString ="this is @[Green Lake](1) and also @[kirkland](12)"
-        const filter = geoTagState.filter(e=>testString.includes(e.place))
+        const filter = geoTagState.filter(e=>inputState.body.includes(e.place))
         console.log(filter)
+        const geoIds = filter.map(e=>e.id)
+        console.log(geoIds)
         API.createEntry(inputState).then(res=>{
-          console.log(res)
+          API.addGeotoEntry(geoIds, res.id).then(res=>{
+            console.log(res)
+          })
         })
         //pass those geotag names
     }

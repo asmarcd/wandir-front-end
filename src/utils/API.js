@@ -56,7 +56,16 @@ const API = {
               },
             body:JSON.stringify(entryData)
         }).then(res=> res.json()).catch(err=>null)
-    }
+    },
+    addGeotoEntry:function(geos, id){
+        return fetch(`${URL_PREFIX}/api/entries/addpoint/${id}`,{
+             method:"PUT",
+             headers: {
+                 'Content-Type': 'application/json',
+               },
+             body:JSON.stringify(geos)
+         }).then(res=> res.send("association Added")).catch(err=>null)
+     }
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{
     //         method:"POST",

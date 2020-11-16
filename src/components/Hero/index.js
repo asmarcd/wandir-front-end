@@ -4,6 +4,7 @@ import Logo from "../../assets/logo.png";
 
 export default function Hero() {
   return (
+
     <div>
       <section className="heroImg">
         <div className="hero-body">
@@ -47,7 +48,7 @@ export default function Hero() {
                   <form action="#" method="post"> 
                     <div className="field"> 
                       <label className="label" id="username"> 
-                        Username 
+                        Email
                       </label> 
                       <div className="control has-icons-left"> 
                         <input className="input" type="text" htmlFor="username" placeholder="Username" /> 
@@ -93,25 +94,6 @@ export default function Hero() {
     // Bulma does not have JavaScript included, 
     // hence custom JavaScript has to be 
     // written to open or close the modal 
-    const modal = document.querySelector('.modal'); 
-    const btn = document.querySelector('#btn') 
-    const close = document.querySelector('.modal-close') 
-  
-    btn.addEventListener('click', 
-                         function () { 
-      modal.style.display = 'block' 
-    }) 
-  
-    close.addEventListener('click', 
-                           function () { 
-      modal.style.display = 'none' 
-    }) 
-  
-    window.addEventListener('click', 
-                            function (event) { 
-      if (event.target.className === 
-          'modal-background') { 
-        modal.style.display = 'none' 
-      } 
-    }) 
- 
+
+
+

@@ -53,7 +53,6 @@ export default function Map() {
         // if a point on the map is clicked, we are probably trying to get back out of a marker clicked on
         // so go ahead and send the call up to get all the data again
         // TODO:Move this to popup on close?
-        handleFilterContent(0, "all");
       },
     });
     // SO given the above, we need to check to see if the user actually had edit actived
@@ -74,8 +73,8 @@ export default function Map() {
           ref={markerRef}
         >
           {/* THe popup for this little gem */}
-          <Popup>
-            <button onClick={handleSave}></button>
+          <Popup >
+            {pendingMarkerState.place != ""?<button onClick={handleSave}>Save</button> : null}
             <p>{pendingMarkerState.place}</p>
           </Popup>
         </Marker>
@@ -161,7 +160,7 @@ export default function Map() {
       <div>
         {/* edit state controls if it is an add or save button */}
         {!editState ? (
-          <button onClick={(e) => setEditState(!editState)}>Add</button>
+          <button onClick={(e) => setEditState(!editState)}>Create Place</button>
         ) : (
           <button onClick={(e) => setEditState(!editState)}>Cancel</button>
         )}
@@ -213,7 +212,7 @@ export default function Map() {
             {/* the popup for each marger, notice the listener that handles our click */}
             {/* it exists here because an onclick doesn't seem to work on the marker */}
             {/* TODO: add onclose that gets out of the slection */}
-            <Popup id={marker.id} onOpen={(e) => handlePointClick(marker.id)}>
+            <Popup id={marker.id} onClose={e=>handleFilterContent(0, "all")} onOpen={(e) => handlePointClick(marker.id)}>
               {/* <HandlePointClick id={marker.id} /> */}
               <div>{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}

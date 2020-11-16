@@ -60,9 +60,10 @@ function App() {
         let entryPhoto = userdata.entry.map((e) => e.Photos);
         // flatten the array of arrays to one array
         geoPhoto = geoPhoto.flat();
-        // entryPhoto = entryPhoto.flat();
+        entryPhoto = entryPhoto.flat();
+        // TODO: Either remove the duplicates, or just do a cleaner API call on photos
         // join the two arrays together
-        const photos = geoPhoto//.concat(entryPhoto);
+        const photos = geoPhoto.concat(entryPhoto);
   
         setGeoState(userdata.geo);
         setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
@@ -74,11 +75,13 @@ function App() {
         // cycle through both the geo and entry records for the included photos
         console.log(geodata)
         setGeoState(geodata);
-        if(geodata.length > 1){
-          setJournalEntries (geodata.Entries.map(({id,title,date,body})=>({id,title,date,body})));
+        if(geodata[0].Entries.length > 0){
+         console.log("true")
+          setJournalEntries (geodata[0].Entries.map(({id,title,date,body})=>({id,title,date,body})));
         }
-        if(geodata.length > 1){
-          setPhotos(Photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+        if(geodata[0].Photos.length > 0){
+          console.log("true")
+          setPhotos(geodata[0].Photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
         }
         
       });

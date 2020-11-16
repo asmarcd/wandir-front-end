@@ -48,6 +48,11 @@ const API = {
                 'Content-Type': 'application/json',
               }
         }).then(res=> res.status(200).send("delete successful")).catch(err=>null)
+    },
+    filterByPoint:function(geoId){
+        // console.log(geoId)
+        return fetch(`${URL_PREFIX}/api/geos/${geoId}`,{
+        }).then(res=>res.json(res)).catch(err=>null)
     }
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{

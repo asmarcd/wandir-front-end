@@ -128,6 +128,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
           /> */}
            
             <button className="addGeo" onClick={handleUpdate}>Submit</button>
+            {/* <button className="photoDelete" onClick={e => deleteClick(id)}>Delete</button> */}
           </form>
         </Modal>
       </div>

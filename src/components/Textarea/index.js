@@ -44,7 +44,6 @@ function TextArea() {
     console.log(inputState)
     event.preventDefault();
     API.updateEntry(inputState).then(res => console.log(res));
-    handleFilterContent(0, "all");
   }
 
   return (

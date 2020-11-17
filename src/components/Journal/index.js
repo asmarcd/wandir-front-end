@@ -8,7 +8,7 @@ import API from "../../utils/API";
 
 
 export default function Journal() {
-  const { journalEntries, handleFilterContent } = useContext(GeoStateContext);
+  const { journalEntries } = useContext(GeoStateContext);
 
   const [editState, setEdit] = useState(false)
 
@@ -22,20 +22,17 @@ export default function Journal() {
     // Pausing here to go back to delete testing, but this function works tos how the click event happening.
   };
 
-  const deleteClick = id => {
-    console.log("hello")
-    API.deleteEntry(id).then(res => {
-      console.log('hello again')
-      handleFilterContent(0, "all");
-
-    })
-  };
+  // const deleteClick = id => {
+  //   API.deleteEntry(id).then(res => {
+  //     deleteReset();
+  //   });
+  // };
 
   return (
     <div id="journalWindow">
       <div id="postArea">
         {editState ? <Button onClick={handleClick}>Cancel</Button> : <Button onClick={handleClick}>Add</Button>}
-        {editState ? <TextArea /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} deleteClick={deleteClick} {...entry} />))}
+        {editState ? <TextArea /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} {...entry} />))}
       </div>
 
 

@@ -27,15 +27,15 @@ function App() {
   });
 
   useEffect(() => {
-    handleFilterContent(0,"all")
-    
+    handleFilterContent(0, "all")
+
   }, []);
 
-  const handleViewSwitch = (event) =>{
+  const handleViewSwitch = (event) => {
     console.log(event)
-    if(event.target.id==="journalBtn"){
+    if (event.target.id === "journalBtn") {
       setViewState("journal")
-    }else if(event.target.id==="photoBtn"){
+    } else if (event.target.id === "photoBtn") {
       setViewState("button")
     }
   }
@@ -48,41 +48,48 @@ function App() {
   //     setGeoState(geoState => [...geoState, newGeo]);
   //     console.log(newGeo)
   //   }
-    
+
   // }
-  
-  const handleFilterContent = (id, type) =>{
-    if(type==="all"){
+
+  const deleteReset = () => {
+    console.log("delete reset")
+    API.getUserData(userState.id).then(async (userdata) => {
+      await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+    });
+  };
+
+  const handleFilterContent = (id, type) => {
+    if (type === "all") {
       API.getUserData(userState.id).then(async (userdata) => {
         await setGeoState(userdata.geo);
-        await setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
-        await setPhotos(userdata.photo.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+        await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+        await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         console.log(userdata)
 
       });
     }
-    if(type==="geo"){
+    if (type === "geo") {
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
-        if(geodata[0].Entries.length > 0){
-         console.log("true")
-          setJournalEntries (geodata[0].Entries.map(({id,title,date,body})=>({id,title,date,body})));
-        }
-        if(geodata[0].Photos.length > 0){
+        if (geodata[0].Entries.length > 0) {
           console.log("true")
-          setPhotos(geodata[0].Photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+          setJournalEntries(geodata[0].Entries.map(({ id, title, date, body }) => ({ id, title, date, body })));
         }
-        
+        if (geodata[0].Photos.length > 0) {
+          console.log("true")
+          setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
+        }
+
       });
     }
     // return null
-    
+
   }
 
   return (
 
-    <GeoStateContext.Provider value={{geoState, journalEntries,photos,userState ,handleFilterContent}}>
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, userState, handleFilterContent, deleteReset }}>
       <div className="App">
         <Hero />
         <div class="container">
@@ -92,11 +99,11 @@ function App() {
             </div>
             <div class="column">
               <Router>
-                <WindowNav handleViewSwitch={handleViewSwitch}/>
+                <WindowNav handleViewSwitch={handleViewSwitch} />
                 <div class="columns">
                   {/* Router buttons for map and journal */}
                   <div class="column">
-                    {viewState==="journal"? <Journal /> : <Photos />}
+                    {viewState === "journal" ? <Journal /> : <Photos />}
                     {/* <Route exact path="/Journal" component={Journal} />
                     <Route exact path="/photos" component={Photos} /> */}
                   </div>

@@ -17,7 +17,7 @@ function App() {
   const [geoState, setGeoState] = useState([]);
   const [journalEntries, setJournalEntries] = useState([]);
   const [photos, setPhotos] = useState([]);
-  const [viewState, setViewState] = useState("journal");
+  const [viewState, setViewState] = useState("journal")
   //
   const [userState, setUserState] = useState({
     id: 1,
@@ -26,54 +26,40 @@ function App() {
     token: "",
     isLoggedIn: true,
   });
-
   useEffect(() => {
-    handleFilterContent(0, "all");
+    handleFilterContent(0, "all")
   }, []);
-
   const handleViewSwitch = (event) => {
-    console.log(event);
+    console.log(event)
     if (event.target.id === "journalBtn") {
-      setViewState("journal");
+      setViewState("journal")
     } else if (event.target.id === "photoBtn") {
-      setViewState("button");
+      setViewState("button")
     }
-  };
+  }
   // const updateGeoFnc =(newGeo,id) =>{
   //   if(id){
   //     console.log()
   //     const geoPop = geoState.filter(e=>e.id!=id)
-  //     setGeoState(geoPop);
+  //     setGeoState(geoPop); 
   //   }else{
   //     setGeoState(geoState => [...geoState, newGeo]);
   //     console.log(newGeo)
   //   }
-
   // }
-
+  const deleteReset = () => {
+    console.log("delete reset")
+    API.getUserData(userState.id).then(async (userdata) => {
+      await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+    });
+  };
   const handleFilterContent = (id, type) => {
     if (type === "all") {
       API.getUserData(userState.id).then(async (userdata) => {
         await setGeoState(userdata.geo);
-        await setJournalEntries(
-          userdata.entry.map(({ id, title, date, body }) => ({
-            id,
-            title,
-            date,
-            body,
-          }))
-        );
-        await setPhotos(
-          userdata.photo.map(
-            ({ id, url, EntryId: entryId, GeroId: geoId }) => ({
-              id,
-              url,
-              entryId,
-              geoId,
-            })
-          )
-        );
-        console.log(userdata);
+        await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+        await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
+        console.log(userdata)
       });
     }
     if (type === "geo") {
@@ -81,44 +67,20 @@ function App() {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
         if (geodata[0].Entries.length > 0) {
-          console.log("true");
-          setJournalEntries(
-            geodata[0].Entries.map(({ id, title, date, body }) => ({
-              id,
-              title,
-              date,
-              body,
-            }))
-          );
+          console.log("true")
+          setJournalEntries(geodata[0].Entries.map(({ id, title, date, body }) => ({ id, title, date, body })));
         }
         if (geodata[0].Photos.length > 0) {
-          console.log("true");
-          setPhotos(
-            geodata[0].Photos.map(
-              ({ id, url, EntryId: entryId, GeroId: geoId }) => ({
-                id,
-                url,
-                entryId,
-                geoId,
-              })
-            )
-          );
+          console.log("true")
+          setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
       });
     }
     // return null
-  };
+  }
 
   return (
-    <GeoStateContext.Provider
-      value={{
-        geoState,
-        journalEntries,
-        photos,
-        userState,
-        handleFilterContent,
-      }}
-    >
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, userState, handleFilterContent, deleteReset }}>
       
       <Router>
        <div className="App">

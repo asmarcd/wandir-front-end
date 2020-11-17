@@ -19,3 +19,8 @@
 .pending-marker{
     border: 2px solid salmon;
 }
+button {
+    background-color: #efca08;
+    border-color:#efca08;
+    font-weight: bolder;
+  }

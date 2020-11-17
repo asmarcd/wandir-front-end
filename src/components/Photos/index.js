@@ -8,6 +8,7 @@ import GeoStateContext from '../../contexts/GeoStateContext'
 
 export default function Photos() {
   const {photos}=useContext(GeoStateContext)
+  console.log(photos)
   return (
     <div id="photoWindow">
       <div id="gallery">

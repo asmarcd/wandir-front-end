@@ -1,0 +1,8 @@
+.ReactModal__Overlay{
+    z-index: 1000;
+}
+
+.modalThumb{
+    height: 250px;
+    margin: auto;
+}

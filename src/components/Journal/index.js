@@ -15,7 +15,11 @@ export default function Journal() {
   const handleClick = () => {
     // setup logic here to save to DB on save
     setEdit(!editState)
-  }
+  };
+
+  const editClick = id => {
+    console.log("edit button click")
+  };
 
   const deleteClick = id => {
     console.log("hello")
@@ -36,7 +40,7 @@ export default function Journal() {
     <div id="journalWindow">
       <div id="postArea">
         {editState ? <Button onClick={handleClick}>Cancel</Button> : <Button onClick={handleClick}>Add</Button>}
-        {editState ? <TextArea /> : journalEntries.map((entry, i) => (<JournalComponent key={i} deleteClick={deleteClick} {...entry} />))}
+        {editState ? <TextArea /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} deleteClick={deleteClick} {...entry} />))}
       </div>
 
 

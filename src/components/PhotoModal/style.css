@@ -6,3 +6,9 @@
     height: 250px;
     margin: auto;
 }
+
+.dropDown {
+    margin-bottom: 10px;
+    height: 45px;
+    padding: 6px 10px;
+}

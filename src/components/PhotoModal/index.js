@@ -1,10 +1,13 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import Input from "react-bulma-components";
 import API from "../../utils/API";
+import 'react-dropdown/style.css';
 import "./style.css"
-
+import GeoStateContext from '../../contexts/GeoStateContext';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 
 const customStyles = {
@@ -28,7 +31,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
   function openModal() {
     setIsOpen(true);
   }
- 
+  
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     subtitle.style.color = '#f00';
@@ -40,24 +43,59 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
  
   const handleUpdate=(event)=>{
     event.preventDefault()
+    const data = {geoid: editState}
     console.log("entry handle update")
-    API.updatePhoto(editState).then(res=>{
+    API.updatePhoto(editState,).then(res=>{
       console.log(res)
     })
   }
 
+  
+
+
+  // Set dropdown menues
+
+  const {geoState,journalEntries}=useContext(GeoStateContext)
+
+ 
 // update geo tag photo
-  const handleInputChange = (e) => {
+  // const handleInputChange = (e) => {
+  //   console.log(e)
+  //   // this conditional checks for an e.target.name
+  //   // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
+    
+  //   const name = e.target.name;
+    
+  //   const value = e.target.value;
+  //   setEditState({
+  //     ...editState,
+  //     [name]: value,
+  //   });
+  // };
+
+  const handleInputChangeGeo = (e) => {
     console.log(e)
     // this conditional checks for an e.target.name
     // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
     
-    const name = e.target.name;
-    
-    const value = e.target.value;
+    const value = e.value;
     setEditState({
       ...editState,
-      [name]: value,
+      geoid: e.value,
+      geoName: e.label,
+    });
+  };
+
+  const handleInputChangeJournal = (e) => {
+    console.log(e)
+    // this conditional checks for an e.target.name
+    // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
+    
+    const value = e.value;
+    setEditState({
+      ...editState,
+      entryid: e.value,
+      entryName: e.label,
     });
   };
 
@@ -73,15 +111,22 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
         >
  
           <h2 ref={_subtitle => (subtitle = _subtitle)}>{geoId}</h2>
+          
+
+          <Dropdown className="dropDown" options={geoState.map((geoOption) => ( { value: geoOption.id, label:geoOption.place }))} onChange={handleInputChangeGeo} value={editState.geoName} name="geoid" placeholder="Select a Geo Location" />
+          <Dropdown className="dropDown" options={journalEntries.map((entOption) => ({value:entOption.id, label:entOption.title}))} onChange={handleInputChangeJournal} value={editState.entryName} name="entryid" placeholder="Select a Journal Entry" />
+          {/* <Dropdown options={journalEntries.map((entOptions) => (entOptions.title))} /*onChange={this._onSelect}  placeholder="Select a Journal Entry" /> */}
+          
+          
           <img className="modalThumb" src={url} />
-          <p>Add geo tag</p>
           <form>
-          <input
-              onChange={handleInputChange}
-              value={editState.geoid}
-              name="geoid"
-              placeholder="Title (required)"
-            />
+        {/* <input
+            onChange={handleInputChange}
+            value={editState.geoid}
+            name="geoid"
+            placeholder="Title (required)"
+          /> */}
+           
             <button className="addGeo" onClick={handleUpdate}>Submit</button>
           </form>
         </Modal>

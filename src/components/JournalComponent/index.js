@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown'
 const handleLink =() =>{
   console.log("Hey")
 }
-export default function JournalComponent({ id, title, date, body, deleteClick,...rest }) {
+export default function JournalComponent({ id, title, date, body, editClick, deleteClick,...rest }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

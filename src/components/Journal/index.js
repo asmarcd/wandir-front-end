@@ -19,6 +19,7 @@ export default function Journal() {
 
   const editClick = id => {
     console.log("edit button click")
+    // Pausing here to go back to delete testing, but this function works tos how the click event happening.
   };
 
   const deleteClick = id => {

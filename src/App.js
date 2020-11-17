@@ -26,9 +26,42 @@ function App() {
     token: "",
     isLoggedIn: true,
   });
+
+  const [inputState, setInputState] = useState({
+    title: "",
+    date: "",
+    body: "",
+    UserId: userState.id
+  });
+
   useEffect(() => {
     handleFilterContent(0, "all")
   }, []);
+
+  const editEntry = res => {
+    setInputState({
+      id: res[0].id,
+      title: res[0].title,
+      date: res[0].date,
+      body: res[0].body
+    });
+  };
+
+  // handles the input change by the user
+  const handleInputChange = (e) => {
+    let name;
+    // this conditional checks for an e.target.name
+    // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
+    if (e.target.name) {
+      name = e.target.name;
+    } else name = "body";
+    const value = e.target.value;
+    setInputState({
+      ...inputState,
+      [name]: value,
+    });
+  };
+
   const handleViewSwitch = (event) => {
     console.log(event)
     if (event.target.id === "journalBtn") {
@@ -48,9 +81,8 @@ function App() {
   //   }
   // }
   const deleteReset = () => {
-    console.log("delete reset")
-    API.getUserData(userState.id).then(async (userdata) => {
-      await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+    API.getUserData(userState.id).then(userdata => {
+      setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
     });
   };
   const handleFilterContent = (id, type) => {
@@ -59,7 +91,6 @@ function App() {
         await setGeoState(userdata.geo);
         await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
         await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
-        console.log(userdata)
       });
     }
     if (type === "geo") {
@@ -80,8 +111,7 @@ function App() {
   }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, userState, handleFilterContent, deleteReset }}>
-      
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset }}>
       <Router>
        <div className="App">
           {/* A <Switch> looks through its children <Route>s and

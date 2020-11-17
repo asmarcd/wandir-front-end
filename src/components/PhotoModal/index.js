@@ -22,7 +22,7 @@ const customStyles = {
   Modal.setAppElement('#root')
 
 export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
-  const [editState, setEditState] = useState({id:id, geoid:4, entryid:1});
+  const [editState, setEditState] = useState({id:id});
     var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {
@@ -46,6 +46,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
     })
   }
 
+// update geo tag photo
   const handleInputChange = (e) => {
     console.log(e)
     // this conditional checks for an e.target.name

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import "./style.css";
+import Geolocate from "../Geolocate"
 import {
   MapContainer,
   TileLayer,
@@ -20,7 +21,6 @@ export default function Map() {
     GeoStateContext
   );
   
-
   // Turns on the functionality to be editing the map
   const [editState, setEditState] = useState(false);
 
@@ -32,10 +32,10 @@ export default function Map() {
     lng: null,
   });
 
- 
+  const [geolocateState, setGeolocateState] =useState(false)
   // This is one of two click handlers in this component
   // This one listens for just any old click on the map
-  function HandleClick() {
+  const HandleClick = () => {
     // leaflet boilerplate to listen to the map events
     const map = useMapEvents({
       click(e) {
@@ -204,6 +204,8 @@ export default function Map() {
           </span>
         ) : null}
       </div>
+      {/* sets if the user wants to geolocate or not */}
+      <button onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode
@@ -214,6 +216,8 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
+        {/* If the user turns on geoloate, it activats the geolocate component */}
+        {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}
         <TileLayer
           attribution='&copy;contributors <a href="https://www.mapbox.com/">Mapbox</a>'

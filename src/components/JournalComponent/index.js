@@ -1,7 +1,12 @@
 import React, { useState, useContext } from "react";
 import "./style.css";
+import ReactMarkdown from 'react-markdown'
 
-export default function JournalComponent({ id, title, date, body, editClick, deleteClick, ...rest }) {
+
+const handleLink =() =>{
+  console.log("Hey")
+}
+export default function JournalComponent({ id, title, date, body, deleteClick,...rest }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -14,7 +19,7 @@ export default function JournalComponent({ id, title, date, body, editClick, del
         {isOpen && (
           <div className="content">
             <p>
-              {body}
+            <ReactMarkdown children={body} transformLinkUri={handleLink}/>
               <div className="entryMenu">
                 <button className="entryEdit" onClick={e=> editClick(id)}>Edit</button>
                 <button className="entryDelete" onClick={e => deleteClick(id)}>Delete</button>

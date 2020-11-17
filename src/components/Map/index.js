@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo, useRef } from "react";
 import "./style.css";
+import Geolocate from "../Geolocate"
 import {
   MapContainer,
   TileLayer,
@@ -20,7 +21,6 @@ export default function Map() {
     GeoStateContext
   );
   
-
   // Turns on the functionality to be editing the map
   const [editState, setEditState] = useState(false);
 
@@ -32,13 +32,10 @@ export default function Map() {
     lng: null,
   });
 
-  useEffect(() => {
-    handleFilterContent(0,"all")
-    
-  }, [pendingMarkerState]);
+  const [geolocateState, setGeolocateState] =useState(false)
   // This is one of two click handlers in this component
   // This one listens for just any old click on the map
-  function HandleClick() {
+  const HandleClick = () => {
     // leaflet boilerplate to listen to the map events
     const map = useMapEvents({
       click(e) {
@@ -89,24 +86,19 @@ export default function Map() {
   const pendingMarkerEventHandlers = {
       // on drag
       dragend() {
-        console.log("dragged")
-        console.log(pendingMarkerState)
         // grab the data of the marker from the ref
         const marker = markerRef.current;
-        console.log("marker",marker)
         // check ot make sure that marker indeed exists
         if (marker != null) {
           // get the location of the point after drag
           const newPosition = marker.getLatLng();
           // update the pending marker state with new location
-          console.log("before");
           setPendingMarkerState({
             ...pendingMarkerState,
             lat: newPosition.lat,
             lng:newPosition.lng,
             UserId: userState.id,
           });
-          console.log("after")
         }
       },
       // on add
@@ -177,6 +169,9 @@ export default function Map() {
     // remove that point from geostate
     // push the pending marker to db
   }
+  const handlePopupClose = () =>{ 
+    handleFilterContent(0, "all")
+  }
   // render the map elements
   return (
     // overall container
@@ -209,6 +204,8 @@ export default function Map() {
           </span>
         ) : null}
       </div>
+      {/* sets if the user wants to geolocate or not */}
+      <button onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode
@@ -219,6 +216,8 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
+        {/* If the user turns on geoloate, it activats the geolocate component */}
+        {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}
         <TileLayer
           attribution='&copy;contributors <a href="https://www.mapbox.com/">Mapbox</a>'
@@ -238,7 +237,7 @@ export default function Map() {
             {/* the popup for each marker, notice the listener that handles our click */}
             {/* it exists here because an onclick doesn't seem to work on the marker */}
             {/* TODO: add onclose that gets out of the slection */}
-            <Popup id={marker.id} onClose={e=>handleFilterContent(0, "all")} onOpen={(e) => handlePointClick(marker.id)}>
+            <Popup id={marker.id} onClose={handlePopupClose} onOpen={(e) => handlePointClick(marker.id)}>
               {/* <HandlePointClick id={marker.id} /> */}
               <div>{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}

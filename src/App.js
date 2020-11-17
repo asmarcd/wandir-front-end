@@ -52,20 +52,11 @@ function App() {
   // }
   
   const handleFilterContent = (id, type) =>{
-    if(type=="all"){
-      API.getUserData(userState.id).then((userdata) => {
-        // cycle through both the geo and entry records for the included photos
-        let geoPhoto = userdata.geo.map((e) => e.Photos);
-        let entryPhoto = userdata.entry.map((e) => e.Photos);
-        // flatten the array of arrays to one array
-        geoPhoto = geoPhoto.flat();
-        entryPhoto = entryPhoto.flat();
-        // TODO: Either remove the duplicates, or just do a cleaner API call on photos
-        // join the two arrays together
-        const photos = geoPhoto.concat(entryPhoto);
-        setGeoState(userdata.geo);
-        setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
-        setPhotos(photos.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
+    if(type==="all"){
+      API.getUserData(userState.id).then(async (userdata) => {
+        await setGeoState(userdata.geo);
+        await setJournalEntries (userdata.entry.map(({id,title,date,body})=>({id,title,date,body})));
+        await setPhotos(userdata.photo.map(({id,url,EntryId:entryId,GeroId:geoId})=>({id,url,entryId,geoId})));
         console.log(userdata)
 
       });
@@ -85,7 +76,7 @@ function App() {
         
       });
     }
-    return null
+    // return null
     
   }
 

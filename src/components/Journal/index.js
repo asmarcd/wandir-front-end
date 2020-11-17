@@ -27,12 +27,6 @@ export default function Journal() {
       console.log('hello again')
       handleFilterContent(0, "all");
 
-      API.getUserData(1).then((userdata) => {
-        console.log(userdata)
-        console.log("delete click")
-      })
-
-
     })
   };
 

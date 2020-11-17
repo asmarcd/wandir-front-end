@@ -32,10 +32,7 @@ export default function Map() {
     lng: null,
   });
 
-  useEffect(() => {
-    handleFilterContent(0,"all")
-    
-  }, [pendingMarkerState]);
+ 
   // This is one of two click handlers in this component
   // This one listens for just any old click on the map
   function HandleClick() {
@@ -89,24 +86,19 @@ export default function Map() {
   const pendingMarkerEventHandlers = {
       // on drag
       dragend() {
-        console.log("dragged")
-        console.log(pendingMarkerState)
         // grab the data of the marker from the ref
         const marker = markerRef.current;
-        console.log("marker",marker)
         // check ot make sure that marker indeed exists
         if (marker != null) {
           // get the location of the point after drag
           const newPosition = marker.getLatLng();
           // update the pending marker state with new location
-          console.log("before");
           setPendingMarkerState({
             ...pendingMarkerState,
             lat: newPosition.lat,
             lng:newPosition.lng,
             UserId: userState.id,
           });
-          console.log("after")
         }
       },
       // on add
@@ -177,6 +169,9 @@ export default function Map() {
     // remove that point from geostate
     // push the pending marker to db
   }
+  const handlePopupClose = () =>{ 
+    handleFilterContent(0, "all")
+  }
   // render the map elements
   return (
     // overall container
@@ -238,7 +233,7 @@ export default function Map() {
             {/* the popup for each marker, notice the listener that handles our click */}
             {/* it exists here because an onclick doesn't seem to work on the marker */}
             {/* TODO: add onclose that gets out of the slection */}
-            <Popup id={marker.id} onClose={e=>handleFilterContent(0, "all")} onOpen={(e) => handlePointClick(marker.id)}>
+            <Popup id={marker.id} onClose={handlePopupClose} onOpen={(e) => handlePointClick(marker.id)}>
               {/* <HandlePointClick id={marker.id} /> */}
               <div>{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}

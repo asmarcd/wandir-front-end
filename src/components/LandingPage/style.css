@@ -1,0 +1,93 @@
+.LandingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;
+  margin: 0 auto;
+    height: 100vh;
+ 
+  }
+  .LandingContainer
+  body {
+    background-color: #bcdef1;
+  } 
+  .LandingForm{
+    z-index: 1;
+  }
+  .LandingForm
+  .LandingButtonDiv {
+    transition: 0.5s ease-out;
+  }
+  .LandingContainer
+  form {
+    border: 1px solid black;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    background-color: #efca08;
+  }
+  .LandingContainer
+  input,
+  .LandingContainer
+  button {
+    margin: 5px;
+  }
+  
+  /*INPUT STYLING*/
+  .LandingContainer
+  input[type="text"],
+  .LandingContainer
+  input[type="password"],
+  .LandingContainer
+  textarea,
+  .LandingContainer
+  select {
+    height: 45px;
+    padding: 6px 10px; 
+    background-color: #fff;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+  .LandingContainer
+  input[type="text"]:focus,
+  .LandingContainer
+  input[type="password"]:focus,
+  .LandingContainer
+  textarea:focus {
+    border: 1px solid #00a6a4;
+    outline: 0;
+  }
+  
+  /*BUTTON STYLING*/
+  .LandingContainer
+  .button,
+  .LandingContainer
+  button,
+  .LandingContainer
+  input[type="submit"],
+  .LandingContainer
+  input[type="reset"],
+  .LandingContainer
+  input[type="button"] {
+    display: inline-block;
+    height: 38px;
+    padding: 0 30px;
+    color: black;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 38px;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color:#00a6a4 ;
+    border-radius: 4px;
+    border: 1px solid #00a6a4;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  
+  

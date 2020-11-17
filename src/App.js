@@ -11,6 +11,7 @@ import Photos from "./components/Photos";
 import Footer from "./components/Footer";
 import API from "./utils/API";
 import GeoStateContext from "./contexts/GeoStateContext";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   const [geoState, setGeoState] = useState([]);
@@ -35,7 +36,6 @@ function App() {
 
   useEffect(() => {
     handleFilterContent(0, "all")
-
   }, []);
 
   const editEntry = res => {
@@ -79,15 +79,12 @@ function App() {
   //     setGeoState(geoState => [...geoState, newGeo]);
   //     console.log(newGeo)
   //   }
-
   // }
-
   const deleteReset = () => {
     API.getUserData(userState.id).then(userdata => {
       setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
     });
   };
-
   const handleFilterContent = (id, type) => {
     if (type === "all") {
       API.getUserData(userState.id).then(async (userdata) => {
@@ -108,40 +105,47 @@ function App() {
           console.log("true")
           setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
-
       });
     }
     // return null
-
   }
 
   return (
-
     <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset }}>
-      <div className="App">
-        <Hero />
-        <div class="container">
-          <div class="columns">
-            <div class="column">
+      <Router>
+       <div className="App">
+          {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+          <Switch>
+             <Route exact path="/Login">
+              <LandingPage />
+            </Route> 
+            <Route path="/">
+            <Hero />
+        <div className="container">
+          <div className="columns">
+            <div className="column">
               <Map />
             </div>
-            <div class="column">
-              <Router>
-                <WindowNav handleViewSwitch={handleViewSwitch} />
-                <div class="columns">
+            <div className="column">
+                <WindowNav handleViewSwitch={handleViewSwitch}/>
+                <div className="columns">
                   {/* Router buttons for map and journal */}
-                  <div class="column">
-                    {viewState === "journal" ? <Journal /> : <Photos />}
+                  <div className="column">
+                    {viewState==="journal"? <Journal /> : <Photos />}
                     {/* <Route exact path="/Journal" component={Journal} />
                     <Route exact path="/photos" component={Photos} /> */}
                   </div>
                 </div>
-              </Router>
+              
             </div>
           </div>
         </div>
         <Footer />
-      </div>
+            </Route>
+          </Switch>
+       </div>
+      </Router>
     </GeoStateContext.Provider>
   );
 }

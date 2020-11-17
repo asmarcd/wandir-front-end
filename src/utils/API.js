@@ -80,6 +80,20 @@ const API = {
         return fetch(`${URL_PREFIX}/api/geos/${geoId}`, {
         }).then(res => res.json(res)).catch(err => null)
     },
+
+    updatePhoto: function (data) {
+        console.log("Hi")
+        console.log(data)
+        return fetch(`${URL_PREFIX}/api/photos/${data.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.send("association Added")).catch(err => null)
+    },
+    
+
     // createPoint:function(token,fishData){
     //     return fetch(`${URL_PREFIX}/api/fishes`,{
     //         method:"POST",

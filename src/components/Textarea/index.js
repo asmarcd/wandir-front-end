@@ -7,44 +7,20 @@ import API from "../../utils/API";
 import "./style.css";
 const { Input, Field, Control, Label } = Form;
 
-function TextArea(props) {
-  // all the current geos, gets updated based on point click on map
-  const { geoState } = useContext(GeoStateContext);
-  // who the user is
-  const { userState } = useContext(GeoStateContext);
+function TextArea() {
+
+  const { geoState, inputState, handleInputChange, handleFilterContent } = useContext(GeoStateContext);
   //Map over the geostate to create an array of objs in the format metions needs for lookup
   const newGeo = geoState.map((e) => {
     return { id: e.id, display: e.place };
   });
 
-  // holds the input state for the form
-  const [inputState, setInputState] = useState({
-    title: "",
-    date: "",
-    body: "",
-    UserId: userState.id,
-  });
   // holds every mention created in the inputState.title
   const [geoTagState, setgeoTagState] = useState([]);
 
   // useEffect(()=>{
   //     setGeoTagState(props.geo)
   // })
-
-  // handles the input change by the user
-  const handleInputChange = (e) => {
-    let name;
-    // this conditional checks for an e.target.name
-    // if it doesn't exist it is coming from the text area (body). I couldn't figure out how to attach a name to that field
-    if (e.target.name) {
-      name = e.target.name;
-    } else name = "body";
-    const value = e.target.value;
-    setInputState({
-      ...inputState,
-      [name]: value,
-    });
-  };
 
   // handles the form being submitted
   const handleFormSubmit = (event) => {
@@ -60,8 +36,16 @@ function TextArea(props) {
         console.log(res);
       });
     });
+
     //pass those geotag names
   };
+
+  const handleEdit = event => {
+    console.log(inputState)
+    event.preventDefault();
+    API.updateEntry(inputState).then(res => console.log(res));
+    handleFilterContent(0, "all");
+  }
 
   return (
     <div>
@@ -91,6 +75,9 @@ function TextArea(props) {
         </Field>
         <Button color="primary" rounded outlined onClick={handleFormSubmit}>
           Submit
+        </Button>
+        <Button color="primary" rounded outlined onClick={handleEdit}>
+          Edit
         </Button>
       </form>
       <MentionsInput

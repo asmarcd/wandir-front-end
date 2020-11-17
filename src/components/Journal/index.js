@@ -4,11 +4,10 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import JournalComponent from "../JournalComponent";
 import TextArea from "../Textarea";
 import { Button } from 'react-bulma-components'
-import API from "../../utils/API";
-
+import API, { updateEntry } from "../../utils/API"
 
 export default function Journal() {
-  const { journalEntries } = useContext(GeoStateContext);
+  const { journalEntries, editEntry } = useContext(GeoStateContext);
 
   const [editState, setEdit] = useState(false)
 
@@ -18,15 +17,13 @@ export default function Journal() {
   };
 
   const editClick = id => {
-    console.log("edit button click")
-    // Pausing here to go back to delete testing, but this function works tos how the click event happening.
+    setEdit(!editState);
+    API.getEntry(id).then(res => {
+      editEntry(res);
+    });
   };
 
-  // const deleteClick = id => {
-  //   API.deleteEntry(id).then(res => {
-  //     deleteReset();
-  //   });
-  // };
+
 
   return (
     <div id="journalWindow">

@@ -71,6 +71,8 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
           contentLabel="Example Modal"
         >
  
+
+ 
           <h2 ref={_subtitle => (subtitle = _subtitle)}>{geoId}</h2>
           <img className="modalThumb" src={url} />
           <p>Add geo tag</p>

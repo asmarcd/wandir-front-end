@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch,Redirect } from "react-router-dom";
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
 import Map from "./components/Map";
@@ -19,16 +19,37 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [viewState, setViewState] = useState("journal")
   //
-  const [userState, setUserState] = useState({
-    id: 1,
-    username: "User1",
-    email: "user1@gmail.com",
-    token: "",
-    isLoggedIn: true,
-  });
+  const [userState, setUserState] = useState(
+  );
+  const [refresh, setRefresh] = useState(true
+    );
+
   useEffect(() => {
-    handleFilterContent(0, "all")
-  }, []);
+    const token = localStorage.getItem("token");
+    API.checkAuth(token).then(profileData=>{
+      console.log(profileData)
+      if(profileData){
+        console.log(profileData)
+        setUserState({
+          id:profileData.id,
+          name:profileData.name,
+          email:profileData.email,
+          token:token,
+          isLoggedIn:true
+        }, handleFilterContent(profileData.id,"all"))
+      }else {
+        localStorage.removeItem("token");
+        setUserState({
+          id:"",
+          name:"",
+          email:"",
+          token:"",
+          isLoggedIn:false
+        }, handleFilterContent(1,"all"))
+      }
+    })
+  }, [refresh]);
+
   const handleViewSwitch = (event) => {
     console.log(event)
     if (event.target.id === "journalBtn") {
@@ -54,8 +75,9 @@ function App() {
     });
   };
   const handleFilterContent = (id, type) => {
+    console.log(id)
     if (type === "all") {
-      API.getUserData(userState.id).then(async (userdata) => {
+      API.getUserData(id).then(async (userdata) => {
         await setGeoState(userdata.geo);
         await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
         await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
@@ -78,20 +100,35 @@ function App() {
     }
     // return null
   }
+  const fireRefresh =()=>{
+    setRefresh(!refresh)
+  }
+
+  const handleLogout = () =>{
+    console.log("Fire logout");
+    localStorage.removeItem("token");
+        setUserState({
+          id:"",
+          name:"",
+          email:"",
+          token:"",
+          isLoggedIn:false
+        })
+  }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, userState, handleFilterContent, deleteReset }}>
+    <GeoStateContext.Provider value={{ geoState, userState, journalEntries, photos, handleFilterContent, deleteReset }}>
       
       <Router>
        <div className="App">
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-             <Route exact path="/Login">
-              <LandingPage />
+             <Route exact path="/">
+              <LandingPage fireRefresh={fireRefresh}/>
             </Route> 
-            <Route path="/">
-            <Hero />
+            <Route path="/dashboard">
+            <Hero handleLogout={handleLogout}/>
         <div className="container">
           <div className="columns">
             <div className="column">

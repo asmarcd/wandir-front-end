@@ -22,7 +22,7 @@ const customStyles = {
   Modal.setAppElement('#root')
 
 export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
-  const [editState, setEditState] = useState({id:id, geoid:4, entryid:1});
+  const [editState, setEditState] = useState({id:id, geoid:4, entryid:2});
     var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
   function openModal() {

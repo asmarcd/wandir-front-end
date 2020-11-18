@@ -27,9 +27,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     API.checkAuth(token).then(profileData=>{
-      console.log(profileData)
       if(profileData){
-        console.log(profileData)
         setUserState({
           id:profileData.id,
           name:profileData.name,

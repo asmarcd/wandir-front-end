@@ -7,9 +7,9 @@ import API from "../../utils/API";
 import "./style.css";
 const { Input, Field, Control, Label } = Form;
 
-function TextArea() {
+function TextArea(props) {
 
-  const { geoState, inputState, handleInputChange, handleFilterContent } = useContext(GeoStateContext);
+  const { geoState, inputState, handleInputChange, deleteReset } = useContext(GeoStateContext);
   //Map over the geostate to create an array of objs in the format metions needs for lookup
   const newGeo = geoState.map((e) => {
     return { id: e.id, display: e.place };
@@ -25,6 +25,8 @@ function TextArea() {
   // handles the form being submitted
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    props.handleClick()
+    deleteReset();
     //parse through the input body and pull out any geotag names, as long as it still exists in body
     const filter = geoTagState.filter((e) => inputState.body.includes(e.place));
     // then take all those geotags and create an arry of the ids
@@ -36,15 +38,15 @@ function TextArea() {
         console.log(res);
       });
     });
-
-    //pass those geotag names
   };
 
   const handleEdit = event => {
-    console.log(inputState)
     event.preventDefault();
-    API.updateEntry(inputState).then(res => console.log(res));
-  }
+    API.updateEntry(inputState).then(res => console.log(res)).then(
+      props.handleClick()
+    )
+
+  };
 
   return (
     <div>

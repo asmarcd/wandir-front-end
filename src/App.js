@@ -45,7 +45,7 @@ function App() {
         // TODO: change the user id 1 hardcodes
         localStorage.removeItem("token");
         setUserState({
-          id:"",
+          id:1,
           name:"",
           email:"",
           token:"",
@@ -125,9 +125,11 @@ function App() {
     console.log(id)
     if (type === "all") {
       API.getUserData(id).then(async (userdata) => {
-        await setGeoState(userdata.geo);
-        await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
-        await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
+        if(userdata){
+          await setGeoState(userdata.geo);
+          await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+          await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));  
+        }
       });
     }
     if (type === "geo") {

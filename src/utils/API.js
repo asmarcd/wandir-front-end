@@ -1,9 +1,9 @@
-const URL_PREFIX = "http://localhost:3001"
-// const URL_PREFIX = "https://augfish-api.herokuapp.com"
+// const URL_PREFIX = "http://localhost:3001"
+const URL_PREFIX = "https://wandir.herokuapp.com"
 
 const API = {
     login:function(userData){
-        console.log(userData)
+        console.log("Logging in",userData)
         return fetch(`${URL_PREFIX}/api/users/login`,{
             method:"POST",
             headers: {

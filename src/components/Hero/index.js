@@ -22,7 +22,7 @@ export default function Hero() {
                     />
                   </div>
                   <div className="control">
-                    <a className="button is-warning">Search</a>
+                    <a className="button is-warning text-is-black">Search</a>
                   </div>
                   <br />
                 </div>

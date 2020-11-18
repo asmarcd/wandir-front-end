@@ -114,7 +114,7 @@ export default function Map() {
       API.updatePoint(pendingMarkerState).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
-        handleFilterContent(0,"all")
+        handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
@@ -124,7 +124,7 @@ export default function Map() {
       API.createPoint(pendingMarkerState).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
-        handleFilterContent(0,"all")
+        handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
@@ -157,7 +157,7 @@ export default function Map() {
     // make the api call sending in the id
     API.deletePoint(id).then((res) => {
       // send in a request up to app to remove that geo from state and therefore the map
-      handleFilterContent(0,"all")
+      handleFilterContent(userState.id,"all")
     });
   };
 
@@ -170,7 +170,7 @@ export default function Map() {
     // push the pending marker to db
   }
   const handlePopupClose = () =>{ 
-    handleFilterContent(0, "all")
+    handleFilterContent(userState.id, "all")
   }
   // render the map elements
   return (

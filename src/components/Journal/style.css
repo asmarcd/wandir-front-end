@@ -1,0 +1,50 @@
+#journalWindow{
+    background-color: #efca08;
+    height: 753px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+#postArea{
+    width:98%;
+    height: 98%;
+    margin: auto;
+    overflow-y:auto;
+    overflow-x: hidden;
+}
+
+.media-content {
+    background-color: white;
+    border-style: solid;
+    border-color: coral;
+    border-color: #00a6a4;
+    font-weight: bolder;
+    color: black;
+    
+}
+strong {
+    font-size: larger;
+}
+
+.content {
+    padding: 0 18px;
+  /* max-height: 0px; */
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+.content p {
+    margin: 10px 0;
+}
+
+@media (max-width: 767px){
+    #journalWindow{
+        background-color: #efca08;
+        height: 453px;
+        width:95%;
+        margin: auto;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
+    }
+}

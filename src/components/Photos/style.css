@@ -1,0 +1,34 @@
+#photoWindow{
+    background-color: #f49e09;
+    height: 753px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+#gallery {
+    padding:10px;
+    height: inherit;
+    overflow-y:auto; 
+    overflow-x: hidden;
+}
+
+ #gallery img{
+    /* width:32%;
+    padding-top: 0px;
+    overflow: hidden;
+    margin:2px; */
+    object-fit: cover;
+    object-position: bottom;
+    /* display: inline; */
+}
+
+@media (max-width: 767px){
+    #photoWindow{
+        background-color: #f49e09;
+        height: 453px;
+        width:95%;
+        margin: auto;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
+    }
+}

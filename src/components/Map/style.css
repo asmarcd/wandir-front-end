@@ -1,0 +1,40 @@
+#mapWindow {
+    position: relative;
+    background-color: #00a6a4;
+    height: 800px;
+    border-radius: 7px;
+    
+}
+.leaflet-container {
+    /* position: absolute; */
+    margin:auto;
+    width: 98%;
+    height:93%;
+    cursor: grab;
+}
+/* sets the cursor to the point when edit is active */
+.edit-active {
+    cursor: url('https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png') 10 50, auto;
+}
+.pending-marker{
+    border: 2px solid salmon;
+}
+
+@media (max-width: 767px){
+    #mapWindow{
+        position: relative;
+        background-color: #00a6a4;
+        height: 500px;
+        width: 95%;
+        border-radius: 7px;
+        margin: auto;
+    }
+
+    .leaflet-container {
+        /* position: absolute; */
+        margin:auto;
+        width: 98%;
+        height: 445px;
+        cursor: grab;
+    }
+}

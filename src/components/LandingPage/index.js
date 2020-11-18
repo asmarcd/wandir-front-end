@@ -5,7 +5,7 @@ import API from "../../utils/API";
 import {
   Redirect
 } from "react-router-dom";
-
+import heroImg from "../../assets/hero3_img.png"
 
 class LandingPage extends React.Component {
   constructor() {
@@ -41,14 +41,19 @@ class LandingPage extends React.Component {
   }
   render() {
     return (
-      <div className="LandingContainer"><img src={Logo} /> <br />
-      {this.state.submit?<Redirect to="/dashboard" />:null}
+
+    <div className="LandingContainer"> 
+    {this.state.submit?<Redirect to="/dashboard" />:null}
+      <div className="PhotoHolder">
+          {/* <img className="heroImg" src={heroImg}/> */}
+            <img className="LandingPhoto" src={Logo} />
+              </div> 
         <div
           style={{
             transform: `translate(${
               this.state.form === "login" ? 0 : 100
             }px, 0px)`,
-          }}
+          }} 
           className="LandingForm"
         >
           <form onSubmit={this.onSubmit.bind(this)}>
@@ -65,7 +70,7 @@ class LandingPage extends React.Component {
         <div
           style={{
             transform: `translate(${
-              this.state.form === "login" ? 0 : -200
+              this.state.form === "login" ? 0 : -215
             }px, 0px)`,
           }}
           className="LandingButtonDiv"

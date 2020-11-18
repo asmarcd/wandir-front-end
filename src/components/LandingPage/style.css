@@ -3,9 +3,19 @@
     justify-content: center;
     align-items: center;
     max-width: 300px;
-  margin: 0 auto;
+    margin: 0 auto;
     height: 100vh;
  
+  }
+  .PhotoHolder .LandingPhoto {
+        height: 300px;
+        left: 50%;
+        margin-top: -110px;
+        margin-left: -190px;
+        position: absolute;
+        top: 25%;
+        width: 400px;
+     
   }
   .LandingContainer
   body {
@@ -89,5 +99,22 @@
     cursor: pointer;
     box-sizing: border-box;
   }
-  
+ /* .LandingContainer .heroImg {
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    border-bottom: 5px solid #f49e09;
+    margin-bottom: 3vh;
+} */
+  @media only screen and (max-width: 500px) {
+    .PhotoHolder .LandingPhoto {
+    height: 250px;
+    left: 50%;
+    margin-top: -148px;
+    margin-left: -190px;
+    position: absolute;
+    top: 25%;
+    width: 400px;
+    }
+
+  }
   

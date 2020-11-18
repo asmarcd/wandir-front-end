@@ -115,6 +115,27 @@ const API = {
                 'Content-Type': 'application/json',
             }
         }).then(res => res.json()).catch(err => null)
+    },
+
+    // Get Entry from data base
+    getEntry: function (entryId) {
+        return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json()).catch(err => null)
+    },
+
+    // Update existing entry:
+    updateEntry: function (newInputObject) {
+        return fetch(`${URL_PREFIX}/api/entries/${newInputObject.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newInputObject)
+        }).then(res => res.json().catch(err => null))
     }
 }
 

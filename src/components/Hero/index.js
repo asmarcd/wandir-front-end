@@ -23,16 +23,17 @@ export default function Hero(props) {
                     />
                   </div>
                   <div className="control">
-                    <a className="button is-warning">Search</a>
+                    <a className="button">Search</a>
                   </div>
                   <br />
                 </div>
               </div>
               <div className="column 4">
               <div className="control is-pulled-right">
-                  <Link to="/">
-                    <a className="button is-warning " onClick={props.handleLogout}>Log Out</a>
-                  </Link>
+                <Link to="/">
+                  <button className="button">Log Out</button>
+                </Link>
+
                   </div>
               </div>
             </div>

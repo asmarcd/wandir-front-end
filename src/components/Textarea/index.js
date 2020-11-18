@@ -42,10 +42,10 @@ function TextArea(props) {
 
   const handleEdit = event => {
     event.preventDefault();
-    API.updateEntry(inputState).then(res => console.log(res)).then(
-      props.handleClick()
-    )
-
+    console.log(`handleedit`)
+    API.updateEntry(inputState).then(res => {
+      console.log(res)
+    }).then(props.handleClick())
   };
 
   return (

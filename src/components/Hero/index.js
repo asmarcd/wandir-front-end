@@ -22,14 +22,14 @@ export default function Hero() {
                     />
                   </div>
                   <div className="control">
-                    <a className="button is-warning">Search</a>
+                    <a className="button">Search</a>
                   </div>
                   <br />
                 </div>
               </div>
               <div className="column 4">
               <div className="control is-pulled-right">
-                    <a className="button is-warning ">Log Out</a>
+                    <button className="button">Log Out</button>
                   </div>
               </div>
             </div>

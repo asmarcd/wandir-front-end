@@ -20,18 +20,20 @@ const API = {
             }
         }).then(res=> res.json()).catch(err=>null)
     },
-    // getUsers:function(userId){
-    //     return fetch(`${URL_PREFIX}/api/users/`,{
-    //     }).then(res=>res.json()).catch(err=>null)
-    // },
+    createUser: function (newUser) {
+        console.log(newUser)
+        return fetch(`${URL_PREFIX}/api/users`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser)
+        }).then(res => res.json()).catch(err => null)
+    },
     getUserData: function (userId) {
         return fetch(`${URL_PREFIX}/api/users/${userId}`, {
         }).then(res => res.json(res)).catch(err => null)
     },
-    // getOneTank:function(tankId){
-    //     return fetch(`${URL_PREFIX}/api/tanks/${tankId}`,{
-    //     }).then(res=>res.json()).catch(err=>null)
-    // },
     createPoint: function (geoData) {
         return fetch(`${URL_PREFIX}/api/geos`, {
             method: "POST",
@@ -94,19 +96,6 @@ const API = {
             body: JSON.stringify(data)
         }).then(res => res.send("association Added")).catch(err => null)
     },
-    
-
-    // createPoint:function(token,fishData){
-    //     return fetch(`${URL_PREFIX}/api/fishes`,{
-    //         method:"POST",
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             "authorization": `Bearer ${token}`
-    //           },
-    //         body:JSON.stringify(fishData)
-    //     }).then(res=> res.json()).catch(err=>null)
-    // }
-
     // Delete Entry:
     deleteEntry: function (entryId) {
         return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {

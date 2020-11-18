@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo_2.png";
+
 import {Link} from 'react-router-dom'
 
 export default function Hero(props) {

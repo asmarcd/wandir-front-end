@@ -24,13 +24,17 @@ class LandingPage extends React.Component {
     
     const userdata ={email:this.state.email, password:this.state.password}
     API.login(userdata).then(newToken=>{
+      if(!newToken){
+        this.setState({form: "login", email:"", password:"" })
+        alert("Incorrect username or Password")
+        return
+      }
       localStorage.setItem("token",newToken.token)
-      
-    }).then((newToken)=>{
-        this.props.fireRefresh()
-        this.setState({submit:true})
-    })
-
+      this.props.fireRefresh()
+      this.setState({submit:true})
+    }).then(
+      this.setState({form: "login",submit:false, email:"", password:"" })
+    )
   }
   handleInput(e){
     const name = e.target.name;
@@ -57,8 +61,8 @@ class LandingPage extends React.Component {
           className="LandingForm"
         >
           <form onSubmit={this.onSubmit.bind(this)}>
-            <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} name="email"/>
-            <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} name="password"/>
+            <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} value={this.state.email} name="email"/>
+            <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} value={this.state.password} name="password"/>
             {this.state.form === "login" ? (
               ""
             ) : (

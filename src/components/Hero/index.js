@@ -1,8 +1,9 @@
 import React from "react";
 import "./style.css";
 import Logo from "../../assets/logo.png";
+import {Link} from 'react-router-dom'
 
-export default function Hero() {
+export default function Hero(props) {
   return (
     <div>
       <section className="heroImg">
@@ -29,7 +30,10 @@ export default function Hero() {
               </div>
               <div className="column 4">
               <div className="control is-pulled-right">
-                    <button className="button">Log Out</button>
+                <Link to="/">
+                  <button className="button">Log Out</button>
+                </Link>
+
                   </div>
               </div>
             </div>

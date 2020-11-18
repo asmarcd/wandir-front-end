@@ -84,7 +84,14 @@ function App() {
     API.getUserData(userState.id).then(userdata => {
       setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
     });
+    setInputState({
+      ...inputState,
+      title: "",
+      date: "",
+      body: ""
+    });
   };
+
   const handleFilterContent = (id, type) => {
     if (type === "all") {
       API.getUserData(userState.id).then(async (userdata) => {

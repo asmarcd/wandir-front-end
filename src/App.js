@@ -37,7 +37,12 @@ function App() {
           token:token,
           isLoggedIn:true
         }, handleFilterContent(profileData.id,"all"))
+        setInputState({
+          ...inputState,
+          UserId: profileData.id,
+        });
       }else {
+        // TODO: change the user id 1 hardcodes
         localStorage.removeItem("token");
         setUserState({
           id:"",
@@ -46,7 +51,12 @@ function App() {
           token:"",
           isLoggedIn:false
         }, handleFilterContent(1,"all"))
+        setInputState({
+          ...inputState,
+          UserId: 1,
+        });
       }
+      
     })
   }, [refresh]);
 
@@ -54,7 +64,7 @@ function App() {
     title: "",
     date: "",
     body: "",
-    UserId: userState.id
+    UserId: ""
   });
 
   const editEntry = res => {

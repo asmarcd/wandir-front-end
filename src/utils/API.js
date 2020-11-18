@@ -127,6 +127,17 @@ const API = {
         }).then(res => res.json()).catch(err => null)
     },
    
+
+    // Delete Photo
+    deletePhoto: function (entryId) {
+        return fetch(`${URL_PREFIX}/api/photo/${entryId}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json()).catch(err => null)
+    },
+
     // Delete Entry:
     deleteEntry: function (entryId) {
         return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {

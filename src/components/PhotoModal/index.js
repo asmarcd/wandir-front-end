@@ -50,7 +50,16 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
     })
   }
 
-  
+  const deleteClick = id => {
+    const deletedId = id;
+    API.deleteEntry(id).then(res => {
+      // if(deletedId !== res){
+      //   deleteReset();
+      //   setIsOpen(!isOpen)
+      // }
+
+    });
+  };
 
 
   // Set dropdown menues
@@ -141,7 +150,8 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
           /> */}
            
             <button className="addGeo" onClick={handleUpdate}>Submit</button>
-            <button className="photoDelete">Delete</button>
+            <button className="deleteImg" onClick={e=>deleteClick(id)}>Delete</button>
+            {/* <button className="photoDelete" onClick={e => deleteClick(id)}>Delete</button> */}
           </form>
         </Modal>
       </div>

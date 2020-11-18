@@ -45,7 +45,7 @@ function App() {
         // TODO: change the user id 1 hardcodes
         localStorage.removeItem("token");
         setUserState({
-          id:"",
+          id:1,
           name:"",
           email:"",
           token:"",

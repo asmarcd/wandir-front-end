@@ -5,11 +5,9 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import API from "../../utils/API"
 
 
-const handleLink = () => {
-  console.log("Hey")
-}
+
 export default function JournalComponent({ id, title, date, body, editClick, ...rest }) {
-  const { deleteReset } = useContext(GeoStateContext)
+  const { deleteReset, geoState } = useContext(GeoStateContext)
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,6 +17,10 @@ export default function JournalComponent({ id, title, date, body, editClick, ...
       setIsOpen(!isOpen)
     });
   };
+  const handleLink = () => {
+    // TODO: THought this could be where we handle the geotag link,
+    // But it fires for the whole body click and not just the link...
+  }
 
   return (
     <article className="media" {...rest}>
@@ -30,7 +32,7 @@ export default function JournalComponent({ id, title, date, body, editClick, ...
         {isOpen && (
           <div className="content">
             <p>
-              <ReactMarkdown children={body} transformLinkUri={handleLink} />
+              <ReactMarkdown className="markdown"children={body} transformLinkUri={handleLink} />
               <div className="entryMenu">
                 <button className="entryEdit" onClick={e => editClick(id)}>Edit</button>
                 <button className="entryDelete" onClick={e => deleteClick(id)}>Delete</button>

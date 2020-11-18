@@ -23,18 +23,43 @@ class LandingPage extends React.Component {
     e.preventDefault();
     
     const userdata ={email:this.state.email, password:this.state.password}
-    API.login(userdata).then(newToken=>{
-      if(!newToken){
-        this.setState({form: "login", email:"", password:"" })
-        alert("Incorrect username or Password")
+    if(this.state.form==="login"){
+      API.login(userdata).then(newToken=>{
+        if(!newToken){
+          this.setState({form: "login", email:"", password:"" })
+          alert("Incorrect username or Password")
+          return
+        }
+        localStorage.setItem("token",newToken.token)
+        this.props.fireRefresh()
+        this.setState({submit:true})
+      }).then(
+        this.setState({form: "login",submit:false, email:"", password:"" })
+      )
+  
+    }else if(this.state.form==="register"){
+      console.log(this.state.password , this.state.passowrd2)
+      if(this.state.password === this.state.password2){
+        API.createUser({email:this.state.email, username:this.state.username, password:this.state.password}).then(newUser =>{
+          API.login({email:this.state.email, password:this.state.password}).then(newToken=>{
+            if(!newToken){
+              this.setState({form: "login", email:"", password:"" })
+              alert("Incorrect username or Password")
+              return
+            }
+            localStorage.setItem("token",newToken.token)
+            this.props.fireRefresh()
+            this.setState({submit:true})
+          }).then(
+            this.setState({form: "login",submit:false, email:"", password:"" })
+          )
+        })
+      }else{
+        alert("passwords do not match")
         return
       }
-      localStorage.setItem("token",newToken.token)
-      this.props.fireRefresh()
-      this.setState({submit:true})
-    }).then(
-      this.setState({form: "login",submit:false, email:"", password:"" })
-    )
+      console.log("register", userdata)
+    }
   }
   handleInput(e){
     const name = e.target.name;
@@ -61,12 +86,22 @@ class LandingPage extends React.Component {
           className="LandingForm"
         >
           <form onSubmit={this.onSubmit.bind(this)}>
+          {this.state.form === "login" ? (
+              ""
+            ) : (
+              <div>
+                 <input placeholder="Username" type="text" onChange={this.handleInput.bind(this)} value={this.state.username} name="username"/>
+              </div>
+            )}
+
             <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} value={this.state.email} name="email"/>
             <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} value={this.state.password} name="password"/>
             {this.state.form === "login" ? (
               ""
             ) : (
-              <input placeholder="Re-typed password" type="password" />
+              <div>
+                <input placeholder="Re-typed password" type="password" onChange={this.handleInput.bind(this)} value={this.state.password2} name="password2"/>
+              </div>
             )}
             <button>Submit</button>
           </form>

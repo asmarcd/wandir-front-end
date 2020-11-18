@@ -32,7 +32,7 @@ export default function Hero(props) {
               <div className="column 4">
               <div className="control is-pulled-right">
                 <Link to="/">
-                  <button className="button">Log Out</button>
+                  <button className="button" onClick={props.handleLogout}>Log Out</button>
                 </Link>
 
                   </div>

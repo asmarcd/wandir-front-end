@@ -14,3 +14,20 @@
     padding-top: 40px;
 }
 
+.button{
+    background: #efca08;
+}
+
+@media (max-width: 767px){
+    .heroImg{
+        background:#efca08;
+    }
+
+    .brandLogo {
+        display: none;
+    }
+
+    .button{
+        background: #00a6a4;
+    }
+}

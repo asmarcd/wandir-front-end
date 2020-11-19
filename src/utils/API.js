@@ -129,13 +129,14 @@ const API = {
    
 
     // Delete Photo
-    deletePhoto: function (entryId) {
-        return fetch(`${URL_PREFIX}/api/photo/${entryId}`, {
+    deletePhoto: function (photoId) {
+        console.log(photoId)
+        return fetch(`${URL_PREFIX}/api/photos/${photoId}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
             }
-        }).then(res => res.json()).catch(err => null)
+        })
     },
 
     // Delete Entry:

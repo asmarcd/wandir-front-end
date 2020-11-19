@@ -109,7 +109,8 @@ function App() {
   // }
   const deleteReset = () => {
     API.getUserData(userState.id).then(userdata => {
-      setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+      setJournalEntries(userdata.entry?.map(({ id, title, date, body }) => ({ id, title, date, body }))||[]);
+      setPhotos(userdata.photo?.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId }))||[]);
     });
     setInputState({
       ...inputState,

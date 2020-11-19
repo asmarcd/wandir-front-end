@@ -86,6 +86,13 @@ const API = {
         }).then(res => res.json()).catch(err => null)
     },
 
+    // filter by entry
+    filterByEntry: function (entryId) {
+        // console.log(geoId)
+        return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {
+        }).then(res => res.json(res)).catch(err => null)
+    },
+
     // add a geotag to entry association
     addGeotoEntry: function (geos, id) {
         return fetch(`${URL_PREFIX}/api/entries/addpoint/${id}`, {

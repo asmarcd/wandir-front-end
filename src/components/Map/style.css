@@ -53,13 +53,19 @@ button {
         /* position: absolute; */
         margin:auto;
         width: 96%;
-        height: 370px;
+        height: 400px;
         cursor: grab;
         border-radius: 10px;
     }
 
     .mapInputFields{
         padding-top: 5px;
+    }
+    
+    .mapBtn {
+        background-color: #efca08;
+        margin-left: 10px;
+        margin-bottom: 10px;
     }
     
 }

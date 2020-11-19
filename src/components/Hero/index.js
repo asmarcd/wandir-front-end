@@ -1,28 +1,36 @@
-import React, {useState} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import "./style.css";
 import Logo from "../../assets/logo_2.png";
 
 import {Link} from 'react-router-dom'
+import API from "../../utils/API";
+import GeoStateContext from "../../contexts/GeoStateContext";
 
 export default function Hero(props) {
+
+  const { fireRefresh } = useContext(GeoStateContext);
+
   const [searchState, setSearchState] =useState({
     searchInput:"",
     triggered:false
   })
+  useEffect(() => {
+    fireRefresh()
+  }, [searchState.triggered])
 
   function handleInput(event){
     const name =event.target.name
     const value = event.target.value
     setSearchState({
       ...searchState,
-      triggered:false,
+      triggered:!searchState.triggered,
       [name]:value
     });
   }
 
   function handleClick(){
-    console.log("Search")
-    setSearchState({...searchState,triggered:true})
+    props.handleSearch(searchState.searchInput)
+
   }
 
   return (

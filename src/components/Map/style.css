@@ -9,8 +9,9 @@
     /* position: absolute; */
     margin:auto;
     width: 98%;
-    height:93%;
+    height:84%;
     cursor: grab;
+    border-radius: 10px;
 }
 /* sets the cursor to the point when edit is active */
 .edit-active {
@@ -18,6 +19,11 @@
 }
 .pending-marker{
     border: 2px solid salmon;
+}
+
+.mapBtn {
+    background-color: #efca08;
+    margin: 10px;
 }
 
 @media (max-width: 767px){
@@ -33,8 +39,9 @@
     .leaflet-container {
         /* position: absolute; */
         margin:auto;
-        width: 98%;
-        height: 445px;
+        width: 96%;
+        height: 370px;
         cursor: grab;
+        border-radius: 10px;
     }
 }

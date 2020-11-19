@@ -180,9 +180,9 @@ export default function Map() {
       <div>
         {/* edit state controls if it is an add or save button */}
         {!editState ? (
-          <button onClick={(e) => setEditState(!editState)}>Create Place</button>
+          <button className="button mapBtn" onClick={(e) => setEditState(!editState)}>Create Place</button>
         ) : (
-          <button onClick={(e) => setEditState(!editState)}>Cancel</button>
+          <button className="button mapBtn" onClick={(e) => setEditState(!editState)}>Cancel</button>
         )}
         {/* only show the input fields if in edit mode */}
         {editState ? (
@@ -205,7 +205,7 @@ export default function Map() {
         ) : null}
       </div>
       {/* sets if the user wants to geolocate or not */}
-      <button onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
+      <button className="button mapBtn"onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode

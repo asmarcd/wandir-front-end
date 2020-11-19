@@ -1,13 +1,13 @@
 #photoWindow{
     background-color: #f49e09;
-    height: 753px;
+    height: 752px;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
 
 #gallery {
     padding:10px;
-    height: inherit;
+    height: 695px;
     overflow-y:auto; 
     overflow-x: hidden;
 }
@@ -19,7 +19,13 @@
     margin:2px; */
     object-fit: cover;
     object-position: bottom;
+    border-radius: 10px;
     /* display: inline; */
+}
+
+#addPhotoBtn {
+    margin-top: 10px;
+    background-color: #00a6a4;
 }
 
 @media (max-width: 767px){
@@ -30,5 +36,17 @@
         margin: auto;
         border-bottom-left-radius: 7px;
         border-bottom-right-radius: 7px;
+    }
+
+    #gallery {
+        padding:10px;
+        height: 390px;
+        overflow-y:auto; 
+        overflow-x: hidden;
+    }
+
+    #addPhotoBtn {
+        margin-top: 10px;
+        background-color: #00a6a4;
     }
 }

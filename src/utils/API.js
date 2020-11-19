@@ -1,7 +1,8 @@
-// const URL_PREFIX = "http://localhost:3001"
-const URL_PREFIX = "https://wandir.herokuapp.com"
+const URL_PREFIX = "http://localhost:3001"
+// const URL_PREFIX = "https://wandir.herokuapp.com"
 
 const API = {
+    // Sets the userstate on use affect based on login
     login:function(userData){
         console.log("Logging in",userData)
         return fetch(`${URL_PREFIX}/api/users/login`,{
@@ -12,6 +13,8 @@ const API = {
             body:JSON.stringify(userData)
         }).then(res=> res.json()).catch(err=>null)
     },
+
+    // return the userAuthentication token
     checkAuth:function(token){
         console.log("checking auth")
         return fetch(`${URL_PREFIX}/api/users/check/auth`,{
@@ -20,6 +23,8 @@ const API = {
             }
         }).then(res=> res.json()).catch(err=>null)
     },
+
+    // create a new user on registration
     createUser: function (newUser) {
         console.log(newUser)
         return fetch(`${URL_PREFIX}/api/users`, {
@@ -30,10 +35,14 @@ const API = {
             body: JSON.stringify(newUser)
         }).then(res => res.json()).catch(err => null)
     },
+
+    // get a users data, secret sauce for all data population
     getUserData: function (userId) {
         return fetch(`${URL_PREFIX}/api/users/${userId}`, {
         }).then(res => res.json(res)).catch(err => null)
     },
+
+    // Creating a new geopoint
     createPoint: function (geoData) {
         return fetch(`${URL_PREFIX}/api/geos`, {
             method: "POST",
@@ -43,6 +52,8 @@ const API = {
             body: JSON.stringify(geoData)
         }).then(res => res.json()).catch(err => null)
     },
+
+    // update a point info
     updatePoint:function(geoData){
         return fetch(`${URL_PREFIX}/api/geos/${geoData.id}`,{
             method:"PUT",
@@ -52,6 +63,8 @@ const API = {
             body:JSON.stringify(geoData)
         }).then(res=> res.json()).catch(err=>null)
     },
+    
+    // delete a geo point
     deletePoint:function(id){
         console.log("deleting", id)
         return fetch(`${URL_PREFIX}/api/geos/${id}`, {
@@ -61,6 +74,8 @@ const API = {
             }
         }).then(res => res.status(200).send("delete successful")).catch(err => null)
     },
+    
+    // add a new journal entry
     createEntry: function (entryData) {
         return fetch(`${URL_PREFIX}/api/entries`, {
             method: "POST",
@@ -70,6 +85,8 @@ const API = {
             body: JSON.stringify(entryData)
         }).then(res => res.json()).catch(err => null)
     },
+
+    // add a geotag to entry association
     addGeotoEntry: function (geos, id) {
         return fetch(`${URL_PREFIX}/api/entries/addpoint/${id}`, {
             method: "PUT",
@@ -79,15 +96,16 @@ const API = {
             body: JSON.stringify(geos)
         }).then(res => res.send("association Added")).catch(err => null)
     },
+    
+    // filter the points on point click
     filterByPoint: function (geoId) {
         // console.log(geoId)
         return fetch(`${URL_PREFIX}/api/geos/${geoId}`, {
         }).then(res => res.json(res)).catch(err => null)
     },
 
+    // upload a photo
     updatePhoto: function (data) {
-        console.log("Hi")
-        console.log(data)
         return fetch(`${URL_PREFIX}/api/photos/${data.id}`, {
             method: "PUT",
             headers: {
@@ -96,6 +114,19 @@ const API = {
             body: JSON.stringify(data)
         }).then(res => res.send("association Added")).catch(err => null)
     },
+    
+    // create new geopoint
+    createPhoto:function (photoData){
+        console.log("inside api route", photoData)
+        return fetch(`${URL_PREFIX}/api/photos`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(photoData)
+        }).then(res => res.json()).catch(err => null)
+    },
+   
     // Delete Entry:
     deleteEntry: function (entryId) {
         return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {

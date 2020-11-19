@@ -17,6 +17,9 @@
 .button{
     background: #efca08;
 }
+.active{
+    background: #028381;
+}
 
 @media (max-width: 767px){
     .heroImg{

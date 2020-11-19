@@ -12,6 +12,8 @@ import Footer from "./components/Footer";
 import API from "./utils/API";
 import GeoStateContext from "./contexts/GeoStateContext";
 import LandingPage from "./components/LandingPage";
+import stringSimilarity from 'string-similarity';
+
 
 function App() {
   const [geoState, setGeoState] = useState([]);
@@ -127,8 +129,7 @@ function App() {
           await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
       });
-    }
-    if (type === "geo") {
+    }else if(type === "geo") {
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
@@ -144,7 +145,24 @@ function App() {
     }
     // return null
   }
-  const fireRefresh = () => {
+
+  const handleSearchBar =(query) =>{
+    console.log(query)
+    console.log(geoState)
+    const geoFilter = geoState.filter(e=>{
+      if(stringSimilarity.compareTwoStrings(query.toLowerCase(), e.place.toLowerCase()) > .8){
+        return true
+      }else if (e.region && stringSimilarity.compareTwoStrings(query.toLowerCase(), e.region.toLowerCase()) > .8){
+        return true
+      }else{
+        return false
+      }
+    })
+    const entryFilter = journalEntries.filter(e=>e.title.toLowerCase().includes(query.toLowerCase()))
+    setGeoState(geoFilter);
+    setJournalEntries(entryFilter.map(({ id, title, date, body }) => ({ id, title, date, body })));
+  }
+  const fireRefresh =()=>{
     setRefresh(!refresh)
   }
 
@@ -161,7 +179,7 @@ function App() {
   }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset, fireRefresh }}>
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset}}>
 
       <Router>
         <div className="App">
@@ -172,14 +190,14 @@ function App() {
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
             <Route path="/dashboard">
-              <Hero handleLogout={handleLogout} />
-              <div className="container">
-                <div className="columns">
-                  <div className="column">
-                    <Map />
-                  </div>
-                  <div className="column">
-                    <WindowNav handleViewSwitch={handleViewSwitch} />
+            <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar}/>
+        <div className="container">
+          <div className="columns">
+            <div className="column">
+              <Map />
+            </div>
+            <div className="column">
+                <WindowNav handleViewSwitch={handleViewSwitch}/>
                     <div className="columns">
                       {/* Router buttons for map and journal */}
                       <div className="column">
@@ -188,7 +206,6 @@ function App() {
                     <Route exact path="/photos" component={Photos} /> */}
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

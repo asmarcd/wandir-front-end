@@ -1,10 +1,36 @@
-import React from "react";
+import React, {useState, useContext, useEffect} from "react";
 import "./style.css";
 import Logo from "../../assets/logo_2.png";
 
 import {Link} from 'react-router-dom'
+import API from "../../utils/API";
+import GeoStateContext from "../../contexts/GeoStateContext";
 
 export default function Hero(props) {
+
+
+  const [searchState, setSearchState] =useState({
+    searchInput:"",
+    triggered:false
+  })
+
+  function handleInput(event){
+    const name =event.target.name
+    const value = event.target.value
+    setSearchState({
+      ...searchState,
+      [name]:value
+    });
+  }
+
+  function handleClick(){
+    props.handleSearch(searchState.searchInput)
+    setSearchState({
+      searchInput:"",
+      triggered:!searchState.triggered,
+    })
+  }
+
   return (
     <div>
       <section className="heroImg">
@@ -21,10 +47,13 @@ export default function Hero(props) {
                       className="input"
                       type="text"
                       placeholder="Find a repository"
+                      name="searchInput"
+                      value={searchState.searchInput}
+                      onChange={handleInput}
                     />
                   </div>
-                  <div className="control">
-                    <a className="button">Search</a>
+                  <div className="control" >
+                    <a className="button" onClick={handleClick}>Search</a>
                   </div>
                   <br />
                 </div>

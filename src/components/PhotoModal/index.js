@@ -25,6 +25,7 @@ const customStyles = {
   Modal.setAppElement('#root')
 
 export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
+  const { deleteReset } = useContext(GeoStateContext)
   const [editState, setEditState] = useState({id:id});
     var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -99,6 +100,20 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
     });
   };
 
+  
+
+  const deleteClick = id => {
+    const deletedId = id;
+    API.deletePhoto(id).then(res => {
+      console.log(res)
+      if(deletedId !== res){
+        deleteReset();
+        setIsOpen(false)
+      }
+
+    });
+  };
+
     return (
       <div {...rest}>
         <button onClick={openModal}>Edit</button>
@@ -130,6 +145,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
           /> */}
            
             <button className="addGeo" onClick={handleUpdate}>Submit</button>
+            <button className="deleteImg" onClick={e=>{e.preventDefault();deleteClick(id)}}>Delete</button>
             {/* <button className="photoDelete" onClick={e => deleteClick(id)}>Delete</button> */}
           </form>
         </Modal>

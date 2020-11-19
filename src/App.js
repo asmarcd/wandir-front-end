@@ -110,7 +110,8 @@ function App() {
   // }
   const deleteReset = () => {
     API.getUserData(userState.id).then(userdata => {
-      setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
+      setJournalEntries(userdata.entry?.map(({ id, title, date, body }) => ({ id, title, date, body }))||[]);
+      setPhotos(userdata.photo?.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId }))||[]);
     });
     setInputState({
       ...inputState,
@@ -179,7 +180,7 @@ function App() {
   }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset}}>
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset, fireRefresh}}>
 
       <Router>
         <div className="App">

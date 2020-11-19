@@ -14,6 +14,10 @@
     cursor: grab;
     border-radius: 10px;
 }
+button {
+    background-color: #f49e09;
+    padding: 8px;
+}
 /* sets the cursor to the point when edit is active */
 .edit-active {
     cursor: url('https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png') 10 50, auto;

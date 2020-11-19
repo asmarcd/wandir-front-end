@@ -26,6 +26,10 @@
     margin: 10px;
 }
 
+.mapInputFields{
+    padding-top: 20px;
+}
+
 @media (max-width: 767px){
     #mapWindow{
         position: relative;
@@ -43,6 +47,10 @@
         height: 370px;
         cursor: grab;
         border-radius: 10px;
+    }
+
+    .mapInputFields{
+        padding-top: 5px;
     }
     
 }

@@ -177,35 +177,44 @@ export default function Map() {
     // overall container
     <div id="mapWindow">
       {/* top portion where the input and edit button is contained */}
-      <div>
+      <div className>
         {/* edit state controls if it is an add or save button */}
+        <div className>
         {!editState ? (
-          <button className="button mapBtn" onClick={(e) => setEditState(!editState)}>Create Place</button>
+          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
         ) : (
-          <button className="button mapBtn" onClick={(e) => setEditState(!editState)}>Cancel</button>
+          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
         )}
+        </div>
         {/* only show the input fields if in edit mode */}
         {editState ? (
           <span>
+            <div className="mapInputFields">
             <input
+              // className="input"
               name="place"
               id="markerInput"
+              placeholder="Add Place Name"
               value={pendingMarkerState.place}
               onChange={handleTextInput}
               label="Place"
             />
             <input
+              // className="input"
               name="region"
               id="markerInput"
+              placeHolder="Add Region Name (Optional)"
               value={pendingMarkerState.region}
               onChange={handleTextInput}
               label="Region"
             />
+            </div>
           </span>
         ) : null}
+        
       </div>
       {/* sets if the user wants to geolocate or not */}
-      <button className="button mapBtn"onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
+      {/* <button className="button mapBtn"onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button> */}
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode

@@ -161,6 +161,7 @@ const API = {
 
     // Update existing entry:
     updateEntry: function (newInputObject) {
+        console.log('updated')
         return fetch(`${URL_PREFIX}/api/entries/${newInputObject.id}`, {
             method: "PUT",
             headers: {

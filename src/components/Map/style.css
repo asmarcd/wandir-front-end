@@ -3,8 +3,9 @@
     background-color: #00a6a4;
     height: 800px;
     border-radius: 7px;
-    
+    margin-top: 15px;;
 }
+
 .leaflet-container {
     /* position: absolute; */
     margin:auto;
@@ -27,7 +28,15 @@ button {
 
 .mapBtn {
     background-color: #efca08;
-    margin: 10px;
+    margin-left: 10px;
+}
+
+#locationBtn{
+    margin-top:10px;
+}
+
+.mapInputFields{
+    padding-top: 10px;;
 }
 
 @media (max-width: 767px){
@@ -47,6 +56,10 @@ button {
         height: 370px;
         cursor: grab;
         border-radius: 10px;
+    }
+
+    .mapInputFields{
+        padding-top: 5px;
     }
     
 }

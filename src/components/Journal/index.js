@@ -12,7 +12,6 @@ export default function Journal() {
   const [editState, setEdit] = useState(false)
 
   const handleClick = () => {
-    console.log(`handleclick`)
     setEdit(!editState);
     deleteReset();
   };
@@ -26,8 +25,9 @@ export default function Journal() {
 
   return (
     <div id="journalWindow">
+      {editState ? <Button className="jrnBtn is-pulled-left" onClick={handleClick}>Cancel</Button> : <Button className="jrnBtn is-pulled-left" onClick={handleClick}>Add</Button>}
       <div id="postArea">
-        {editState ? <Button className="jrnBtn" onClick={handleClick}>Cancel</Button> : <Button className="jrnBtn" onClick={handleClick}>Add</Button>}
+        {/* {editState ? <Button className="jrnBtn" onClick={handleClick}>Cancel</Button> : <Button className="jrnBtn" onClick={handleClick}>Add</Button>} */}
         {editState ? <TextArea handleClick={handleClick} /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} {...entry} />))}
       </div>
 

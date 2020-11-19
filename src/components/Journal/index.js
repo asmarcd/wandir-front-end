@@ -12,7 +12,6 @@ export default function Journal() {
   const [editState, setEdit] = useState(false)
 
   const handleClick = () => {
-    console.log(`handleclick`)
     setEdit(!editState);
     deleteReset();
   };

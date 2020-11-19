@@ -12,10 +12,8 @@
     height: 45px;
     padding: 6px 10px;
 }
-.addGeo .editbtn{
-    background-color:#efca08 ;
-    border: #efca08;
-    margin: 0 auto;
-}
 
-  
+#photoEditBtn {
+    background-color: #efca08;
+    border: hidden;
+}

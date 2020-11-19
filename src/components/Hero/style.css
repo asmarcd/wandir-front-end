@@ -26,23 +26,30 @@
         background:#efca08;
      
     }
-
+.logOutBtn {
+    left: 100px;
+}
     .brandLogo {
         margin: 10 0 auto;
         height:150px;
         padding: 10px;
     }
-
+    .searchBtn {
+  margin: 0 auto;
+ 
+}
     .button{
         background: #00a6a4;
         height: 30px;
         font-size: small; 
-        display: inline-block ;
-    }
-     .logOut {
       
-    } 
+      
+     ;
+    }
+    
     .input {
         height:30px;
+        width: 170px;
+       
     }
 }

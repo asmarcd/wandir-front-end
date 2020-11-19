@@ -38,7 +38,7 @@ export default function Hero(props) {
           <div className="container">
             
             <img className="brandLogo" src={Logo} alt="logo" />
-            <div className="columns" id="userMenus">
+            <div className="columns is-mobile" id="userMenus">
               <div className="column 4">
                 <div className="field has-addons">
                   <div className="control">
@@ -52,13 +52,13 @@ export default function Hero(props) {
                     />
                   </div>
                   <div className="control" >
-                    <a className="button" onClick={handleClick}>Search</a>
+                    <a className="button searchBtn" onClick={handleClick}>Search</a>
                   </div>
                   <br />
                 </div>
               </div>
               <div className="column 4">
-              <div className="is-pulled-right">
+              <div className=" is-pulled-right is-pulled-left-mobile">
                 <Link to="/">
                   <button className="button" onClick={props.handleLogout}>Log Out</button>
                 </Link>

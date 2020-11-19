@@ -12,3 +12,8 @@
     height: 45px;
     padding: 6px 10px;
 }
+
+#photoEditBtn {
+    background-color: #efca08;
+    border: hidden;
+}

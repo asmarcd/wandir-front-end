@@ -116,7 +116,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
 
     return (
       <div {...rest}>
-        <button className="button" onClick={openModal}>Edit</button>
+        <button className="button is-small" id="photoEditBtn" onClick={openModal}>Edit</button>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}

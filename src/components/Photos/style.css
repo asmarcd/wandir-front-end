@@ -8,6 +8,7 @@
 #gallery {
     padding:10px;
     height: 695px;
+    width:100%;
     overflow-y:auto; 
     overflow-x: hidden;
 }
@@ -24,8 +25,12 @@
 }
 
 #addPhotoBtn {
-    margin-top: 10px;
+    margin: 10px 0 0 10px;
     background-color: #00a6a4;
+}
+
+.galleryBtnArea{
+    
 }
 
 @media (max-width: 767px){

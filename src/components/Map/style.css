@@ -3,8 +3,9 @@
     background-color: #00a6a4;
     height: 800px;
     border-radius: 7px;
-    
+    margin-top: 15px;;
 }
+
 .leaflet-container {
     /* position: absolute; */
     margin:auto;
@@ -23,11 +24,15 @@
 
 .mapBtn {
     background-color: #efca08;
-    margin: 10px;
+    margin-left: 10px;
+}
+
+#locationBtn{
+    margin-top:10px;
 }
 
 .mapInputFields{
-    padding-top: 20px;
+    padding-top: 10px;;
 }
 
 @media (max-width: 767px){

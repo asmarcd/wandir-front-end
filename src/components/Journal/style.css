@@ -52,4 +52,12 @@ strong {
         border-bottom-left-radius: 7px;
         border-bottom-right-radius: 7px;
     }
+
+    #postArea{
+        width:95%;
+        height: 85%;
+        margin: auto;
+        overflow-y:auto;
+        overflow-x: hidden;
+    }
 }

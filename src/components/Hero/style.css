@@ -53,3 +53,16 @@
        
     }
 }
+
+@media (max-width: 340px) {
+    .button{
+        background: #00a6a4;
+        height: 25px;
+        font-size: small; 
+    }
+
+    .input {
+        height:25px;
+        width: 120px;
+    }
+}

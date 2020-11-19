@@ -41,8 +41,10 @@ function TextArea(props) {
 
   const handleEdit = event => {
     event.preventDefault();
+    const filter = geoTagState.filter(e => inputState.body.includes(e.place));
+    const geoIds = filter.map(e => e.id)
     API.updateEntry(inputState).then(res => {
-      console.log(res)
+      API.addGeotoEntry(geoIds, res.id)
     }).then(props.handleClick())
   };
 
@@ -72,11 +74,12 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        {inputState.title === "" ? <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        <Button color="primary" rounded outlined onClick={handleFormSubmit}>
           Submit
-        </Button> : <Button color="primary" rounded outlined onClick={handleEdit}>
-            Save
-        </Button>}
+        </Button>
+        <Button color="primary" rounded outlined onClick={handleEdit}>
+          Save
+        </Button>
       </form>
       <MentionsInput
         className={"journal-entry"}

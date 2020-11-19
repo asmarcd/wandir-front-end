@@ -224,7 +224,7 @@ export default function Map() {
           url="https://api.mapbox.com/styles/v1/clubkemp/ck8g7dryj03yx1ilfeku3lmf0/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2x1YmtlbXAiLCJhIjoiY2luNmtvOXg3MDB4OHVjbHl0YjQ1bjc2dyJ9.Bj-bF_xeXkbQmC8Zf87z2A"
         />
         {/* map function that adds markers based on our geostate */}
-        {geoState.map((marker) => (
+        {geoState? geoState.map((marker) => (
           <Marker
 
             key={`marker-${marker.id}`}
@@ -250,7 +250,7 @@ export default function Map() {
                 </span>
             </Popup>
           </Marker>
-        ))}
+        )): null}
 
         <HandleClick />
       </MapContainer>

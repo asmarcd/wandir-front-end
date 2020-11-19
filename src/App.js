@@ -121,7 +121,7 @@ function App() {
     });
   };
 
-  const handleFilterContent = (id, type) => {
+  const handleFilterContent = (id, type, isOpen) => {
     if (type === "all") {
       API.getUserData(id).then(async (userdata) => {
         if (userdata) {
@@ -143,6 +143,34 @@ function App() {
           setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
       });
+    }else if(type === "entry"){
+      if(isOpen){
+        fireRefresh()
+      }
+      API.filterByEntry(id).then((entrydata)=>{
+        console.log(entrydata)
+        if (entrydata[0].Geos.length > 0) {
+          setGeoState(entrydata[0].Geos)
+        }else{
+          setGeoState([])
+        }
+        if (entrydata[0].Photos.length > 0) {
+          setPhotos(entrydata[0].Photos)
+        }else{
+          setPhotos([])
+        }
+        //SetState
+
+//         Geos: []
+// Photos: (2) [{…}, {…}]
+// UserId: 1
+// body: "Trust fund intelligentsia four dollar toast gastropub chia wolf venmo migas. Lomo small batch snackwave chicharrones deep v. Air plant master cleanse swag keytar trust fund sartorial portland vinyl bicycle rights cray chia mixtape chartreuse readymade. Lo-fi wolf poutine humblebrag XOXO, YOLO fashion axe banjo salvia brooklyn gastropub activated charcoal mlkshk quinoa."
+// createdAt: "2020-11-18T04:36:10.000Z"
+// date: "2020-10-06T00:00:00.000Z"
+// id: 2
+// title: "Freaking out in Ballard"
+// updatedAt: "2020-11-18T04:36:10.000Z"
+      })
     }
     // return null
   }

@@ -10,6 +10,7 @@ export default function Journal() {
   const { journalEntries, editEntry, deleteReset } = useContext(GeoStateContext);
 
   const [editState, setEdit] = useState(false)
+  const [activeJournal, setActiveJournal] = useState()
 
   const handleClick = () => {
     console.log(`handleclick`)
@@ -23,12 +24,15 @@ export default function Journal() {
       editEntry(res);
     });
   };
+  const handleActive = id =>{
+    console.log(id)
+  }
 
   return (
     <div id="journalWindow">
       <div id="postArea">
         {editState ? <Button className="jrnBtn" onClick={handleClick}>Cancel</Button> : <Button className="jrnBtn" onClick={handleClick}>Add</Button>}
-        {editState ? <TextArea handleClick={handleClick} /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} {...entry} />))}
+        {editState ? <TextArea handleClick={handleClick} /> : journalEntries.map((entry, i) => (<JournalComponent handleActive={handleActive}key={i} editClick={editClick} {...entry} />))}
       </div>
 
 

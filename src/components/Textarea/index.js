@@ -9,7 +9,7 @@ const { Input, Field, Control, Label } = Form;
 
 function TextArea(props) {
 
-  const { geoState, inputState, handleInputChange, deleteReset } = useContext(GeoStateContext);
+  const { geoState, inputState, handleInputChange } = useContext(GeoStateContext);
   //Map over the geostate to create an array of objs in the format metions needs for lookup
   const newGeo = geoState.map((e) => {
     return { id: e.id, display: e.place };
@@ -72,12 +72,11 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        {inputState.title === "" ? <Button color="primary" rounded outlined onClick={handleFormSubmit}>
           Submit
-        </Button>
-        <Button color="primary" rounded outlined onClick={handleEdit}>
-          Edit
-        </Button>
+        </Button> : <Button color="primary" rounded outlined onClick={handleEdit}>
+            Save
+        </Button>}
       </form>
       <MentionsInput
         className={"journal-entry"}

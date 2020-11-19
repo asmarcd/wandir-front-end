@@ -77,11 +77,11 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        {inputState.id === "" ? <Button color="primary" rounded outlined onClick={handleFormSubmit}>
           Submit
-        </Button> <Button color="primary" rounded outlined onClick={handleEdit}>
+        </Button> : <Button color="primary" rounded outlined onClick={handleEdit}>
           Save
-        </Button>
+        </Button>}
       </form>
       <MentionsInput
         className={"journal-entry"}

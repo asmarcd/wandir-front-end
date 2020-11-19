@@ -6,7 +6,7 @@ import API from "../../utils/API"
 
 
 
-export default function JournalComponent({ id, title, date, body, editClick, handleActive, active, ...rest }) {
+export default function JournalComponent({ id, title, date, body, editClick, active, ...rest }) {
   const { deleteReset, handleFilterContent } = useContext(GeoStateContext)
 
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +24,6 @@ export default function JournalComponent({ id, title, date, body, editClick, han
     setIsOpen(!isOpen)
     handleFilterContent(id, "entry", isOpen)
     console.log(active)
-    handleActive(id)
 
   }
   const handleLink = () => {

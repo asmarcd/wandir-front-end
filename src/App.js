@@ -144,6 +144,7 @@ function App() {
         }
       });
     }else if(type === "entry"){
+      console.log("FIlter by entry", id, isOpen)
       if(isOpen){
         fireRefresh()
       }

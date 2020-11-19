@@ -40,7 +40,7 @@ export default function Photos() {
     <div id="photoWindow">
       <div id = 'photo-form-container'>
         {/* button to open cloudinary widget */}
-        <button onClick={(e)=>{showWidget(widget)}}>Add Photo</button>
+        <button className="button" id="addPhotoBtn" onClick={(e)=>{showWidget(widget)}}>Add Photo</button>
       </div>
       <div id="gallery">
         <div className="columns is-multiline is-mobile">

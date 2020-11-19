@@ -161,7 +161,7 @@ function App() {
   }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset }}>
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset, fireRefresh }}>
 
       <Router>
         <div className="App">

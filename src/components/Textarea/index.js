@@ -66,7 +66,7 @@ function TextArea(props) {
           </Control>
         </Field>
         <Field>
-          <Label>date</Label>
+          <Label>Date</Label>
           <Control>
             <Input
               onChange={handleInputChange}

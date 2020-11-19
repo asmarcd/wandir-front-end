@@ -42,3 +42,13 @@ background-color: #00a6a4;
     border-color: #00a6a4;
     font-weight: bolder;
 }
+@media (max-width: 767px){
+    #journalWindow{
+        background-color: #efca08;
+        height: 453px;
+        width:95%;
+        margin: auto;
+        border-bottom-left-radius: 7px;
+        border-bottom-right-radius: 7px;
+    }
+}

@@ -1,16 +1,17 @@
 import React from "react";
 import "./style.css";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo_2.png";
+import forest from "../../assets/forest.mov"
+import {Link} from 'react-router-dom'
 
-export default function Hero() {
+export default function Hero(props) {
   return (
     <div>
-      <section className="heroImg">
+      <section className="heroImg"> 
         <div className="hero-body">
           <div className="container">
             
             <img className="brandLogo" src={Logo} alt="logo" />
-            
             <div className="columns" id="userMenus">
               <div className="column 4">
                 <div className="field has-addons">
@@ -22,14 +23,17 @@ export default function Hero() {
                     />
                   </div>
                   <div className="control">
-                    <a className="button is-warning text-is-black">Search</a>
+                    <a className="button has-text-black is-pulled-left">Search</a>
                   </div>
                   <br />
                 </div>
               </div>
               <div className="column 4">
-              <div className="control is-pulled-right">
-                    <a className="button is-warning ">Log Out</a>
+              <div className="is-pulled-right">
+                <Link to="/">
+                  <button className="button logOut has-text-black">Log Out</button>
+                </Link>
+
                   </div>
               </div>
             </div>

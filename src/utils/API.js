@@ -1,23 +1,25 @@
-const URL_PREFIX = "http://localhost:3001"
-// const URL_PREFIX = "https://augfish-api.herokuapp.com"
+// const URL_PREFIX = "http://localhost:3001"
+const URL_PREFIX = "https://wandir.herokuapp.com"
 
 const API = {
-    // login:function(userData){
-    //     console.log(userData)
-    //     return fetch(`${URL_PREFIX}/api/users/login`,{
-    //         method:"POST",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //           },
-    //         body:JSON.stringify(userData)
-    //     }).then(res=> res.json()).catch(err=>null)
-    // },
-    // checkAuth:function(userData){
-    //     return fetch(`${URL_PREFIX}/api/users/check/auth`,{
-    //         method:"GET",
-    //         body:JSON.stringify(userData)
-    //     }).then(res=> res.json()).catch(err=>null)
-    // },
+    login:function(userData){
+        console.log("Logging in",userData)
+        return fetch(`${URL_PREFIX}/api/users/login`,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body:JSON.stringify(userData)
+        }).then(res=> res.json()).catch(err=>null)
+    },
+    checkAuth:function(token){
+        console.log("checking auth")
+        return fetch(`${URL_PREFIX}/api/users/check/auth`,{
+            headers:{
+                "authorization": `Bearer ${token}`
+            }
+        }).then(res=> res.json()).catch(err=>null)
+    },
     // getUsers:function(userId){
     //     return fetch(`${URL_PREFIX}/api/users/`,{
     //     }).then(res=>res.json()).catch(err=>null)
@@ -113,6 +115,27 @@ const API = {
                 'Content-Type': 'application/json',
             }
         }).then(res => res.json()).catch(err => null)
+    },
+
+    // Get Entry from data base
+    getEntry: function (entryId) {
+        return fetch(`${URL_PREFIX}/api/entries/${entryId}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(res => res.json()).catch(err => null)
+    },
+
+    // Update existing entry:
+    updateEntry: function (newInputObject) {
+        return fetch(`${URL_PREFIX}/api/entries/${newInputObject.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newInputObject)
+        }).then(res => res.json().catch(err => null))
     }
 }
 

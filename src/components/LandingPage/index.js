@@ -1,31 +1,56 @@
 import React from "react";
 import "./style.css";
-import Logo from "../../assets/logo.png";
-import heroImg from "../../assets/hero3_img.png"
+import Logo from "../../assets/logo_2.png";
+import API from "../../utils/API";
+
+import forest from "../../assets/forest.mov"
+
+
 class LandingPage extends React.Component {
   constructor() {
     super();
     
-    this.state = { form: "login" };
+    this.state = { form: "login",submit:false};
     this.toggle = {
       login: "register",
-      register: "login",
+      register: "login"
     };
   }
 
   onSubmit(e) {
+    
     e.preventDefault();
-  }
+    
+    const userdata ={email:this.state.email, password:this.state.password}
+    API.login(userdata).then(newToken=>{
+      localStorage.setItem("token",newToken.token)
+      
+    }).then((newToken)=>{
+        this.props.fireRefresh()
+        this.setState({submit:true})
+    })
 
+  }
+  handleInput(e){
+    const name = e.target.name;
+    const value = e.target.value;
+    console.log(e.target.value)
+    this.setState({[name]:value})
+
+  }
   render() {
     return (
+ 
     <div className="LandingContainer"> 
+    <video src={forest} webkit-playsinline playsinline autoplay="autoplay"  muted defaultMuted loop> </video>
+    {/* {this.state.submit?<Redirect to="/dashboard" />:null} <video className='videoTag' autoPlay loop muted>
+    <source src={forest} type='video/mov' /></video> */}
       <div className="PhotoHolder">
           {/* <img className="heroImg" src={heroImg}/> */}
+        
+
             <img className="LandingPhoto" src={Logo} />
               </div> 
-
-      
         <div
           style={{
             transform: `translate(${
@@ -35,8 +60,8 @@ class LandingPage extends React.Component {
           className="LandingForm"
         >
           <form onSubmit={this.onSubmit.bind(this)}>
-            <input placeholder="Email" type="text" />
-            <input placeholder="Password" type="password" />
+            <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} name="email"/>
+            <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} name="password"/>
             {this.state.form === "login" ? (
               ""
             ) : (
@@ -65,4 +90,4 @@ class LandingPage extends React.Component {
     );
   }
 }
-export default LandingPage
+ export default LandingPage

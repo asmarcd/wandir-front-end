@@ -1,16 +1,45 @@
-.heroImg {
+ .heroImg {
     background-image: url(../../assets/hero3_img.png);
     background-position: bottom left;
     background-repeat: no-repeat;
     border-bottom: 5px solid #f49e09;
-    margin-bottom: 3vh;
-}
+    margin-bottom: 3vh; 
+    padding-top: 40px;
+} 
 
 .hero-body{
     padding-top: 0px;
 }
 
-.heroImg{
-    padding-top: 40px;
+.button{
+    background: #efca08;
+    border: #efca08;
+    font-weight: bolder;
+    color: black;
 }
 
+@media (max-width: 767px){
+    .heroImg{
+        background:#efca08;
+     
+    }
+
+    .brandLogo {
+        margin: 10 0 auto;
+        height:150px;
+        padding: 10px;
+    }
+
+    .button{
+        background: #00a6a4;
+        height: 30px;
+        font-size: small; 
+        display: inline-block ;
+    }
+     .logOut {
+      
+    } 
+    .input {
+        height:30px;
+    }
+}

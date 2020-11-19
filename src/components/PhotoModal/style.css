@@ -6,3 +6,14 @@
     height: 250px;
     margin: auto;
 }
+
+.dropDown {
+    margin-bottom: 10px;
+    height: 45px;
+    padding: 6px 10px;
+}
+.addGeo .editbtn{
+    background-color:#efca08 ;
+    border: #efca08;
+    margin: 0 auto;
+}

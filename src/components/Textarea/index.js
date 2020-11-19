@@ -26,7 +26,6 @@ function TextArea(props) {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     props.handleClick()
-    deleteReset();
     //parse through the input body and pull out any geotag names, as long as it still exists in body
     const filter = geoTagState.filter((e) => inputState.body.includes(e.place));
     // then take all those geotags and create an arry of the ids
@@ -42,7 +41,6 @@ function TextArea(props) {
 
   const handleEdit = event => {
     event.preventDefault();
-    console.log(`handleedit`)
     API.updateEntry(inputState).then(res => {
       console.log(res)
     }).then(props.handleClick())

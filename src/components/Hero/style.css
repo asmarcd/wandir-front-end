@@ -17,6 +17,9 @@
     font-weight: bolder;
     color: black;
 }
+.active{
+    background: #028381;
+}
 
 @media (max-width: 767px){
     .heroImg{

@@ -6,7 +6,7 @@
 }
 
 #postArea{
-    width:98%;
+    width:95%;
     height: 98%;
     margin: auto;
     overflow-y:auto;
@@ -37,11 +37,12 @@ strong {
 .content p {
     margin: 10px 0;
 }
-button {
-background-color: #00a6a4;
-    border-color: #00a6a4;
-    font-weight: bolder;
+
+.jrnBtn {
+    background: #00a6a4;
+    margin:10px;
 }
+
 @media (max-width: 767px){
     #journalWindow{
         background-color: #efca08;

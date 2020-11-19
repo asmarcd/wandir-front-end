@@ -12,8 +12,8 @@ export default function Journal() {
   const [editState, setEdit] = useState(false)
 
   const handleClick = () => {
-    // setup logic here to save to DB on save
-    setEdit(!editState)
+    console.log(`handleclick`)
+    setEdit(!editState);
     deleteReset();
   };
 
@@ -27,8 +27,8 @@ export default function Journal() {
   return (
     <div id="journalWindow">
       <div id="postArea">
-        {editState ? <Button className="cancelbtn" onClick={handleClick}>Cancel</Button> : <Button className="addbtn" onClick={handleClick}>Add</Button>}
-        {editState ? <TextArea handleClick={handleClick}/> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} {...entry} />))}
+        {editState ? <Button className="jrnBtn" onClick={handleClick}>Cancel</Button> : <Button className="jrnBtn" onClick={handleClick}>Add</Button>}
+        {editState ? <TextArea handleClick={handleClick} /> : journalEntries.map((entry, i) => (<JournalComponent key={i} editClick={editClick} {...entry} />))}
       </div>
 
 

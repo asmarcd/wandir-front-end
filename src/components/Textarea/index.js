@@ -77,9 +77,9 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        {inputState.id === "" ? <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        {inputState.id === "" ? <Button className="textBtn" onClick={handleFormSubmit}>
           Submit
-        </Button> : <Button color="primary" rounded outlined onClick={handleEdit}>
+        </Button> : <Button className="textBtn" onClick={handleEdit}>
           Save
         </Button>}
       </form>

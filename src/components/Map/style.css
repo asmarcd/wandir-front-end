@@ -5,7 +5,12 @@
     border-radius: 7px;
     margin-top: 15px;;
 }
-
+.popupPlace{
+    font-size:20px;
+    text-align: center;
+    color:black;
+    font-weight: bold;
+}
 .leaflet-container {
     /* position: absolute; */
     margin:auto;

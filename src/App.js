@@ -247,7 +247,7 @@ function App() {
                     </div>
                   </div>
                 </div>
-                {filterState ? <button onClick={fireRefresh}>unfilter view</button> : null}
+                {filterState?<button className="button" onClick={fireRefresh}>unfilter view</button>:null}
               </div>
               <Footer />
             </Route>

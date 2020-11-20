@@ -2,10 +2,9 @@ import React from "react";
 import "./style.css";
 import Logo from "../../assets/logo_2.png";
 import API from "../../utils/API";
-import {
-  Redirect
-} from "react-router-dom";
-import heroImg from "../../assets/hero3_img.png"
+import {Redirect} from "react-router-dom";
+import forest from "../../assets/forest.mov"
+
 
 class LandingPage extends React.Component {
   constructor() {
@@ -70,11 +69,16 @@ class LandingPage extends React.Component {
   }
   render() {
     return (
-
+      
     <div className="LandingContainer"> 
     {this.state.submit?<Redirect to="/dashboard" />:null}
+    <video src={forest} webkit-playsinline playsinline autoplay="autoplay"  muted defaultMuted loop> </video>
+    {/* {this.state.submit?<Redirect to="/dashboard" />:null} <video className='videoTag' autoPlay loop muted>
+    <source src={forest} type='video/mov' /></video> */}
       <div className="PhotoHolder">
           {/* <img className="heroImg" src={heroImg}/> */}
+        
+
             <img className="LandingPhoto" src={Logo} />
               </div> 
         <div
@@ -126,4 +130,4 @@ class LandingPage extends React.Component {
     );
   }
 }
-export default LandingPage
+ export default LandingPage

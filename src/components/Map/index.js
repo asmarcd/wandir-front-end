@@ -248,7 +248,7 @@ export default function Map() {
             {/* TODO: add onclose that gets out of the slection */}
             <Popup id={marker.id} onClose={handlePopupClose} onOpen={(e) => handlePointClick(marker.id)}>
               {/* <HandlePointClick id={marker.id} /> */}
-              <div>{marker.place}</div>
+              <div className="popupPlace">{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}
                 <span>
                   <button onClick={(e) => handleDelete(marker.id)}>

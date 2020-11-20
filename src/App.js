@@ -68,10 +68,17 @@ function App() {
   });
 
   const editEntry = res => {
+    // This converts the date format stored in MySQL to a format that the front end can read and display properly
+    const dateTime = res[0].date;
+    console.log(dateTime)
+    let dateTimeParts = dateTime.split(/[- : T]/);
+    console.log(dateTimeParts)
+    let showDate = `${dateTimeParts[0]}-${dateTimeParts[1]}-${dateTimeParts[2]}`
+
     setInputState({
       id: res[0].id,
       title: res[0].title,
-      date: res[0].date,
+      date: showDate,
       body: res[0].body
     });
   };
@@ -131,7 +138,7 @@ function App() {
           await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
       });
-    }else if(type === "geo") {
+    } else if (type === "geo") {
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
@@ -144,56 +151,56 @@ function App() {
           setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
         }
       });
-    }else if(type === "entry"){
+    } else if (type === "entry") {
       console.log("FIlter by entry", id, isOpen)
-      if(isOpen){
+      if (isOpen) {
         fireRefresh()
       }
-      API.filterByEntry(id).then((entrydata)=>{
+      API.filterByEntry(id).then((entrydata) => {
         console.log(entrydata)
         if (entrydata[0].Geos.length > 0) {
           setGeoState(entrydata[0].Geos)
-        }else{
+        } else {
           setGeoState([])
         }
         if (entrydata[0].Photos.length > 0) {
           setPhotos(entrydata[0].Photos)
-        }else{
+        } else {
           setPhotos([])
         }
         //SetState
 
-//         Geos: []
-// Photos: (2) [{…}, {…}]
-// UserId: 1
-// body: "Trust fund intelligentsia four dollar toast gastropub chia wolf venmo migas. Lomo small batch snackwave chicharrones deep v. Air plant master cleanse swag keytar trust fund sartorial portland vinyl bicycle rights cray chia mixtape chartreuse readymade. Lo-fi wolf poutine humblebrag XOXO, YOLO fashion axe banjo salvia brooklyn gastropub activated charcoal mlkshk quinoa."
-// createdAt: "2020-11-18T04:36:10.000Z"
-// date: "2020-10-06T00:00:00.000Z"
-// id: 2
-// title: "Freaking out in Ballard"
-// updatedAt: "2020-11-18T04:36:10.000Z"
+        //         Geos: []
+        // Photos: (2) [{…}, {…}]
+        // UserId: 1
+        // body: "Trust fund intelligentsia four dollar toast gastropub chia wolf venmo migas. Lomo small batch snackwave chicharrones deep v. Air plant master cleanse swag keytar trust fund sartorial portland vinyl bicycle rights cray chia mixtape chartreuse readymade. Lo-fi wolf poutine humblebrag XOXO, YOLO fashion axe banjo salvia brooklyn gastropub activated charcoal mlkshk quinoa."
+        // createdAt: "2020-11-18T04:36:10.000Z"
+        // date: "2020-10-06T00:00:00.000Z"
+        // id: 2
+        // title: "Freaking out in Ballard"
+        // updatedAt: "2020-11-18T04:36:10.000Z"
       })
     }
     // return null
   }
 
-  const handleSearchBar =(query) =>{
+  const handleSearchBar = (query) => {
     console.log(query)
     console.log(geoState)
-    const geoFilter = geoState.filter(e=>{
-      if(stringSimilarity.compareTwoStrings(query.toLowerCase(), e.place.toLowerCase()) > .8){
+    const geoFilter = geoState.filter(e => {
+      if (stringSimilarity.compareTwoStrings(query.toLowerCase(), e.place.toLowerCase()) > .8) {
         return true
-      }else if (e.region && stringSimilarity.compareTwoStrings(query.toLowerCase(), e.region.toLowerCase()) > .8){
+      } else if (e.region && stringSimilarity.compareTwoStrings(query.toLowerCase(), e.region.toLowerCase()) > .8) {
         return true
-      }else{
+      } else {
         return false
       }
     })
-    const entryFilter = journalEntries.filter(e=>e.title.toLowerCase().includes(query.toLowerCase()))
+    const entryFilter = journalEntries.filter(e => e.title.toLowerCase().includes(query.toLowerCase()))
     setGeoState(geoFilter);
     setJournalEntries(entryFilter.map(({ id, title, date, body }) => ({ id, title, date, body })));
   }
-  const fireRefresh =()=>{
+  const fireRefresh = () => {
     setRefresh(!refresh)
   }
 
@@ -210,7 +217,7 @@ function App() {
   }
 
   return (
-    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset, fireRefresh}}>
+    <GeoStateContext.Provider value={{ geoState, journalEntries, photos, inputState, userState, editEntry, handleInputChange, handleFilterContent, deleteReset, fireRefresh }}>
 
       <Router>
         <div className="App">
@@ -221,14 +228,14 @@ function App() {
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
             <Route path="/dashboard">
-            <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar}/>
-        <div className="container">
-          <div className="columns">
-            <div className="column">
-              <Map />
-            </div>
-            <div className="column">
-                <WindowNav handleViewSwitch={handleViewSwitch}/>
+              <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
+              <div className="container">
+                <div className="columns">
+                  <div className="column">
+                    <Map />
+                  </div>
+                  <div className="column">
+                    <WindowNav handleViewSwitch={handleViewSwitch} />
                     <div className="columns">
                       {/* Router buttons for map and journal */}
                       <div className="column">

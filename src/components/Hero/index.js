@@ -7,6 +7,7 @@ import API from "../../utils/API";
 import GeoStateContext from "../../contexts/GeoStateContext";
 
 export default function Hero(props) {
+  const { userState } = useContext(GeoStateContext)
 
 
   const [searchState, setSearchState] =useState({
@@ -60,7 +61,8 @@ export default function Hero(props) {
               <div className="column 4">
               <div className=" is-pulled-right is-pulled-left-mobile">
                 <Link to="/">
-                  <button className="button" onClick={props.handleLogout}>Log Out</button>
+                
+                  <button className="button" onClick={props.handleLogout}>{userState.isLoggedIn?"Log Out":"Log in"}</button>
                 </Link>
 
                   </div>

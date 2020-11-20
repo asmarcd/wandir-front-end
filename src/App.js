@@ -2,7 +2,8 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useParams, } from "react-router-dom";
+
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
 import Map from "./components/Map";
@@ -21,13 +22,20 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [viewState, setViewState] = useState("journal")
   //
-  const [userState, setUserState] = useState(
-  );
+  const [userState, setUserState] = useState({
+    id: "",
+    name: "",
+    email: "",
+    token: "",
+    isLoggedIn: false,
+  });
   const [refresh, setRefresh] = useState(true
   );
   const [filterState, setFilterState] = useState(false)
+  const urlParam = useParams();
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(urlParam.id)
     API.checkAuth(token).then(profileData => {
       if (profileData) {
         setUserState({
@@ -45,15 +53,15 @@ function App() {
         // TODO: change the user id 1 hardcodes
         localStorage.removeItem("token");
         setUserState({
-          id: "",
+          id: urlParam.id,
           name: "",
           email: "",
           token: "",
           isLoggedIn: false
-        }, handleFilterContent(1, "all"))
+        }, handleFilterContent(urlParam.id, "all"))
         setInputState({
           ...inputState,
-          UserId: 1,
+          UserId: urlParam.id,
         });
       }
 
@@ -228,7 +236,7 @@ function App() {
             <Route exact path="/">
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
-            <Route path="/dashboard">
+            <Route path={["*/dashboard","/dashboard"]}>
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
                 <div className="columns">

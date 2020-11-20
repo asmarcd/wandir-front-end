@@ -41,7 +41,7 @@ export default function Photos() {
       <div id = 'photo-form-container'>
         {/* button to open cloudinary widget */}
         <div className="galleryBtnArea">
-        <button className="button is-pulled-left" id="addPhotoBtn" onClick={(e)=>{showWidget(widget)}}>Add Photo</button>
+        {userState.isLoggedIn?<button className="button is-pulled-left" id="addPhotoBtn" onClick={(e)=>{showWidget(widget)}}>Add Photo</button> : null}
         </div>
       </div>
       <div id="gallery">

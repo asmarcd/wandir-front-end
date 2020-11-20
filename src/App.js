@@ -52,7 +52,7 @@ function App() {
           email: "",
           token: "",
           isLoggedIn: false
-        }, handleFilterContent(1, "all"))
+        }, handleFilterContent(urlParam.id, "all"))
         setInputState({
           ...inputState,
           UserId: 1,
@@ -222,7 +222,7 @@ function App() {
             <Route exact path="/">
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
-            <Route path="*/dashboard">
+            <Route path={["*/dashboard","/dashboard"]}>
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
                 <div className="columns">

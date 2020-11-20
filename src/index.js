@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Switch, useParams} from "react-router-d
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Route path="/:id">
+      <Route path={["/:id","/"]}>
         <App />
       </Route>
     </Router>

@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useParams, } from "react-router-dom";
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
 import Map from "./components/Map";
@@ -26,8 +26,10 @@ function App() {
   const [refresh, setRefresh] = useState(true
   );
   const [filterState, setFilterState] = useState(false)
+  const urlParam = useParams();
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(urlParam.id)
     API.checkAuth(token).then(profileData => {
       if (profileData) {
         setUserState({
@@ -45,7 +47,7 @@ function App() {
         // TODO: change the user id 1 hardcodes
         localStorage.removeItem("token");
         setUserState({
-          id: "",
+          id: urlParam.id,
           name: "",
           email: "",
           token: "",
@@ -220,7 +222,7 @@ function App() {
             <Route exact path="/">
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
-            <Route path="/dashboard">
+            <Route path="*/dashboard">
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
                 <div className="columns">

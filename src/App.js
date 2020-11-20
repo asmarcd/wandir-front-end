@@ -224,7 +224,6 @@ function App() {
             <Route path="/dashboard">
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
-              {filterState?<button onClick={fireRefresh}>unfilter view</button>:null}
                 <div className="columns">
                   <div className="column">
                     <Map />
@@ -241,6 +240,7 @@ function App() {
                     </div>
                   </div>
                 </div>
+                {filterState?<button onClick={fireRefresh}>unfilter view</button>:null}
               </div>
               <Footer />
             </Route>

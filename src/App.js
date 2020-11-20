@@ -130,11 +130,11 @@ function App() {
     
     if (type === "all") {
       setFilterState(false)
-      API.getUserData(id).then(async (userdata) => {
+      API.getUserData(id).then((userdata) => {
         if (userdata) {
-          await setGeoState(userdata.geo);
-          await setJournalEntries(userdata.entry.map(({ id, title, date, body }) => ({ id, title, date, body })));
-          await setPhotos(userdata.photo.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
+          setGeoState(userdata.geo);
+          setJournalEntries(userdata.entry);
+          setPhotos(userdata.photo);
         }
       });
     } else if (type === "geo") {
@@ -144,11 +144,15 @@ function App() {
         setGeoState(geodata);
         if (geodata[0].Entries.length > 0) {
           console.log("true")
-          setJournalEntries(geodata[0].Entries.map(({ id, title, date, body }) => ({ id, title, date, body })));
+          setJournalEntries(geodata[0].Entries);
+        }else{
+          setJournalEntries([])
         }
         if (geodata[0].Photos.length > 0) {
           console.log("true")
-          setPhotos(geodata[0].Photos.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId })));
+          setPhotos(geodata[0].Photos);
+        }else{
+          setPhotos([])
         }
       });
     } else if (type === "entry") {
@@ -169,17 +173,6 @@ function App() {
         } else {
           setPhotos([])
         }
-        //SetState
-
-        //         Geos: []
-        // Photos: (2) [{…}, {…}]
-        // UserId: 1
-        // body: "Trust fund intelligentsia four dollar toast gastropub chia wolf venmo migas. Lomo small batch snackwave chicharrones deep v. Air plant master cleanse swag keytar trust fund sartorial portland vinyl bicycle rights cray chia mixtape chartreuse readymade. Lo-fi wolf poutine humblebrag XOXO, YOLO fashion axe banjo salvia brooklyn gastropub activated charcoal mlkshk quinoa."
-        // createdAt: "2020-11-18T04:36:10.000Z"
-        // date: "2020-10-06T00:00:00.000Z"
-        // id: 2
-        // title: "Freaking out in Ballard"
-        // updatedAt: "2020-11-18T04:36:10.000Z"
       })
     }
     // return null

@@ -145,8 +145,8 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
             placeholder="Title (required)"
           /> */}
            
-            <button className="addGeo" onClick={handleUpdate}>Submit</button>
-            <button className="deleteImg" onClick={e=>{e.preventDefault();deleteClick(id)}}>Delete</button>
+            <button className="button is-small addGeo" onClick={handleUpdate}>Submit</button>
+            <button className="button is-small deleteImg" onClick={e=>{e.preventDefault();deleteClick(id)}}>Delete</button>
             {/* <button className="photoDelete" onClick={e => deleteClick(id)}>Delete</button> */}
           </form>
         </Modal>

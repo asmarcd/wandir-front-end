@@ -206,7 +206,7 @@ export default function Map() {
               // className="input"
               name="region"
               id="markerInput"
-              placeHolder="Add Region Name (Optional)"
+              placeHolder="Add Region (Optional)"
               value={pendingMarkerState.region}
               onChange={handleTextInput}
               label="Region"
@@ -263,6 +263,7 @@ export default function Map() {
               ): null}
 
                 
+
             </Popup>
           </Marker>
         )): null}

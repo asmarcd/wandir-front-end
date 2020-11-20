@@ -7,20 +7,17 @@ import { Button } from 'react-bulma-components'
 import API, { updateEntry } from "../../utils/API"
 
 export default function Journal() {
-  const { journalEntries,userState, editEntry, deleteReset,handleFilterContent } = useContext(GeoStateContext);
+  const { journalEntries, editEntry, deleteReset } = useContext(GeoStateContext);
 
   const [editState, setEdit] = useState(false)
-  const [activeJournal, setActiveJournal] = useState()
 
   const handleClick = () => {
     setEdit(!editState);
     deleteReset();
-    handleFilterContent(userState.id, "all")
   };
 
   const editClick = id => {
     setEdit(!editState);
-    handleFilterContent(userState.id, "all")
     API.getEntry(id).then(res => {
       editEntry(res);
     });

@@ -174,8 +174,11 @@ function App() {
   }
 
   const handleSearchBar =(query) =>{
+    const checkResult =() =>{
+      console.log(geoState)
+      console.log(journalEntries)
+    }
     console.log(query)
-    console.log(geoState)
     const geoFilter = geoState.filter(e=>{
       if(stringSimilarity.compareTwoStrings(query.toLowerCase(), e.place.toLowerCase()) > .8){
         return true
@@ -186,9 +189,11 @@ function App() {
       }
     })
     const entryFilter = journalEntries.filter(e=>e.title.toLowerCase().includes(query.toLowerCase()))
-    setGeoState(geoFilter);
-    setJournalEntries(entryFilter.map(({ id, title, date, body }) => ({ id, title, date, body })));
+    setGeoState(geoState =>geoFilter)
+    
   }
+
+
   const fireRefresh =()=>{
     setRefresh(!refresh)
   }

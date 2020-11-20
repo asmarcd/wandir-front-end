@@ -1,5 +1,5 @@
-const URL_PREFIX = "http://localhost:3001"
-// const URL_PREFIX = "https://wandir.herokuapp.com"
+// const URL_PREFIX = "http://localhost:3001"
+const URL_PREFIX = "https://wandir.herokuapp.com"
 
 const API = {
     // Sets the userstate on use affect based on login

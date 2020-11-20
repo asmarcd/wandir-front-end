@@ -9,7 +9,7 @@ const { Input, Field, Control, Label } = Form;
 
 function TextArea(props) {
 
-  const { geoState, inputState, handleInputChange } = useContext(GeoStateContext);
+  const { geoState, inputState, handleInputChange, fireRefresh } = useContext(GeoStateContext);
   //Map over the geostate to create an array of objs in the format metions needs for lookup
   const newGeo = geoState.map((e) => {
     return { id: e.id, display: e.place };
@@ -37,6 +37,7 @@ function TextArea(props) {
         console.log(res);
       });
     });
+    fireRefresh();
   };
 
   const handleEdit = event => {

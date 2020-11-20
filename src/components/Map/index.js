@@ -177,35 +177,44 @@ export default function Map() {
     // overall container
     <div id="mapWindow">
       {/* top portion where the input and edit button is contained */}
-      <div>
+      <div className="columns">
         {/* edit state controls if it is an add or save button */}
+        <div className="column" id="createPlaceToggle">
         {!editState ? (
-          <button onClick={(e) => setEditState(!editState)}>Create Place</button>
+          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
         ) : (
-          <button onClick={(e) => setEditState(!editState)}>Cancel</button>
+          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
         )}
+        
         {/* only show the input fields if in edit mode */}
         {editState ? (
           <span>
+            <div className="mapInputFields">
             <input
+              // className="input"
               name="place"
               id="markerInput"
+              placeholder="Add Place Name"
               value={pendingMarkerState.place}
               onChange={handleTextInput}
               label="Place"
             />
             <input
+              // className="input"
               name="region"
               id="markerInput"
+              placeHolder="Add Region Name (Optional)"
               value={pendingMarkerState.region}
               onChange={handleTextInput}
               label="Region"
             />
+            </div>
           </span>
         ) : null}
+        </div>
       </div>
       {/* sets if the user wants to geolocate or not */}
-      <button onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
+      {/* <button className="button mapBtn is-pulled-left" id="locationBtn" onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button> */}
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode
@@ -224,7 +233,7 @@ export default function Map() {
           url="https://api.mapbox.com/styles/v1/clubkemp/ck8g7dryj03yx1ilfeku3lmf0/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiY2x1YmtlbXAiLCJhIjoiY2luNmtvOXg3MDB4OHVjbHl0YjQ1bjc2dyJ9.Bj-bF_xeXkbQmC8Zf87z2A"
         />
         {/* map function that adds markers based on our geostate */}
-        {geoState.map((marker) => (
+        {geoState? geoState.map((marker) => (
           <Marker
 
             key={`marker-${marker.id}`}
@@ -239,7 +248,7 @@ export default function Map() {
             {/* TODO: add onclose that gets out of the slection */}
             <Popup id={marker.id} onClose={handlePopupClose} onOpen={(e) => handlePointClick(marker.id)}>
               {/* <HandlePointClick id={marker.id} /> */}
-              <div>{marker.place}</div>
+              <div className="popupPlace">{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}
                 <span>
                   <button onClick={(e) => handleDelete(marker.id)}>
@@ -250,10 +259,12 @@ export default function Map() {
                 </span>
             </Popup>
           </Marker>
-        ))}
+        )): null}
 
         <HandleClick />
       </MapContainer>
+      {/* sets if the user wants to geolocate or not */}
+      <button className="button mapBtn is-small" id="locationBtn" onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button>
     </div>
   );
 }

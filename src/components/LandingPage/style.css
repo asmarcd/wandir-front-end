@@ -5,82 +5,82 @@
     max-width: 300px;
     margin: 0 auto;
     height: 100vh;
- 
-  }
-  .PhotoHolder .LandingPhoto {
-        height: 300px;
-        left: 50%;
-        margin-top: -110px;
-        margin-left: -190px;
-        position: absolute;
-        top: 25%;
-        width: 400px;
-     
-  }
-  .LandingContainer
+
+
+}
+
+video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.PhotoHolder .LandingPhoto {
+    height: 300px;
+    left: 50%;
+    margin-top: -110px;
+    margin-left: -190px;
+    position: absolute;
+    top: 25%;
+    width: 400px;
+
+}
+
+/* .LandingContainer
   body {
-    background-color: #bcdef1;
-  } 
-  .LandingForm{
+    
+  }  */
+.LandingForm {
     z-index: 1;
-  }
-  .LandingForm
-  .LandingButtonDiv {
+}
+
+.LandingForm .LandingButtonDiv {
     transition: 0.5s ease-out;
-  }
-  .LandingContainer
-  form {
+}
+
+.LandingContainer form {
     border: 1px solid black;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     background-color: #efca08;
-  }
-  .LandingContainer
-  input,
-  .LandingContainer
-  button {
+}
+
+.LandingContainer input,
+.LandingContainer button {
     margin: 5px;
-  }
-  
-  /*INPUT STYLING*/
-  .LandingContainer
-  input[type="text"],
-  .LandingContainer
-  input[type="password"],
-  .LandingContainer
-  textarea,
-  .LandingContainer
-  select {
+}
+
+/*INPUT STYLING*/
+.LandingContainer input[type="text"],
+.LandingContainer input[type="password"],
+.LandingContainer textarea,
+.LandingContainer select {
     height: 45px;
-    padding: 6px 10px; 
+    padding: 6px 10px;
     background-color: #fff;
     border: 1px solid black;
     border-radius: 4px;
     box-shadow: none;
     box-sizing: border-box;
-  }
-  .LandingContainer
-  input[type="text"]:focus,
-  .LandingContainer
-  input[type="password"]:focus,
-  .LandingContainer
-  textarea:focus {
+}
+
+.LandingContainer input[type="text"]:focus,
+.LandingContainer input[type="password"]:focus,
+.LandingContainer textarea:focus {
     border: 1px solid #00a6a4;
     outline: 0;
-  }
-  
-  /*BUTTON STYLING*/
-  .LandingContainer
-  .button,
-  .LandingContainer
-  button,
-  .LandingContainer
-  input[type="submit"],
-  .LandingContainer
-  input[type="reset"],
-  .LandingContainer
-  input[type="button"] {
+}
+
+/*BUTTON STYLING*/
+.LandingContainer .button,
+.LandingContainer button,
+.LandingContainer input[type="submit"],
+.LandingContainer input[type="reset"],
+.LandingContainer input[type="button"] {
     display: inline-block;
     height: 38px;
     padding: 0 30px;
@@ -93,28 +93,31 @@
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
-    background-color:#00a6a4 ;
+    background-color: #00a6a4;
     border-radius: 4px;
     border: 1px solid #00a6a4;
     cursor: pointer;
     box-sizing: border-box;
-  }
- /* .LandingContainer .heroImg {
+}
+
+/* .LandingContainer .heroImg {
     background-position: bottom left;
     background-repeat: no-repeat;
     border-bottom: 5px solid #f49e09;
     margin-bottom: 3vh;
 } */
-  @media only screen and (max-width: 500px) {
+@media only screen and (max-width: 500px) {
     .PhotoHolder .LandingPhoto {
-    height: 250px;
-    left: 50%;
-    margin-top: -148px;
-    margin-left: -190px;
-    position: absolute;
-    top: 25%;
-    width: 400px;
+        height: 230px;
+        left: 50%;
+        margin-top: -148px;
+        margin-left: -160px;
+        position: absolute;
+        top: 25%;
+        width: 300px;
     }
 
-  }
-  
+    /* video {
+        display:none;
+    } */
+}

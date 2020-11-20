@@ -5,11 +5,12 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import { Form, Button } from "react-bulma-components";
 import API from "../../utils/API";
 import "./style.css";
+import styles from "./styles"
 const { Input, Field, Control, Label } = Form;
 
 function TextArea(props) {
 
-  const { geoState, inputState, handleInputChange, deleteReset } = useContext(GeoStateContext);
+  const { geoState, inputState, handleInputChange, fireRefresh } = useContext(GeoStateContext);
   //Map over the geostate to create an array of objs in the format metions needs for lookup
   const newGeo = geoState.map((e) => {
     return { id: e.id, display: e.place };
@@ -26,7 +27,6 @@ function TextArea(props) {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     props.handleClick()
-    deleteReset();
     //parse through the input body and pull out any geotag names, as long as it still exists in body
     const filter = geoTagState.filter((e) => inputState.body.includes(e.place));
     // then take all those geotags and create an arry of the ids
@@ -38,14 +38,19 @@ function TextArea(props) {
         console.log(res);
       });
     });
+    fireRefresh();
   };
 
   const handleEdit = event => {
     event.preventDefault();
-    API.updateEntry(inputState).then(res => console.log(res)).then(
-      props.handleClick()
-    )
+    props.handleClick()
 
+    const filter = geoTagState.filter((e) => inputState.body.includes(e.place));
+    const geoIds = filter.map((e) => e.id);
+
+    API.updateEntry(inputState).then(res => {
+      API.addGeotoEntry(geoIds, inputState.id)
+    });
   };
 
   return (
@@ -63,7 +68,7 @@ function TextArea(props) {
           </Control>
         </Field>
         <Field>
-          <Label>date</Label>
+          <Label>Date</Label>
           <Control>
             <Input
               onChange={handleInputChange}
@@ -74,21 +79,22 @@ function TextArea(props) {
             />
           </Control>
         </Field>
-        <Button color="primary" rounded outlined onClick={handleFormSubmit}>
+        {inputState.id === "" ? <Button className="textBtn" onClick={handleFormSubmit}>
           Submit
-        </Button>
-        <Button color="primary" rounded outlined onClick={handleEdit}>
-          Edit
-        </Button>
+        </Button> : <Button className="textBtn" onClick={handleEdit}>
+          Save
+        </Button>}
       </form>
       <MentionsInput
-        className={"journal-entry"}
+      style={styles}
+        
         // Allows for there to be a space in the place name
         allowSpaceInQuery={true}
         value={inputState.body}
         onChange={handleInputChange}
       >
         <Mention
+          style={styles}
           className="mention"
           // specifys when to start the mention lookup
           trigger="@"
@@ -106,6 +112,7 @@ function TextArea(props) {
             ])
           }
         />
+       
       </MentionsInput>
     </div>
   );

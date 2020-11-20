@@ -1,11 +1,27 @@
+
+.txtArea {
+    padding: 10px;
+}
+
 .mention{
     background-color: yellow;
     font-family: inherit; 
     font-size: inherit; 
     letter-spacing: inherit;
+    display: none;
 }
+
 
 .journal-entry{
     width: 100%;
     height: 30vh;
+    color: black;
 }
+.textBtn {
+    background-color: #00a6a4;
+    border-color: #00a6a4;
+    font-weight: bolder;
+    margin: 1rem;}
+    label{
+        color: black;
+    }

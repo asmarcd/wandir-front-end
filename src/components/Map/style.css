@@ -3,21 +3,45 @@
     background-color: #00a6a4;
     height: 800px;
     border-radius: 7px;
-    
+    margin-top: 15px;;
+}
+.popupPlace{
+    font-size:20px;
+    text-align: center;
+    color:black;
+    font-weight: bold;
 }
 .leaflet-container {
     /* position: absolute; */
     margin:auto;
     width: 98%;
-    height:93%;
+    height:84%;
     cursor: grab;
+    border-radius: 10px;
+}
+button {
+    background-color: #f49e09;
+    padding: 8px;
 }
 /* sets the cursor to the point when edit is active */
 .edit-active {
     cursor: url('https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png') 10 50, auto;
 }
-.pending-marker{
+/* .pending-marker{
     border: 2px solid salmon;
+} */
+
+.mapBtn {
+    background-color: #efca08;
+    margin-left: 10px;
+}
+
+#locationBtn{
+    margin-top:10px;
+}
+
+.mapInputFields{
+    padding-top: 10px;;
 }
 
 @media (max-width: 767px){
@@ -33,8 +57,20 @@
     .leaflet-container {
         /* position: absolute; */
         margin:auto;
-        width: 98%;
-        height: 445px;
+        width: 96%;
+        height: 400px;
         cursor: grab;
+        border-radius: 10px;
     }
+
+    .mapInputFields{
+        padding-top: 5px;
+    }
+    
+    .mapBtn {
+        background-color: #efca08;
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+    
 }

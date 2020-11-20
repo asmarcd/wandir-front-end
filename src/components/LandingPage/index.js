@@ -1,11 +1,10 @@
 import React from "react";
 import "./style.css";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo_2.png";
 import API from "../../utils/API";
-import {
-  Redirect
-} from "react-router-dom";
-import heroImg from "../../assets/hero3_img.png"
+import {Redirect} from "react-router-dom";
+import forest from "../../assets/forest.mov"
+
 
 class LandingPage extends React.Component {
   constructor() {
@@ -23,14 +22,43 @@ class LandingPage extends React.Component {
     e.preventDefault();
     
     const userdata ={email:this.state.email, password:this.state.password}
-    API.login(userdata).then(newToken=>{
-      localStorage.setItem("token",newToken.token)
-      
-    }).then((newToken)=>{
+    if(this.state.form==="login"){
+      API.login(userdata).then(newToken=>{
+        if(!newToken){
+          this.setState({form: "login", email:"", password:"" })
+          alert("Incorrect username or Password")
+          return
+        }
+        localStorage.setItem("token",newToken.token)
         this.props.fireRefresh()
         this.setState({submit:true})
-    })
-
+      }).then(
+        this.setState({form: "login",submit:false, email:"", password:"" })
+      )
+  
+    }else if(this.state.form==="register"){
+      console.log(this.state.password , this.state.passowrd2)
+      if(this.state.password === this.state.password2){
+        API.createUser({email:this.state.email, username:this.state.username, password:this.state.password}).then(newUser =>{
+          API.login({email:this.state.email, password:this.state.password}).then(newToken=>{
+            if(!newToken){
+              this.setState({form: "login", email:"", password:"" })
+              alert("Incorrect username or Password")
+              return
+            }
+            localStorage.setItem("token",newToken.token)
+            this.props.fireRefresh()
+            this.setState({submit:true})
+          }).then(
+            this.setState({form: "login",submit:false, email:"", password:"" })
+          )
+        })
+      }else{
+        alert("passwords do not match")
+        return
+      }
+      console.log("register", userdata)
+    }
   }
   handleInput(e){
     const name = e.target.name;
@@ -41,11 +69,16 @@ class LandingPage extends React.Component {
   }
   render() {
     return (
-
+      
     <div className="LandingContainer"> 
     {this.state.submit?<Redirect to="/dashboard" />:null}
+    <video src={forest} webkit-playsinline playsinline autoplay="autoplay"  muted defaultMuted loop> </video>
+    {/* {this.state.submit?<Redirect to="/dashboard" />:null} <video className='videoTag' autoPlay loop muted>
+    <source src={forest} type='video/mov' /></video> */}
       <div className="PhotoHolder">
           {/* <img className="heroImg" src={heroImg}/> */}
+        
+
             <img className="LandingPhoto" src={Logo} />
               </div> 
         <div
@@ -57,12 +90,22 @@ class LandingPage extends React.Component {
           className="LandingForm"
         >
           <form onSubmit={this.onSubmit.bind(this)}>
-            <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} name="email"/>
-            <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} name="password"/>
+          {this.state.form === "login" ? (
+              ""
+            ) : (
+              <div>
+                 <input placeholder="Username" type="text" onChange={this.handleInput.bind(this)} value={this.state.username} name="username"/>
+              </div>
+            )}
+
+            <input placeholder="Email" type="text"  onChange={this.handleInput.bind(this)} value={this.state.email} name="email"/>
+            <input placeholder="Password" type="password" onChange={this.handleInput.bind(this)} value={this.state.password} name="password"/>
             {this.state.form === "login" ? (
               ""
             ) : (
-              <input placeholder="Re-typed password" type="password" />
+              <div>
+                <input placeholder="Re-typed password" type="password" onChange={this.handleInput.bind(this)} value={this.state.password2} name="password2"/>
+              </div>
             )}
             <button>Submit</button>
           </form>
@@ -87,4 +130,4 @@ class LandingPage extends React.Component {
     );
   }
 }
-export default LandingPage
+ export default LandingPage

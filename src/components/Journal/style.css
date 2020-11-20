@@ -6,8 +6,8 @@
 }
 
 #postArea{
-    width:98%;
-    height: 98%;
+    width:95%;
+    height: 88%;
     margin: auto;
     overflow-y:auto;
     overflow-x: hidden;
@@ -38,6 +38,11 @@ strong {
     margin: 10px 0;
 }
 
+.jrnBtn {
+    background: #00a6a4;
+    margin:15px;
+}
+
 @media (max-width: 767px){
     #journalWindow{
         background-color: #efca08;
@@ -46,5 +51,13 @@ strong {
         margin: auto;
         border-bottom-left-radius: 7px;
         border-bottom-right-radius: 7px;
+    }
+
+    #postArea{
+        width:95%;
+        height: 85%;
+        margin: auto;
+        overflow-y:auto;
+        overflow-x: hidden;
     }
 }

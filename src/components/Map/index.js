@@ -251,11 +251,11 @@ export default function Map() {
               <div className="popupPlace">{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}
                 <span>
-                  <button onClick={(e) => handleDelete(marker.id)}>
+                  <button className="button is-small" id="deleteBtn" onClick={(e) => handleDelete(marker.id)}>
                     Delete
                   </button>
                   {/* TODO: figure out how to handle a point update */}
-                  <button onClick={(e)=> handleUpdate(marker)}>Update</button>
+                  <button className="button is-small " onClick={(e)=> handleUpdate(marker)}>Update</button>
                 </span>
             </Popup>
           </Marker>

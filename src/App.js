@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import { BrowserRouter as Router, Route, Switch, useParams} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
 import Map from "./components/Map";
@@ -26,9 +26,7 @@ function App() {
   const [refresh, setRefresh] = useState(true
   );
   const [filterState, setFilterState] = useState(false)
-  const params = useParams();
   useEffect(() => {
-    console.log(params.urlid)
     const token = localStorage.getItem("token");
     API.checkAuth(token).then(profileData => {
       if (profileData) {
@@ -222,7 +220,7 @@ function App() {
             <Route exact path="/">
               <LandingPage fireRefresh={fireRefresh} />
             </Route>
-            <Route path="/dashboard/:urlid">
+            <Route path="/dashboard">
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
                 <div className="columns">

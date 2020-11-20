@@ -3,7 +3,7 @@
     background-color: #00a6a4;
     height: 800px;
     border-radius: 7px;
-    margin-top: 15px;;
+    margin-top: 13px;;
 }
 .popupPlace{
     font-size:20px;
@@ -42,6 +42,10 @@ button {
 
 .mapInputFields{
     padding-top: 10px;;
+}
+ 
+#deleteBtn{
+    background-color: #f49e09;
 }
 
 @media (max-width: 767px){

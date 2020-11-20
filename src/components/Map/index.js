@@ -180,11 +180,14 @@ export default function Map() {
       <div className="columns">
         {/* edit state controls if it is an add or save button */}
         <div className="column" id="createPlaceToggle">
-        {!editState ? (
-          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
-        ) : (
-          <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
-        )}
+        {userState.isLoggedIn?(
+          !editState ? (
+            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
+          ) : (
+            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
+          )
+        ): null}
+        
         
         {/* only show the input fields if in edit mode */}
         {editState ? (
@@ -203,7 +206,7 @@ export default function Map() {
               // className="input"
               name="region"
               id="markerInput"
-              placeHolder="Add Region Name (Optional)"
+              placeHolder="Add Region (Optional)"
               value={pendingMarkerState.region}
               onChange={handleTextInput}
               label="Region"
@@ -250,13 +253,17 @@ export default function Map() {
               {/* <HandlePointClick id={marker.id} /> */}
               <div className="popupPlace">{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}
+              {userState.isLoggedIn?(
                 <span>
-                  <button onClick={(e) => handleDelete(marker.id)}>
-                    Delete
-                  </button>
-                  {/* TODO: figure out how to handle a point update */}
-                  <button onClick={(e)=> handleUpdate(marker)}>Update</button>
-                </span>
+                <button onClick={(e) => handleDelete(marker.id)}>
+                  Delete
+                </button>
+                <button onClick={(e)=> handleUpdate(marker)}>Update</button>
+              </span>
+              ): null}
+
+                
+
             </Popup>
           </Marker>
         )): null}

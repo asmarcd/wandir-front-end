@@ -117,7 +117,8 @@ function App() {
       ...inputState,
       title: "",
       date: "",
-      body: ""
+      body: "",
+      id: ""
     });
   };
 

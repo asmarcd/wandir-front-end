@@ -5,6 +5,7 @@ import GeoStateContext from "../../contexts/GeoStateContext";
 import { Form, Button } from "react-bulma-components";
 import API from "../../utils/API";
 import "./style.css";
+import styles from "./styles"
 const { Input, Field, Control, Label } = Form;
 
 function TextArea(props) {
@@ -84,13 +85,15 @@ function TextArea(props) {
         </Button>}
       </form>
       <MentionsInput
-        className={"journal-entry"}
+      style={styles}
+        
         // Allows for there to be a space in the place name
         allowSpaceInQuery={true}
         value={inputState.body}
         onChange={handleInputChange}
       >
         <Mention
+          style={styles}
           className="mention"
           // specifys when to start the mention lookup
           trigger="@"
@@ -108,6 +111,7 @@ function TextArea(props) {
             ])
           }
         />
+       
       </MentionsInput>
     </div>
   );

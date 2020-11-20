@@ -1,9 +1,16 @@
+
+.txtArea {
+    padding: 10px;
+}
+
 .mention{
     background-color: yellow;
     font-family: inherit; 
     font-size: inherit; 
     letter-spacing: inherit;
+    display: none;
 }
+
 
 .journal-entry{
     width: 100%;

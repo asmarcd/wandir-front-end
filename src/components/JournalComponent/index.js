@@ -12,12 +12,9 @@ export default function JournalComponent({ id, title, date, body, editClick, act
   const [isOpen, setIsOpen] = useState(false);
   
   const deleteClick = id => {
-    const deletedId = id;
     API.deleteEntry(id).then(res => {
-      if (deletedId !== res) {
         deleteReset();
         setIsOpen(!isOpen)
-      }
     });
   };
   const handleClick = (id) =>{

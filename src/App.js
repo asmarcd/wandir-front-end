@@ -25,6 +25,7 @@ function App() {
   );
   const [refresh, setRefresh] = useState(true
   );
+  const [filterState, setFilterState] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -116,21 +117,19 @@ function App() {
   //   }
   // }
   const deleteReset = () => {
-    API.getUserData(userState.id).then(userdata => {
-      setJournalEntries(userdata.entry?.map(({ id, title, date, body }) => ({ id, title, date, body }))||[]);
-      setPhotos(userdata.photo?.map(({ id, url, EntryId: entryId, GeroId: geoId }) => ({ id, url, entryId, geoId }))||[]);
-    });
     setInputState({
       ...inputState,
       title: "",
       date: "",
       body: "",
       id: ""
-    });
+    },fireRefresh());
   };
 
   const handleFilterContent = (id, type, isOpen) => {
+    
     if (type === "all") {
+      setFilterState(false)
       API.getUserData(id).then(async (userdata) => {
         if (userdata) {
           await setGeoState(userdata.geo);
@@ -139,6 +138,7 @@ function App() {
         }
       });
     } else if (type === "geo") {
+      setFilterState(true)
       API.filterByPoint(id).then((geodata) => {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
@@ -152,6 +152,7 @@ function App() {
         }
       });
     } else if (type === "entry") {
+      setFilterState(true)
       console.log("FIlter by entry", id, isOpen)
       if (isOpen) {
         fireRefresh()
@@ -184,9 +185,9 @@ function App() {
     // return null
   }
 
+
   const handleSearchBar = (query) => {
-    console.log(query)
-    console.log(geoState)
+    setFilterState(true)
     const geoFilter = geoState.filter(e => {
       if (stringSimilarity.compareTwoStrings(query.toLowerCase(), e.place.toLowerCase()) > .8) {
         return true
@@ -198,7 +199,7 @@ function App() {
     })
     const entryFilter = journalEntries.filter(e => e.title.toLowerCase().includes(query.toLowerCase()))
     setGeoState(geoFilter);
-    setJournalEntries(entryFilter.map(({ id, title, date, body }) => ({ id, title, date, body })));
+    setJournalEntries(entryFilter);
   }
   const fireRefresh = () => {
     setRefresh(!refresh)
@@ -230,6 +231,7 @@ function App() {
             <Route path="/dashboard">
               <Hero handleLogout={handleLogout} fireRefresh={fireRefresh} handleSearch={handleSearchBar} />
               <div className="container">
+              {filterState?<button onClick={fireRefresh}>unfilter view</button>:null}
                 <div className="columns">
                   <div className="column">
                     <Map />

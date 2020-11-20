@@ -49,6 +49,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
     API.updatePhoto(editState,).then(res=>{
       console.log(res)
     })
+    setIsOpen(false)
   }
 
   

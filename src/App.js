@@ -21,8 +21,13 @@ function App() {
   const [photos, setPhotos] = useState([]);
   const [viewState, setViewState] = useState("journal")
   //
-  const [userState, setUserState] = useState(
-  );
+  const [userState, setUserState] = useState({
+    id: "",
+    name: "",
+    email: "",
+    token: "",
+    isLoggedIn: false,
+  });
   const [refresh, setRefresh] = useState(true
   );
   const [filterState, setFilterState] = useState(false)
@@ -55,7 +60,7 @@ function App() {
         }, handleFilterContent(urlParam.id, "all"))
         setInputState({
           ...inputState,
-          UserId: 1,
+          UserId: urlParam.id,
         });
       }
 

@@ -25,7 +25,7 @@ const customStyles = {
   Modal.setAppElement('#root')
 
 export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
-  const { deleteReset } = useContext(GeoStateContext)
+  const { deleteReset, userState } = useContext(GeoStateContext)
   const [editState, setEditState] = useState({id:id});
     var subtitle;
   const [modalIsOpen,setIsOpen] = React.useState(false);
@@ -117,7 +117,7 @@ export default function PhotoModal({ id, url, entryId, geoId, ...rest }) {
 
     return (
       <div {...rest}>
-        <button className="button is-small" id="photoEditBtn" onClick={openModal}>Edit</button>
+        {userState.isLoggedIn ? <button className="button is-small" id="photoEditBtn" onClick={openModal}>Edit</button> : null}
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}

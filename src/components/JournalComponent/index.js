@@ -7,7 +7,7 @@ import API from "../../utils/API"
 
 
 export default function JournalComponent({ id, title, date, body, editClick, active, ...rest }) {
-  const { deleteReset, handleFilterContent } = useContext(GeoStateContext)
+  const { deleteReset, handleFilterContent, userState } = useContext(GeoStateContext)
 
   const [isOpen, setIsOpen] = useState(false);
   
@@ -38,10 +38,13 @@ export default function JournalComponent({ id, title, date, body, editClick, act
           <div className="content">
             <p>
               <ReactMarkdown children={body} transformLinkUri={handleLink} />
+              {userState.isLoggedIn?(
               <div className="entryMenu">
                 <button className="entryEdit" onClick={e => editClick(id)}>Edit</button>
                 <button className="entryDelete" onClick={e => deleteClick(id)}>Delete</button>
               </div>
+            ): null}
+              
             </p>
           </div>
         )}

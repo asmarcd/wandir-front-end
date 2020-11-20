@@ -2,7 +2,7 @@ import logo from "./logo.svg";
 import { useEffect, useState } from "react";
 import "./App.css";
 import "react-bulma-components/dist/react-bulma-components.min.css";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Hero from "./components/Hero";
 import WindowNav from "./components/WindowNav";
 import Map from "./components/Map";
@@ -122,15 +122,23 @@ function App() {
       date: "",
       body: "",
       id: ""
-    },fireRefresh());
+    }, fireRefresh());
   };
 
   const handleFilterContent = (id, type, isOpen) => {
-    
+
     if (type === "all") {
       setFilterState(false)
       API.getUserData(id).then((userdata) => {
         if (userdata) {
+          // Review each entry coming in ad format the date stored in MySQL to be more easily human readable in the display:
+          userdata.entry.forEach(journalEntry => {
+            let dateTime = journalEntry.date;
+            let dateTimeParts = dateTime.split(/[- : T]/);
+            let showDate = `${dateTimeParts[0]}-${dateTimeParts[1]}-${dateTimeParts[2]}`
+            journalEntry.date = showDate;
+          });
+          // Set the displayed information to match the corresponding database infor for that user:
           setGeoState(userdata.geo);
           setJournalEntries(userdata.entry);
           setPhotos(userdata.photo);
@@ -144,13 +152,13 @@ function App() {
         if (geodata[0].Entries.length > 0) {
           console.log("true")
           setJournalEntries(geodata[0].Entries);
-        }else{
+        } else {
           setJournalEntries([])
         }
         if (geodata[0].Photos.length > 0) {
           console.log("true")
           setPhotos(geodata[0].Photos);
-        }else{
+        } else {
           setPhotos([])
         }
       });
@@ -239,7 +247,7 @@ function App() {
                     </div>
                   </div>
                 </div>
-                {filterState?<button onClick={fireRefresh}>unfilter view</button>:null}
+                {filterState ? <button onClick={fireRefresh}>unfilter view</button> : null}
               </div>
               <Footer />
             </Route>

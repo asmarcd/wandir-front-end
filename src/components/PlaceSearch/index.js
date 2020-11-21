@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import API from "../../utils/API";
-import {useMap, ZoomMap} from "react-leaflet"
+import {useMap, Marker, Popup} from "react-leaflet"
 import "./style.css";
 
 export default function PlaceSearch(props) {
@@ -20,28 +20,40 @@ export default function PlaceSearch(props) {
     const handleSubmit =(event) =>{
         event.preventDefault()
         API.nominationSearch(input.query).then(res=>{
-            if(res){
-                console.log(res)
-                setMarkerObj({
-                    place: res[0].display_name.split(',')[0],
-                    region:res[0].address.city,
-                    lat: res[0].lat,
-                    lng: res[0].lon,
-                    bounds:[[res[0].boundingbox[0],res[0].boundingbox[2]],[res[0].boundingbox[1],res[0].boundingbox[3]]]
-                  })
-                // props.handleGeoSearch(markerObj)
-            }
+            setMarkerObj({
+                place: res[0].display_name.split(',')[0],
+                region:res[0].address.city,
+                lat: res[0].lat,
+                lng: res[0].lon,
+                bounds:[[res[0].boundingbox[0],res[0].boundingbox[2]],[res[0].boundingbox[1],res[0].boundingbox[3]]]
+                })
         }).then(()=>{
-            setInput({...input,submit:true})
+            setInput({input:"",submit:true})
         })
     }
 
-    const ZoomMap = (props) =>{
-        console.log(props.marker    )
+    const ZoomMap = ({ marker }) =>{
+        console.log(marker    )
         const map = useMap()
-        map.setView([props.marker.lat, props.marker.lng])
-        map.fitBounds(props.marker.bounds)
-        return <div></div>
+        map.setView([marker.lat, marker.lng])
+        map.fitBounds(marker.bounds)
+        return (
+            <Marker
+            // makes the marker draggable
+            draggable={true}
+            // Setup the handler for the events to this ol gal
+            // Not being used, but maybe could style this off it?
+            className="pending-marker"
+            // Set the position based on the pending marker state
+            position={[marker.lat, marker.lng]}
+            // use the ref to keep this marker in mind for work in eventhandler
+          >
+            {/* THe popup for this little gem */}
+            <Popup >
+              <p>{marker.place}</p>
+            </Popup>
+          </Marker>
+          )
     }
     
     return (
@@ -51,6 +63,7 @@ export default function PlaceSearch(props) {
             <input name="query" value={input.query} onChange={handleTextInput}></input>
             <button type="submit" className="query" onClick={handleSubmit}>Search</button>
             </form>
+            
             
         </div>
     )

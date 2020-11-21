@@ -42,13 +42,14 @@ export default function Map() {
       click(e) {
         // upon the map click you get the target e which contains the info on the spot clicked
         // so if the user is clicking around on the map, they are probably editing so set the pending marker
-        
-        setPendingMarkerState({
-          ...pendingMarkerState,
-          lat: e.latlng.lat,
-          lng: e.latlng.lng,
-          UserId: userState.id,
-        });
+        if(editState){
+          setPendingMarkerState({
+            ...pendingMarkerState,
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+            UserId: userState.id,
+          });
+        }
         // if a point on the map is clicked, we are probably trying to get back out of a marker clicked on
         // so go ahead and send the call up to get all the data again
         // TODO:Move this to popup on close?
@@ -56,7 +57,7 @@ export default function Map() {
     });
     // SO given the above, we need to check to see if the user actually had edit actived
     // And if the pending marker state has data in it
-    if (editState && pendingMarkerState.lat != null) {
+    if (pendingMarkerState.lat != null) {
       // If those are true go ahead and add a leaflet marker
       return (
         <Marker
@@ -174,8 +175,10 @@ export default function Map() {
     handleFilterContent(userState.id, "all")
   }
 
-  const handleGeoSearch = (searchObj) =>{
-    console.log(searchObj)
+  const handleEditToggle = () =>{
+    setEditState(!editState)
+    setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+
     
   }
   // render the map elements
@@ -188,9 +191,9 @@ export default function Map() {
         <div className="column" id="createPlaceToggle">
         {userState.isLoggedIn?(
           !editState ? (
-            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
+            <button className="button mapBtn is-pulled-left" onClick={handleEditToggle}>Create Place</button>
           ) : (
-            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
+            <button className="button mapBtn is-pulled-left" onClick={handleEditToggle}>Cancel</button>
           )
         ): null}
         
@@ -235,7 +238,7 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
-      <PlaceSearch handleGeoSearch={handleGeoSearch} />
+      <PlaceSearch  />
         {/* If the user turns on geoloate, it activats the geolocate component */}
         {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}

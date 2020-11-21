@@ -74,7 +74,7 @@ export default function Map() {
         >
           {/* THe popup for this little gem */}
           <Popup >
-            {pendingMarkerState.place != ""?<button onClick={handleSave}>Save</button> : null}
+            {pendingMarkerState.place != ""?<button onClick={e=>handleSave(pendingMarkerState)}>Save</button> : null}
             <p>{pendingMarkerState.place}</p>
           </Popup>
         </Marker>
@@ -111,29 +111,30 @@ export default function Map() {
       },
     }
   // on click for the save button, currently in the head of the map
-  const handleSave = () => {
-    if(pendingMarkerState.id){
-      API.updatePoint(pendingMarkerState).then((res) => {
+  const handleSave = (marker) => {
+    console.log("saving", marker)
+    if(marker.id){
+      API.updatePoint(marker).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
         handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
-        setEditState(!editState);
+        setEditState(false);
       });
     }else{
-      API.createPoint(pendingMarkerState).then((res) => {
+      console.log("Creating point")
+      API.createPoint(marker).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
         handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
-        setEditState(!editState);
+        setEditState(false);
       });
     }
-    console.log(pendingMarkerState)
     // create the pending marker into the DB
     
   };
@@ -238,7 +239,7 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
-      <PlaceSearch  />
+      <PlaceSearch  handleSave={handleSave}/>
         {/* If the user turns on geoloate, it activats the geolocate component */}
         {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}

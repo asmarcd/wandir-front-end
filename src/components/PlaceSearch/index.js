@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import API from "../../utils/API";
 import {useMap, Marker, Popup} from "react-leaflet"
 import "./style.css";
+import GeoStateContext from "../../contexts/GeoStateContext";
 
 export default function PlaceSearch(props) {
-    
+    const { userState} = useContext(GeoStateContext)
+
     const [input, setInput] = useState({input:"",submit:false})
     const [markerObj, setMarkerObj] = useState()
 
@@ -19,6 +21,9 @@ export default function PlaceSearch(props) {
 
     const handleSubmit =(event) =>{
         event.preventDefault()
+        if(!input.query){
+            return
+        }
         API.nominationSearch(input.query).then(res=>{
             setMarkerObj({
                 place: res[0].display_name.split(',')[0],
@@ -31,7 +36,16 @@ export default function PlaceSearch(props) {
             setInput({input:"",submit:true})
         })
     }
-
+    const handleClick =()=>{
+        console.log(markerObj)
+        setInput({input:"",submit:false})
+        props.handleSave({
+            UserId: userState.id,
+            place: markerObj.place,
+            region:markerObj.region,
+            lat: markerObj.lat,
+            lng: markerObj.lng})
+    }
     const ZoomMap = ({ marker }) =>{
         console.log(marker    )
         const map = useMap()
@@ -51,6 +65,11 @@ export default function PlaceSearch(props) {
             {/* THe popup for this little gem */}
             <Popup >
               <p>{marker.place}</p>
+              {userState.isLoggedIn?(
+                <span>
+                <button onClick={handleClick}>Save</button>
+              </span>
+              ): null}
             </Popup>
           </Marker>
           )

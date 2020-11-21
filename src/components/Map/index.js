@@ -7,10 +7,11 @@ import {
   Marker,
   Popup,
   useMapEvents,
-  Tooltip,
+  Tooltip
 } from "react-leaflet";
 import GeoStateContext from "../../contexts/GeoStateContext";
 import API from "../../utils/API";
+import PlaceSearch from "../PlaceSearch"
 
 export default function Map() {
   // This reference stores infor for the pending marker on page so we can perform actions in pendingMarkerEventHandlers
@@ -172,6 +173,11 @@ export default function Map() {
   const handlePopupClose = () =>{ 
     handleFilterContent(userState.id, "all")
   }
+
+  const handleGeoSearch = (searchObj) =>{
+    console.log(searchObj)
+    
+  }
   // render the map elements
   return (
     // overall container
@@ -218,6 +224,7 @@ export default function Map() {
       </div>
       {/* sets if the user wants to geolocate or not */}
       {/* <button className="button mapBtn is-pulled-left" id="locationBtn" onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button> */}
+      
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode
@@ -228,6 +235,7 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
+      <PlaceSearch handleGeoSearch={handleGeoSearch} />
         {/* If the user turns on geoloate, it activats the geolocate component */}
         {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}

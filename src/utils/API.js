@@ -176,6 +176,12 @@ const API = {
             },
             body: JSON.stringify(newInputObject)
         }).then(res => res.json().catch(err => null))
+    },
+    nominationSearch:function(query){
+        console.log(query)
+        return fetch(`https://nominatim.openstreetmap.org/?q=${query}&addressdetails=1&countrycodes=US&format=json&limit=1`, {
+            method: "GET"
+        }).then(res => res.json()).catch(err => null)
     }
 }
 

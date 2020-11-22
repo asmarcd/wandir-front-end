@@ -7,10 +7,11 @@ import {
   Marker,
   Popup,
   useMapEvents,
-  Tooltip,
+  Tooltip
 } from "react-leaflet";
 import GeoStateContext from "../../contexts/GeoStateContext";
 import API from "../../utils/API";
+import PlaceSearch from "../PlaceSearch"
 
 export default function Map() {
   // This reference stores infor for the pending marker on page so we can perform actions in pendingMarkerEventHandlers
@@ -41,13 +42,14 @@ export default function Map() {
       click(e) {
         // upon the map click you get the target e which contains the info on the spot clicked
         // so if the user is clicking around on the map, they are probably editing so set the pending marker
-        
-        setPendingMarkerState({
-          ...pendingMarkerState,
-          lat: e.latlng.lat,
-          lng: e.latlng.lng,
-          UserId: userState.id,
-        });
+        if(editState){
+          setPendingMarkerState({
+            ...pendingMarkerState,
+            lat: e.latlng.lat,
+            lng: e.latlng.lng,
+            UserId: userState.id,
+          });
+        }
         // if a point on the map is clicked, we are probably trying to get back out of a marker clicked on
         // so go ahead and send the call up to get all the data again
         // TODO:Move this to popup on close?
@@ -55,7 +57,7 @@ export default function Map() {
     });
     // SO given the above, we need to check to see if the user actually had edit actived
     // And if the pending marker state has data in it
-    if (editState && pendingMarkerState.lat != null) {
+    if (pendingMarkerState.lat != null) {
       // If those are true go ahead and add a leaflet marker
       return (
         <Marker
@@ -72,7 +74,7 @@ export default function Map() {
         >
           {/* THe popup for this little gem */}
           <Popup >
-            {pendingMarkerState.place != ""?<button onClick={handleSave}>Save</button> : null}
+            {pendingMarkerState.place != ""?<button onClick={e=>handleSave(pendingMarkerState)}>Save</button> : null}
             <p>{pendingMarkerState.place}</p>
           </Popup>
         </Marker>
@@ -109,29 +111,30 @@ export default function Map() {
       },
     }
   // on click for the save button, currently in the head of the map
-  const handleSave = () => {
-    if(pendingMarkerState.id){
-      API.updatePoint(pendingMarkerState).then((res) => {
+  const handleSave = (marker) => {
+    console.log("saving", marker)
+    if(marker.id){
+      API.updatePoint(marker).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
         handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
-        setEditState(!editState);
+        setEditState(false);
       });
     }else{
-      API.createPoint(pendingMarkerState).then((res) => {
+      console.log("Creating point")
+      API.createPoint(marker).then((res) => {
         // send the data we jsut put into the db to updateGEo function in app.js
         // this is just to update the state so we don't ahve to do a brand new api call
         handleFilterContent(userState.id,"all")
         // clear out the pending marker state
         setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
         // get out of edit mode
-        setEditState(!editState);
+        setEditState(false);
       });
     }
-    console.log(pendingMarkerState)
     // create the pending marker into the DB
     
   };
@@ -172,6 +175,13 @@ export default function Map() {
   const handlePopupClose = () =>{ 
     handleFilterContent(userState.id, "all")
   }
+
+  const handleEditToggle = () =>{
+    setEditState(!editState)
+    setPendingMarkerState({ place: "", region: null, lat: null, lng: null });
+
+    
+  }
   // render the map elements
   return (
     // overall container
@@ -182,9 +192,9 @@ export default function Map() {
         <div className="column" id="createPlaceToggle">
         {userState.isLoggedIn?(
           !editState ? (
-            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Create Place</button>
+            <button className="button mapBtn is-pulled-left" onClick={handleEditToggle}>Create Place</button>
           ) : (
-            <button className="button mapBtn is-pulled-left" onClick={(e) => setEditState(!editState)}>Cancel</button>
+            <button className="button mapBtn is-pulled-left" onClick={handleEditToggle}>Cancel</button>
           )
         ): null}
         
@@ -218,6 +228,7 @@ export default function Map() {
       </div>
       {/* sets if the user wants to geolocate or not */}
       {/* <button className="button mapBtn is-pulled-left" id="locationBtn" onClick={e=>setGeolocateState(!geolocateState)}>{geolocateState ?"hide me":"Show me"}</button> */}
+      
       {/* the map itself */}
       <MapContainer
         // not being used currently, but could style based on edit mode
@@ -228,6 +239,7 @@ export default function Map() {
         zoom={11}
         scrollWheelZoom={false}
       >
+      <PlaceSearch  handleSave={handleSave}/>
         {/* If the user turns on geoloate, it activats the geolocate component */}
         {geolocateState ? <Geolocate /> : null}
         {/* background data for the map */}

@@ -92,6 +92,7 @@ export default function PlaceSearch(props) {
     return (
         // Return the actual search component for use on the map
         <div className="search">
+            {/* fire up on submit */}
             {input.submit ? <ZoomMap marker={markerObj}/> : null}
             <form>
             <input name="query" value={input.query} onChange={handleTextInput}></input>

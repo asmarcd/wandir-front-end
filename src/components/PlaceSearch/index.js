@@ -26,10 +26,16 @@ export default function PlaceSearch(props) {
         event.preventDefault()
         // break out if the user didn't actually enter a query
         if(!input.query){
+            alert("search for something") 
             return
         }
         // otherwise go ahead and use the input query against the OSM nomination geolocator
         API.nominationSearch(input.query).then(res=>{
+           console.log(res)
+           if(res.length === 0){
+            alert("no results found")   
+            return
+           }
             // set state to the object
             setMarkerObj({
                 // grab only the beginning of the place name
@@ -40,9 +46,10 @@ export default function PlaceSearch(props) {
                 // grab the bounds so that you have the right zoom level
                 bounds:[[res[0].boundingbox[0],res[0].boundingbox[2]],[res[0].boundingbox[1],res[0].boundingbox[3]]]
                 })
+            setInput({input:"",submit:true})
         }).then(()=>{
             // reset the input and change submit so the zoomMap component can turn on
-            setInput({input:"",submit:true})
+            
         })
     }
     // handles the Save button click

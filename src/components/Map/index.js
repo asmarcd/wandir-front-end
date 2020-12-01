@@ -155,7 +155,7 @@ export default function Map() {
     handleFilterContent(id, "geo");
   };
 
-  // listenes to the on click for the delete button in current markers
+  // listens to the on click for the delete button in current markers
   const handleDelete = (id) => {
     // make the api call sending in the id
     API.deletePoint(id).then((res) => {

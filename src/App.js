@@ -35,7 +35,6 @@ function App() {
   const urlParam = useParams();
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(urlParam.id)
     API.checkAuth(token).then(profileData => {
       if (profileData) {
         setUserState({
@@ -138,7 +137,6 @@ function App() {
     if (type === "all") {
       setFilterState(false)
       API.getUserData(id).then((userdata) => {
-        if (userdata) {
           // Review each entry coming in ad format the date stored in MySQL to be more easily human readable in the display:
           userdata.entry.forEach(journalEntry => {
             let dateTime = journalEntry.date;
@@ -146,11 +144,10 @@ function App() {
             let showDate = `${dateTimeParts[0]}-${dateTimeParts[1]}-${dateTimeParts[2]}`
             journalEntry.date = showDate;
           });
-          // Set the displayed information to match the corresponding database infor for that user:
+          // Set the displayed information to match the corresponding database info for that user:
           setGeoState(userdata.geo);
           setJournalEntries(userdata.entry);
           setPhotos(userdata.photo);
-        }
       });
     } else if (type === "geo") {
       setFilterState(true)
@@ -158,13 +155,17 @@ function App() {
         // cycle through both the geo and entry records for the included photos
         setGeoState(geodata);
         if (geodata[0].Entries.length > 0) {
-          console.log("true")
+          geodata[0].Entries.forEach(journalEntry => {
+            let dateTime = journalEntry.date;
+            let dateTimeParts = dateTime.split(/[- : T]/);
+            let showDate = `${dateTimeParts[0]}-${dateTimeParts[1]}-${dateTimeParts[2]}`
+            journalEntry.date = showDate; 
+          })
           setJournalEntries(geodata[0].Entries);
         } else {
           setJournalEntries([])
         }
         if (geodata[0].Photos.length > 0) {
-          console.log("true")
           setPhotos(geodata[0].Photos);
         } else {
           setPhotos([])
@@ -172,12 +173,11 @@ function App() {
       });
     } else if (type === "entry") {
       setFilterState(true)
-      console.log("FIlter by entry", id, isOpen)
+      console.log("Filter by entry", id, isOpen)
       if (isOpen) {
         fireRefresh()
       }
       API.filterByEntry(id).then((entrydata) => {
-        console.log(entrydata)
         if (entrydata[0].Geos.length > 0) {
           setGeoState(entrydata[0].Geos)
         } else {
@@ -190,7 +190,6 @@ function App() {
         }
       })
     }
-    // return null
   }
 
 

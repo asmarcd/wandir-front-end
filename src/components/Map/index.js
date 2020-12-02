@@ -108,7 +108,7 @@ export default function Map() {
         // if the marker is added open the popup on default
         const marker = markerRef.current;
         marker.openPopup();
-      },
+      }
     }
   // on click for the save button, currently in the head of the map
   const handleSave = (marker) => {
@@ -155,7 +155,7 @@ export default function Map() {
     handleFilterContent(id, "geo");
   };
 
-  // listenes to the on click for the delete button in current markers
+  // listens to the on click for the delete button in current markers
   const handleDelete = (id) => {
     // make the api call sending in the id
     API.deletePoint(id).then((res) => {
@@ -238,6 +238,7 @@ export default function Map() {
         center={[47.636131, -122.341518]}
         zoom={11}
         scrollWheelZoom={false}
+        
       >
       <PlaceSearch  handleSave={handleSave}/>
         {/* If the user turns on geoloate, it activats the geolocate component */}
@@ -253,15 +254,22 @@ export default function Map() {
 
             key={`marker-${marker.id}`}
             id={marker.id}
+            eventHandlers={{
+              click: (e)=>{
+                e.target.openPopup()
+                handlePointClick(marker.id)
+              }
+            }}
             position={{
               lat: marker.lat,
               lng: marker.lng,
             }}
           >
+            <Tooltip>{marker.place}</Tooltip>
             {/* the popup for each marker, notice the listener that handles our click */}
             {/* it exists here because an onclick doesn't seem to work on the marker */}
             {/* TODO: add onclose that gets out of the slection */}
-            <Popup id={marker.id} onClose={handlePopupClose} onOpen={(e) => handlePointClick(marker.id)}>
+            <Popup id={marker.id} onClose={handlePopupClose}>
               {/* <HandlePointClick id={marker.id} /> */}
               <div className="popupPlace">{marker.place}</div>
               {/* if edit state is actie give update and delte functionality */}

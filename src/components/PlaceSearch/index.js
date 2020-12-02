@@ -8,7 +8,7 @@ export default function PlaceSearch(props) {
     // get the latest user state
     const { userState} = useContext(GeoStateContext)
     // setup state for the input and the marker that comes back from the nomination request
-    const [input, setInput] = useState({input:"",submit:false})
+    const [input, setInput] = useState({submit:false, zoom:false})
     const [markerObj, setMarkerObj] = useState()
 
     // boilerplate handle input
@@ -46,7 +46,7 @@ export default function PlaceSearch(props) {
                 // grab the bounds so that you have the right zoom level
                 bounds:[[res[0].boundingbox[0],res[0].boundingbox[2]],[res[0].boundingbox[1],res[0].boundingbox[3]]]
                 })
-            setInput({input:"",submit:true})
+            setInput({query:"",submit:true, zoom:false})
         }).then(()=>{
             // reset the input and change submit so the zoomMap component can turn on
             
@@ -55,7 +55,7 @@ export default function PlaceSearch(props) {
     // handles the Save button click
     const handleClick =()=>{
         // clear the input fo the geosearch and reste the submit state
-        setInput({input:"",submit:false})
+        setInput({submit:false})
         // fire the handle save function up a level in the map component
         props.handleSave({
             UserId: userState.id,
@@ -69,8 +69,12 @@ export default function PlaceSearch(props) {
         // use the map variable out of leaflet
         const map = useMap()
         // set he view, an the bounds(zoom) based on the marker
-        map.setView([marker.lat, marker.lng])
-        map.fitBounds(marker.bounds)
+        if(!input.zoom){
+            map.setView([marker.lat, marker.lng])
+            map.fitBounds(marker.bounds)
+            setInput({...input, zoom:true})
+        }
+        
         // plot the marker
         return (
             <Marker

@@ -35,7 +35,7 @@
   -At this time you should probably set ```force:false``` and comment out ```seedModels()```
   
   ## Usage
-  Check out the live version here - [Wandir](https://wandir.herokuapp.com/) -  
+  Check out the live version here - [Wandir](https://wandir-front.herokuapp.com/) -  
   OR With the server running, navigate to localhost://3000 in your browser. 
   
   
